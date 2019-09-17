@@ -1,0 +1,43 @@
+/* Slick Styles */
+
+
+.poster {
+    margin-top: 10px;
+    outline: none;
+}
+
+.poster img{
+    max-height: 250px;
+    margin: 0 auto;
+}
+
+.slick-slider {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.slick-dots {
+    bottom: 10px;
+}
+
+.slick-next {
+    right: 10px;
+    z-index: 100;
+}
+
+.slick-prev {
+    left: 10px;
+    z-index: 100;
+}
+
+.slick-list {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}

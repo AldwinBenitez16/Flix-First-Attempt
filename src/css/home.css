@@ -1,0 +1,42 @@
+/* Home styles */
+.trend-container {
+    position: relative;
+    width: 100vw;
+    height: calc(100vh - 235px);
+}
+
+.background-image {
+    height: 100%;
+    overflow: hidden;
+}
+
+.background-image img {
+    height: 100%;
+}
+
+.poster-trend {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(45,63,83, .85);
+    z-index: 1000;
+}
+
+@media (min-width: 768px) {
+    .trend-container {
+        height: calc(100vh - 74px);
+    }    
+}
+
+@media (min-width: 1236px) {
+    .background-image {
+        width: 100% !important;
+    }    
+    
+    .background-image img{
+        width: 100%;
+        height: auto;
+    } 
+}
