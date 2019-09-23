@@ -11,7 +11,7 @@ function fetchProducts(url, key) {
             if(res.error) {
                 throw(res.error);
             }
-            dispatch(fetchProductsSuccess(res.data.results, key));
+            dispatch(fetchProductsSuccess(res.data, key));
             return res.data.results;
         })
         .catch(error => {

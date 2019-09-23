@@ -1,6 +1,48 @@
 /* Header styles */
+.header-container {
+    background: #404042;
+    height: 50vh;
+}
+
+.background-image {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+}
+
+.background-image img {
+    height: 100%;
+}
+
+.info-overlay {
+    position: absolute;
+    bottom: 6%;
+    left: 6%;
+    max-width: 80%;
+    color: rgb(230, 226, 235);
+    z-index: 1000;
+}
+
+.info-overlay p {
+    display: none;
+}
+
+.genres {
+    padding-inline-start: 0;
+    list-style-type: none;
+}
+
+.genres li {
+    margin-right: 10px;
+    float: left;
+}
+
 header {
-    background-color: #787064;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(230, 226, 235, .5);
     padding-top: 15px;
     display: flex;
     flex-direction: column;
@@ -10,10 +52,40 @@ header {
 
 header .logo {
     margin: 10px;
+    margin-left: 30px;
+    margin-right: 0;
+}
+
+.logo-tmdb {
+    margin: 0;
+    margin-bottom: 30px;
 }
 
 header nav {
     flex: 1;
+}
+
+.genreContainer {
+    display: none;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: absolute;
+    align-items: center;
+    width: 450px;
+    z-index: 1200;
+    background-color: #E6E2EB;
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    top: 254px;
+    left: calc(50% - (450px/2));
+}
+
+.genreContainer a {
+    margin-bottom: 5px;
+    padding-right: 5px;
+    min-height: 35px;
+    width: 25%;
 }
 
 nav ul {
@@ -42,18 +114,28 @@ nav ul a:hover {
     background-color: #E6E2EB;
 }
 
+.active {
+    color: #787064;
+    background-color: #E6E2EB;
+}
+
 .search input {
     background-color: #E6E2EB;
     width: 50vw;
     border: none;
-    padding: 2px;
+    padding: 7px;
     margin: 10px 0 ;
     border-radius: 3px;
 }
 
 @media (min-width: 768px) {
+
     header {
-        padding: 5px 0;
+        padding-right: 5%;
+        padding-left: 5%;
+    }
+
+    header {
         flex-direction: row;
         justify-content: center;
         align-items: center;
@@ -63,6 +145,26 @@ nav ul a:hover {
         width: 100%;
         margin-left: 15px;
         margin-bottom: 5px;
+    }
+
+    .genreContainer {
+        top: 54px;
+        left: initial;
+    }
+
+    .background-image img {
+        height: unset;
+        min-width: 800px;
+        width: 100%;
+    }    
+
+    .info-overlay {
+        bottom: 10%;
+        max-width: 50%;
+    }
+
+    .info-overlay p {
+        display: initial;
     }
 
     nav ul li{

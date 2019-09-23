@@ -21,3 +21,13 @@ export function fetchProductsError(error) {
         error: error
     }
 }
+
+export function getSlideToShow(width) {
+    let extraShow = (width-250) / 230;
+    let slides = 1 + Math.floor(extraShow);
+
+    return {
+        type: StoreActionTypes.GET_SLIDE_TO_SHOW,
+        slides
+    }
+}

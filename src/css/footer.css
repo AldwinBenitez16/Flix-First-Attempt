@@ -1,0 +1,39 @@
+/* Footer Styles */
+footer {
+    margin-top: auto;
+    background-color: #404042;
+    height: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.tmdb a{
+    height: 50%;
+}
+
+.icon-container a {
+    height: 30%;    
+}
+
+.icon-container img {
+    margin-left: 20px;
+    height: 100%;
+}
+
+.tmdb {
+    height: 10vh;
+    display: flex;
+    align-items: center;
+}
+
+.tmdb img {
+    margin-left: 20px;
+    height: 100%;
+}

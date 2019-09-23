@@ -4,7 +4,8 @@ import * as StoreActionTypes from '../actiontypes/store';
 const initialState = {
     pending: false,
     data: {},
-    error: null
+    error: null, 
+    slideToShow: 1
 };
 
 export default function Store(state=initialState, action) {
@@ -30,7 +31,13 @@ export default function Store(state=initialState, action) {
                 pending: false,
                 error: action.error
             }
-        default: 
+        case StoreActionTypes.GET_SLIDE_TO_SHOW:
+            // console.log(action);
+            return {
+                ...state,
+                slideToShow: action.slides
+            }
+        default:
             return state;
     }
 }
