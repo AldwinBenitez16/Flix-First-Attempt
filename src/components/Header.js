@@ -29,10 +29,13 @@ class Header extends Component {
         // console.log(genreData);
         let genres = [];
         for(let i = 0; i < genreData.length; i++) {
-            genres.push(<NavLink key={genreData[i].id} id={genreData[i].id} to={`/genre/${genreData[i].name}`} >{genreData[i].name}</NavLink>);
+            genres.push(<NavLink onClick={() => {
+                this.container.current.className = 'header-genre';
+                window.location = `/genre/${genreData[i].name}-${1}`;
+            }} key={genreData[i].id} id={genreData[i].id} to={`/genre`} >{genreData[i].name}</NavLink>);
         }
         return genres;
-    }
+    } 
 
     showGenres = () => {
         if(this.displayRef.current.style.display === '') {
@@ -42,22 +45,21 @@ class Header extends Component {
             this.displayRef.current.style.display = '';
         }
     }
+    
+    container = React.createRef();
 
     render() {
         const {getData} = this.props;
 
-        if(!getData.data.trendingMovie || 
-            !getData.data.trendingTv ||
-            !getData.data.genres) {
+        if(!(Object.getOwnPropertyNames(getData.data).length >= 5)) {
             return <LoadingSpinner />;
         }
-    
-        const trending = getData.data.trendingMovie.results;
+
         const genre = getData.data.genres.genres;
 
         return (
-                <div className='header-container'>
-                <Route exact path='/' render={() => <Background trending={trending} genre={genre}/>} />
+                <div ref={this.container} className='header-container'>
+                <Route path='/' render={() => <Background getData={getData} genre={genre}/>} />
                     
                     <header>
                         <div className='../images/logo.svg'>
@@ -70,11 +72,19 @@ class Header extends Component {
                         </div>
                         <nav>
                             <ul>
-                                <li><NavLink exact to='/'>Home</NavLink></li>
+                                <li><NavLink onClick={() => {
+                                    this.container.current.className = 'header-container';
+                                }} exact to='/'>Home</NavLink></li>
                                 <li><a className='genre-btn' onClick={this.showGenres}>Genre</a></li>
-                                <li><NavLink to='/movies'>Movies</NavLink></li>
-                                <li><NavLink to='/tv'>Tv Shows</NavLink></li>
-                                <li><NavLink to='/favourites'>Favourites</NavLink></li>
+                                <li><NavLink onClick={() => {
+                                    this.container.current.className = 'header-genre';
+                                }} to='/movies'>Movies</NavLink></li>
+                                <li><NavLink onClick={() => {
+                                    this.container.current.className = 'header-genre';
+                                }} to='/tv'>Tv Shows</NavLink></li>
+                                <li><NavLink onClick={() => {
+                                    this.container.current.className = 'header-genre';
+                                }} to='/favourites'>Favourites</NavLink></li>
                             </ul>
                             <div ref={this.displayRef} className='genreContainer'>
                                 {this.createGenreList(genre)}

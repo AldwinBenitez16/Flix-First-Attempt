@@ -38,7 +38,7 @@ class Home extends Component {
             infinite: true,
             speed: 500,
             slidesToShow: getData.slideToShow,
-            slidesToScroll: 1
+            slidesToScroll: getData.slideToShow
         }
 
         if(!getData.data.trendingMovie ||

@@ -42,7 +42,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(230, 226, 235, .5);
+    background-color: rgba(230, 226, 235, .6);
     padding-top: 15px;
     display: flex;
     flex-direction: column;
@@ -105,7 +105,7 @@ nav ul a {
     display: block;
     text-decoration: none;
     width: 80vw;
-    color: #E6E2EB;
+    color: #3c3840;
     transition: color 1.5s;
 }
 

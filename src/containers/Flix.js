@@ -50,7 +50,7 @@ class Flix extends Component{
 
   render() {
     const {dispatch, getSlides, getData, fetchProducts, getDataError, getDataPending} = this.props;
-    if(!(Object.getOwnPropertyNames(getData.data).length !== 0)) return <LoadingSpinner />
+    if(!(Object.getOwnPropertyNames(getData.data).length >= 5)) return <LoadingSpinner />
 
     return(
       <Router>
@@ -59,7 +59,7 @@ class Flix extends Component{
 
           <Switch>
             <Route exact path='/' render={() => <Home getData={getData} getSlides={getSlides} /> } />
-            <Route path='/genre/:genretype' render={(props) => <Genre genretype={props.match.params.genretype} getData={getData} fetchProducts={fetchProducts}/> } />
+            <Route path='/genre/:genretype-:genrepage' render={(props) => <Genre genretype={props.match.params.genretype} genrepage={props.match.params.genrepage} getData={getData} fetchProducts={fetchProducts} /> } />
           </Switch>
 
           <Footer />
