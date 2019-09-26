@@ -16,7 +16,6 @@ class Background extends Component {
 
     createGenres = (image, genre) => {
         let genreList = [];
-
         for(let i = 0; i < image[0].genre_ids.length; i++) {
             let genres;
 
@@ -26,32 +25,57 @@ class Background extends Component {
         return genreList;
     }
 
-    getPath = (genre, getData) => {
-        console.log(getData);
+    getPath = (getData, genre,type, category) => {
+console.log(getData);
         for(let i = 0; i < genre.length; i++) {
-            if(window.location.href === 'http://localhost:3000/') return  getData.data.trendingMovie.results
-            if(window.location.href === 'http://localhost:3000/movies') return  getData.data.playingNow.results
+            if(window.location.href === 'http://localhost:3000/movies') return  getData.data.now_playingMovie.results
             if(window.location.href === 'http://localhost:3000/tv') return  getData.data.trendingTv.results
 
-            if(window.location.href.substring(0,window.location.href.indexOf('-')).replace('%20','') === `http://localhost:3000/genre/${genre[i].name.replace(/\s/g,'')}`) {
-                console.log(genre[i].name.replace(/\s/g,''));
-                return  getData.data[genre[i].name.replace(/\s/g,'')].results;
-            }     
+            if(genre[i].name.toLowerCase().replace(/\s/g,'') === category.replace(/%20/g,'')) {
+                return  getData.data[`${category.replace(/%20/g,'')}${this.capitalize(type)}`].results;
+            } else if(getData.data[`${category.replace(/%20/g,'')}${this.capitalize(type)}`]) {
+                return  getData.data[`${category.replace(/%20/g,'')}${this.capitalize(type)}`].results;
+            }
         }
+
+        return  getData.data.trendingMovie.results
+    }
+
+    getIndices = (element, elementArray) => {
+        let indices = [];
+        var idx = elementArray.indexOf(element);
+        while (idx != -1) {
+          indices.push(idx);
+          idx = elementArray.indexOf(element, idx + 1);
+        }
+
+        return indices;
+    }
+
+    capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     render() {
-        const {getData, genre} = this.props;
+        const {getData, movieGenres, tvGenres} = this.props;
 
-        if((Object.getOwnPropertyNames(getData.data).length <= 8) && 
+        let genre = movieGenres;
+        let test = window.location.href.substring(window.location.href.lastIndexOf('/')+1);
+        let indices = this.getIndices('-', test);
+        let type = test.substring(0, indices[0]);
+        let category = test.substring(indices[0]+1, indices[1]);
+
+        if(!(Object.getOwnPropertyNames(getData.data).length >= 8) && 
         !(window.location.href === 'http://localhost:3000/') &&
         !(window.location.href === 'http://localhost:3000/movies') &&
-        !(window.location.href === 'http://localhost:3000/tv')) {
+        !(window.location.href === 'http://localhost:3000/tv') && 
+        !(getData.data[`${category.replace(/%20/g,'')}${this.capitalize(type)}`])) {
             return <LoadingSpinner />
         }
 
-        let image;
-        image = this.getPath(genre, getData);
+        if(type === 'tv') genre = tvGenres
+
+        let image = this.getPath(getData, genre, type, category);
 
         return (
             <div className='background-image' key='background-image'>

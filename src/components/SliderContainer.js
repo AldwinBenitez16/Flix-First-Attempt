@@ -12,8 +12,7 @@ import LoadingSpinner from './Loading';
 class SliderContainer extends Component {
     render() {
         const {slideToShow, getData, type, title} = this.props;
-        console.log(type);    
-        console.log(getData);
+
         if (!getData.data[type]) return <LoadingSpinner />;
 
         let settings = { 
@@ -24,13 +23,18 @@ class SliderContainer extends Component {
             slidesToScroll: slideToShow
         }
 
-        const data = getData.data[type].results;
+        let queryType = 'movie';
+        if(type.indexOf('Tv') !== -1) queryType = 'tv'
+        
+        let queryCategory = type.substring(0, type.indexOf('Movie'));
+        if(queryType === 'tv') queryCategory = type.substring(0, type.indexOf('Tv'));
 
+        const data = getData.data[type].results;
         return(
             <div className='container'>
                     <div className='title'>
                         <h3>{title}</h3>
-                        <NavLink to={`/page/${title}`}>
+                        <NavLink to={`/pages/${queryType}-${queryCategory}-1`}>
                         <button>View More</button>
                         </NavLink>
                     </div>

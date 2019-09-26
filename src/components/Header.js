@@ -63,7 +63,9 @@ class Header extends Component {
                 path='/' 
                 render={() => <Background 
                     getData={getData} 
-                    genre={movieGenres}/>} 
+                    movieGenres={movieGenres}
+                    tvGenres={tvGenres}    
+                    />} 
                 />
                     
                 <header>
@@ -78,8 +80,8 @@ class Header extends Component {
                     <nav>
                         <ul>
                             <li><NavLink exact to='/'>Home</NavLink></li>
-                            <li><a className='genre-btn' onClick={ () => this.showGenres('movie')} >Movies</a></li>    
-                            <li><a className='genre-btn' onClick={() => this.showGenres('tv')} >Tv Shows</a></li>
+                            <li><NavLink to='/movies' className='genre-btn' onClick={ () => this.showGenres('movie')} >Movies</NavLink></li>    
+                            <li><NavLink to='/tv' className='genre-btn' onClick={() => this.showGenres('tv')} >Tv Shows</NavLink></li>
                             <li><NavLink to='/favourites'>Favourites</NavLink></li>
                         </ul>
                         <div ref={this.movieRef} id='movie' className='genreContainer'>

@@ -31,7 +31,7 @@ class Movie extends Component {
             <div className='movie-container'>
                 <SliderContainer slideToShow={getData.slideToShow} 
                 getData={getData}  
-                type='playingNow'
+                type='now_playingMovie'
                 title='Playing Now' />
                 <SliderContainer slideToShow={getData.slideToShow} 
                 getData={getData} 
@@ -39,7 +39,7 @@ class Movie extends Component {
                 title='Trending Movies' />
                 <SliderContainer slideToShow={getData.slideToShow} 
                 getData={getData}  
-                type='topRatedMovies'
+                type='top_ratedMovie'
                 title='Top Rated' />
                 <SliderContainer slideToShow={getData.slideToShow} 
                 getData={getData} 

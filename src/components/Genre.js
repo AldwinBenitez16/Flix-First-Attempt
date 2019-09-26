@@ -62,7 +62,7 @@ class Genre extends Component {
 
     render() {
         const {getData, genretype, genrepage} = this.props;
-
+            console.log(genrepage);
         let genreclean = genretype.replace(/\s/g,'');
 
         if(!getData.data[genreclean]) return <Loading />
