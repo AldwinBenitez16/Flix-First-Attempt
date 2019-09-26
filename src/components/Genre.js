@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 
 // Components
-import LoadingSpinner from '../components/LoadingSpinner';
+import Loading from './Loading';
 
 // CSS
 import '../css/genre.css';
@@ -15,7 +15,7 @@ class Genre extends Component {
         let genreid = this.getGenre(genretype);
 
         fetchProducts(
-            `https://api.themoviedb.org/3/discover/movie?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${genrepage}&with_genres=${genreid}`,
+            `https://api.themoviedb.org/3/discover/tv?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${genrepage}&with_genres=${genreid}`,
             `${genretype.replace(/\s/g,'')}`
         );
     }
@@ -61,17 +61,13 @@ class Genre extends Component {
     }
 
     render() {
-        const {getData, genrepage} = this.props;
-        let {genretype} = this.props;
-        genretype = genretype.replace(/\s/g,'');
+        const {getData, genretype, genrepage} = this.props;
 
-        if(!getData.data[genretype]) {
-            return <button onClick={() => {
-                console.log(getData);
-            }}>getDtra</button>
-        }
-        console.log(getData.data[genretype]);
-        const genreArray = getData.data[genretype].results;
+        let genreclean = genretype.replace(/\s/g,'');
+
+        if(!getData.data[genreclean]) return <Loading />
+
+        const genreArray = getData.data[genreclean].results;
 
         return(
 
@@ -99,9 +95,9 @@ class Genre extends Component {
                                 this.newPage(genretype, (parseInt(genrepage) -1)) 
                             }
                         }>&lt;</button>
-                        {this.createPages(genretype, getData.data[genretype].total_pages, genrepage)}
+                        {this.createPages(genretype, getData.data[genreclean].total_pages, genrepage)}
                         <button onClick={() => { 
-                            if(parseInt(genrepage) < getData.data[genretype].total_pages){ 
+                            if(parseInt(genrepage) < getData.data[genreclean].total_pages){ 
                                 this.newPage(genretype, (parseInt(genrepage) + 1));
                             }
                         }}>&gt;</button>

@@ -19,12 +19,26 @@ main {
     width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding-top: 10px;
 }
 
 .title h3 {
     margin: 0;
     padding: 10px;
+}
+
+.title button {
+    border: none;
+    border-radius: 2px;
+    padding: 5px;
+    margin: 0 2px;
+    cursor: pointer;
+    transition: background-color .5s ease-out;
+}
+
+.title button:hover {
+    background-color: #808083;
 }
 
 @media (min-width: 768px) {

@@ -10,10 +10,15 @@ import fetchProductsAction from '../actions/fetchProducts';
 
 // Component
 import Header from '../components/Header';
-import Home from '../components/Home';
-import Genre from '../components/Genre';
 import Footer from '../components/Footer';
-import LoadingSpinner from '../components/LoadingSpinner';
+import Home from '../components/Home';
+import Pages from '../components/Pages';
+import Genre from '../components/Genre';
+import Movie from '../components/Movies';
+import Shows from '../components/Shows';
+
+import LoadingSpinner from '../components/Loading';
+
 
 // React Router
 import {
@@ -27,6 +32,18 @@ class Flix extends Component{
   UNSAFE_componentWillMount() {
     const {fetchProducts} = this.props;
     fetchProducts(
+      'https://api.themoviedb.org/3/movie/top_rated?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&page=1',
+      'top_ratedMovie'
+    );
+    fetchProducts(
+      'https://api.themoviedb.org/3/movie/upcoming?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&page=1',
+      'upcomingMovie'
+    );
+    fetchProducts(
+      'https://api.themoviedb.org/3/movie/now_playing?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&page=1',
+      'now_playingMovie'
+    );
+    fetchProducts(
       'https://api.themoviedb.org/3/trending/movie/week?api_key=a34097a10fd6daf67cb09e71f3d7a0ea',
       'trendingMovie'
     );
@@ -35,33 +52,56 @@ class Flix extends Component{
       'trendingTv'
     );
     fetchProducts(
-      'https://api.themoviedb.org/3/movie/upcoming?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&page=1',
-      'upcomingMovie'
-    );
-    fetchProducts(
-      'https://api.themoviedb.org/3/movie/now_playing?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&page=1',
-      'playingNow'
-    );
-    fetchProducts(
       'https://api.themoviedb.org/3/genre/movie/list?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US',
-      'genres'
+      'movieGenres'
+    );
+    fetchProducts(
+      'https://api.themoviedb.org/3/genre/tv/list?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US',
+      'tvGenres'
     );
   }
 
   render() {
-    const {dispatch, getSlides, getData, fetchProducts, getDataError, getDataPending} = this.props;
-    if(!(Object.getOwnPropertyNames(getData.data).length >= 5)) return <LoadingSpinner />
+    const {getSlides, getData, fetchProducts} = this.props;
+
+    if(!(Object.getOwnPropertyNames(getData.data).length >= 7)) return <LoadingSpinner />
 
     return(
       <Router>
         <div className="App">
           <Header getData={getData}/>
 
-          <Switch>
-            <Route exact path='/' render={() => <Home getData={getData} getSlides={getSlides} /> } />
-            <Route path='/genre/:genretype-:genrepage' render={(props) => <Genre genretype={props.match.params.genretype} genrepage={props.match.params.genrepage} getData={getData} fetchProducts={fetchProducts} /> } />
-          </Switch>
-
+            <Switch>
+              <Route exact 
+              path='/' 
+              render={() => <Home 
+                getData={getData} 
+                getSlides={getSlides} /> 
+              } />
+              <Route 
+              path='/pages/:type-:category-:page' 
+              render={(props) => <Pages 
+                type={props.match.params.type}
+                category={props.match.params.category}
+                page={props.match.params.page} 
+                getData={getData}
+                fetchProducts={fetchProducts}
+                />
+              } />
+              <Route 
+              path='/movies' 
+              render={() => <Movie 
+                getData={getData} 
+                getSlides={getSlides} />
+              } />
+              <Route 
+              path='/tv' 
+                render={() => <Shows 
+                getData={getData} 
+                getSlides={getSlides} />
+              } />
+              
+            </Switch>
           <Footer />
         </div>
       </Router>

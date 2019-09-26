@@ -33,12 +33,9 @@
     margin: 0 auto;
 }
 
-.active-page {
-    border: 1px solid green;
-}
 
 .page-btns {
-    width: 100vw;
+    width: 100%;
 }
 
 .page-btns .btn-bar {
@@ -55,6 +52,11 @@
     cursor: pointer;
 }
 
+.btn-bar button:hover,
+.active-page {
+    background-color: #808083;
+}
+
 @media (min-width: 768px) {
 
     .page-container {
@@ -63,7 +65,7 @@
     }
 
     .page-container .poster {
-        min-width: 20%;
+        min-width: 19%;
     }
 
     .header-genre {

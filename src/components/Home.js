@@ -2,10 +2,7 @@
 import React, {Component} from 'react';
 
 // Components
-import LoadingSpinner from '../components/LoadingSpinner';
-
-// Slick
-import Slider from "react-slick";
+import SliderContainer from './SliderContainer';
 
 // CSS
 import '../css/home.css';
@@ -32,102 +29,26 @@ class Home extends Component {
 
     render() {      
         const {getData} = this.props;
-
-        let settings = { 
-            dots: false,
-            infinite: true,
-            speed: 500,
-            slidesToShow: getData.slideToShow,
-            slidesToScroll: getData.slideToShow
-        }
-
-        if(!getData.data.trendingMovie ||
-            !getData.data.trendingTv || 
-            !getData.data.upcomingMovie ||
-            !getData.data.playingNow) {
-            return <LoadingSpinner />
-        }
-
-        const upcoming = getData.data.upcomingMovie.results;
-        const playing = getData.data.playingNow.results;
-        const trendingM = getData.data.trendingMovie.results;
-        const trendingT = getData.data.trendingTv.results;
-
+        
         return (
              <div>
                 <main>
-                <div className='container'>
-                    <div className='title'>
-                        <h3>Playing Now</h3>
-                    </div>
-                    <Slider {...settings}>
-                    {playing.map((trend,index) => {
-                        return(
-                            <div key={index} className='poster'>
-                                <img
-                                onError={(e) => {
-                                    e.target.src='https://i.imgur.com/zwpr2vD.jpg'
-                                }} 
-                                src={`https://image.tmdb.org/t/p/w500/${trend.poster_path}`} />
-                            </div>
-                        );
-                    })}
-                    </Slider>
-                </div>
-                <div className='container'>
-                    <div className='title'>
-                        <h3>Trending Movies</h3>
-                    </div>
-                    <Slider {...settings}>
-                        {trendingM.map((trend,index) => {
-                            return(
-                                <div key={index} className='poster'>
-                                    <img
-                                    onError={(e) => {
-                                        e.target.src='https://i.imgur.com/zwpr2vD.jpg'
-                                    }} 
-                                    src={`https://image.tmdb.org/t/p/w500/${trend.poster_path}`} />
-                                </div>
-                            );
-                        })}
-                    </Slider>
-                </div>
-                <div className='container'>
-                    <div className='title'>
-                        <h3>Trending TV Shows</h3>
-                    </div>
-                    <Slider {...settings}>
-                        {trendingT.map((trend,index) => {
-                            return(
-                                <div key={index} className='poster'>
-                                    <img
-                                    onError={(e) => {
-                                        e.target.src='https://i.imgur.com/zwpr2vD.jpg'
-                                    }} 
-                                    src={`https://image.tmdb.org/t/p/w500/${trend.poster_path}`} />
-                                </div>
-                            );
-                        })}
-                    </Slider>
-                </div>
-                <div className='container'>
-                    <div className='title'>
-                        <h3>Upcoming Movies</h3>
-                    </div>
-                    <Slider {...settings}>
-                    {upcoming.map((trend,index) => {
-                        return(
-                            <div key={index} className='poster'>
-                                <img
-                                onError={(e) => {
-                                    e.target.src='https://i.imgur.com/zwpr2vD.jpg'
-                                }} 
-                                src={`https://image.tmdb.org/t/p/w500/${trend.poster_path}`} />
-                            </div>
-                        );
-                    })}
-                    </Slider>
-                </div>
+                    <SliderContainer slideToShow={getData.slideToShow} 
+                    getData={getData}  
+                    type='now_playingMovie'
+                    title='Playing Now' />
+                    <SliderContainer slideToShow={getData.slideToShow} 
+                    getData={getData} 
+                    type='trendingMovie'
+                    title='Trending Movies' />
+                    <SliderContainer slideToShow={getData.slideToShow} 
+                    getData={getData}
+                    type='trendingTv' 
+                    title='Trending TV Shows' />
+                    <SliderContainer slideToShow={getData.slideToShow} 
+                    getData={getData} 
+                    type='upcomingMovie'
+                    title='Upcoming Movies' />
                 </main>
             </div>
         )

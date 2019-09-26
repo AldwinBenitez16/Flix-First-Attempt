@@ -13,7 +13,7 @@ import {NavLink} from 'react-router-dom';
 
 // Components
 import Background from './Background';
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from './Loading';
 
 // images
 import logo from '../images/svg/logo.svg';
@@ -23,30 +23,29 @@ import tmdb from '../images/tmdb-logo2.png'
 import '../css/header.css';
 
 class Header extends Component {
-    
-    displayRef = React.createRef();
+
     createGenreList = (genreData) => {
-        // console.log(genreData);
-        let genres = [];
+        let genreList = [];
         for(let i = 0; i < genreData.length; i++) {
-            genres.push(<NavLink onClick={() => {
-                this.container.current.className = 'header-genre';
-                window.location = `/genre/${genreData[i].name}-${1}`;
-            }} key={genreData[i].id} id={genreData[i].id} to={`/genre`} >{genreData[i].name}</NavLink>);
+            genreList.push(<a onClick={(e) => {
+                let type = e.currentTarget.parentNode.id;
+                window.location = `/pages/${type}-${genreData[i].name.toLowerCase()}-${1}`;
+            }} key={genreData[i].id} >{genreData[i].name}</a>);
         }
-        return genres;
+        return genreList;
     } 
 
-    showGenres = () => {
-        if(this.displayRef.current.style.display === '') {
-            this.displayRef.current.style.display = 'flex';
-            this.displayRef.current.className += ' active';
+    movieRef = React.createRef();
+    tvRef = React.createRef();
+    showGenres = (type) => {
+        let reference = this[`${type}Ref`];
+        if(reference.current.style.display === '') {
+            reference.current.style.display = 'flex';
+            reference.current.className += ' active';
         } else {
-            this.displayRef.current.style.display = '';
+            reference.current.style.display = '';
         }
     }
-    
-    container = React.createRef();
 
     render() {
         const {getData} = this.props;
@@ -55,46 +54,46 @@ class Header extends Component {
             return <LoadingSpinner />;
         }
 
-        const genre = getData.data.genres.genres;
+        const movieGenres = getData.data.movieGenres.genres;
+        const tvGenres = getData.data.tvGenres.genres;
 
         return (
-                <div ref={this.container} className='header-container'>
-                <Route path='/' render={() => <Background getData={getData} genre={genre}/>} />
+            <div className='header-container'>
+                <Route 
+                path='/' 
+                render={() => <Background 
+                    getData={getData} 
+                    genre={movieGenres}/>} 
+                />
                     
-                    <header>
-                        <div className='../images/logo.svg'>
-                            <a href='#top'>
-                                <img className='logo' src={logo} alt='' height='40'/>
-                            </a>
-                            <a href='https://www.themoviedb.org/?language=en-US' target='_blank'>
-                                <img className='logo-tmdb' src={tmdb} alt='' height='25'/>
-                            </a>
+                <header>
+                    <div className='../images/logo.svg'>
+                        <a href='#top'>
+                            <img className='logo' src={logo} alt='' height='40'/>
+                        </a>
+                        <a href='https://www.themoviedb.org/?language=en-US' target='_blank'>
+                            <img className='logo-tmdb' src={tmdb} alt='' height='25'/>
+                        </a>
+                    </div>
+                    <nav>
+                        <ul>
+                            <li><NavLink exact to='/'>Home</NavLink></li>
+                            <li><a className='genre-btn' onClick={ () => this.showGenres('movie')} >Movies</a></li>    
+                            <li><a className='genre-btn' onClick={() => this.showGenres('tv')} >Tv Shows</a></li>
+                            <li><NavLink to='/favourites'>Favourites</NavLink></li>
+                        </ul>
+                        <div ref={this.movieRef} id='movie' className='genreContainer'>
+                            {this.createGenreList(movieGenres)}
                         </div>
-                        <nav>
-                            <ul>
-                                <li><NavLink onClick={() => {
-                                    this.container.current.className = 'header-container';
-                                }} exact to='/'>Home</NavLink></li>
-                                <li><a className='genre-btn' onClick={this.showGenres}>Genre</a></li>
-                                <li><NavLink onClick={() => {
-                                    this.container.current.className = 'header-genre';
-                                }} to='/movies'>Movies</NavLink></li>
-                                <li><NavLink onClick={() => {
-                                    this.container.current.className = 'header-genre';
-                                }} to='/tv'>Tv Shows</NavLink></li>
-                                <li><NavLink onClick={() => {
-                                    this.container.current.className = 'header-genre';
-                                }} to='/favourites'>Favourites</NavLink></li>
-                            </ul>
-                            <div ref={this.displayRef} className='genreContainer'>
-                                {this.createGenreList(genre)}
-                            </div>
-                        </nav>
-                        <div className='search'>
-                            <input type='text' id='search' name='search' placeholder=' Search' />
+                        <div ref={this.tvRef} id='tv' className='genreContainer'>
+                            {this.createGenreList(tvGenres)}
                         </div>
-                    </header>
-                </div>
+                    </nav>
+                    <div className='search'>
+                        <input type='text' id='search' name='search' placeholder=' Search' />
+                    </div>
+                </header>
+        </div>
         );
     }
 } 

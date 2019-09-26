@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 
 // Components
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from './Loading';
 
 class Background extends Component {
 
@@ -27,11 +27,14 @@ class Background extends Component {
     }
 
     getPath = (genre, getData) => {
-        console.log(window.location.href.substring(0,window.location.href.indexOf('-')));
+        console.log(getData);
         for(let i = 0; i < genre.length; i++) {
             if(window.location.href === 'http://localhost:3000/') return  getData.data.trendingMovie.results
+            if(window.location.href === 'http://localhost:3000/movies') return  getData.data.playingNow.results
+            if(window.location.href === 'http://localhost:3000/tv') return  getData.data.trendingTv.results
 
-            if(window.location.href.substring(0,window.location.href.indexOf('-')) === `http://localhost:3000/genre/${genre[i].name.replace(/\s/g,'')}`) {
+            if(window.location.href.substring(0,window.location.href.indexOf('-')).replace('%20','') === `http://localhost:3000/genre/${genre[i].name.replace(/\s/g,'')}`) {
+                console.log(genre[i].name.replace(/\s/g,''));
                 return  getData.data[genre[i].name.replace(/\s/g,'')].results;
             }     
         }
@@ -39,7 +42,11 @@ class Background extends Component {
 
     render() {
         const {getData, genre} = this.props;
-        if((Object.getOwnPropertyNames(getData.data).length < 6) && !(window.location.href === 'http://localhost:3000/')) {
+
+        if((Object.getOwnPropertyNames(getData.data).length <= 8) && 
+        !(window.location.href === 'http://localhost:3000/') &&
+        !(window.location.href === 'http://localhost:3000/movies') &&
+        !(window.location.href === 'http://localhost:3000/tv')) {
             return <LoadingSpinner />
         }
 

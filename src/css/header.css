@@ -82,6 +82,7 @@ header nav {
 }
 
 .genreContainer a {
+    cursor: pointer;
     margin-bottom: 5px;
     padding-right: 5px;
     min-height: 35px;
@@ -107,6 +108,10 @@ nav ul a {
     width: 80vw;
     color: #3c3840;
     transition: color 1.5s;
+}
+
+.genre-btn:hover {
+    cursor: pointer;
 }
 
 nav ul a:hover {
