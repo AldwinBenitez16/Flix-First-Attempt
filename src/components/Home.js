@@ -31,8 +31,7 @@ class Home extends Component {
         const {getData} = this.props;
         
         return (
-             <div>
-                <main>
+             <div className='main-container'>
                     <SliderContainer slideToShow={getData.slideToShow} 
                     getData={getData}  
                     type='now_playingMovie'
@@ -49,7 +48,6 @@ class Home extends Component {
                     getData={getData} 
                     type='upcomingMovie'
                     title='Upcoming Movies' />
-                </main>
             </div>
         )
     }

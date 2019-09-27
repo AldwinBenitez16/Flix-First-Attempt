@@ -1,6 +1,7 @@
 /* Home styles */
 
-main {
+.main-container {
+    width: 100vw;
     background-color: rgba(165, 161, 171, .7);
 }
 
@@ -10,8 +11,28 @@ main {
     padding-bottom: 10px;
 }
 
+.poster {
+    position: relative;
+    display: flex !important;
+    justify-content: center;
+}
+
 .poster img {
     border-radius: 3px;
+    max-height: 250px;
+    width: 80%;
+    cursor: pointer;
+}
+
+.poster .voteAvg {
+    position: absolute;
+    background-color: #E6E2EB;
+    width: 30%;
+    text-align: center;
+    border: 1px solid #404042;
+    border-radius: 1px;
+    left: 10%;
+    top: 0;
 }
 
 .container .title{

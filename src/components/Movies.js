@@ -28,7 +28,7 @@ class Movie extends Component {
         const {getData} = this.props;
 
         return (
-            <div className='movie-container'>
+            <div className='main-container'>
                 <SliderContainer slideToShow={getData.slideToShow} 
                 getData={getData}  
                 type='now_playingMovie'

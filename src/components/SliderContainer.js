@@ -23,6 +23,8 @@ class SliderContainer extends Component {
             slidesToScroll: slideToShow
         }
 
+        console.log(getData.data[type]);
+
         let queryType = 'movie';
         if(type.indexOf('Tv') !== -1) queryType = 'tv'
         
@@ -42,6 +44,7 @@ class SliderContainer extends Component {
                     {data.map((item,index) => {
                         return(
                             <div key={index} className='poster'>
+                                <div className='voteAvg'>{item.vote_average}</div>
                                 <img
                                 onError={(e) => {
                                     e.target.src='https://i.imgur.com/zwpr2vD.jpg'

@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import Loading from './Loading';
 
 // CSS
-import '../css/genre.css';
+import '../css/pages.css';
 
 class Pages extends Component {
 
