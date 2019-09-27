@@ -39,12 +39,12 @@ class Header extends Component {
     tvRef = React.createRef();
     showGenres = (type) => {
         let reference = this[`${type}Ref`];
-        if(reference.current.style.display === '') {
-            reference.current.style.display = 'flex';
-            reference.current.className += ' active';
-        } else {
-            reference.current.style.display = '';
-        }
+        reference.current.style.display = 'flex';
+    }
+
+    hideGenres = (type) => {
+        let reference = this[`${type}Ref`];
+        reference.current.style.display = '';
     }
 
     render() {
@@ -70,9 +70,9 @@ class Header extends Component {
                     
                 <header>
                     <div className='../images/logo.svg'>
-                        <a href='#top'>
+                        <NavLink activeClassName='logoActive' to='/'> 
                             <img className='logo' src={logo} alt='' height='40'/>
-                        </a>
+                        </NavLink>
                         <a href='https://www.themoviedb.org/?language=en-US' target='_blank'>
                             <img className='logo-tmdb' src={tmdb} alt='' height='25'/>
                         </a>
@@ -80,14 +80,14 @@ class Header extends Component {
                     <nav>
                         <ul>
                             <li><NavLink exact to='/'>Home</NavLink></li>
-                            <li><NavLink to='/movies' className='genre-btn' onClick={ () => this.showGenres('movie')} >Movies</NavLink></li>    
-                            <li><NavLink to='/tv' className='genre-btn' onClick={() => this.showGenres('tv')} >Tv Shows</NavLink></li>
+                            <li><NavLink to='/movies' className='genre-btn' onMouseOver={ () => this.showGenres('movie')} >Movies</NavLink></li>    
+                            <li><NavLink to='/tv' className='genre-btn' onMouseOver={() => this.showGenres('tv')} >Tv Shows</NavLink></li>
                             <li><NavLink to='/favourites'>Favourites</NavLink></li>
                         </ul>
-                        <div ref={this.movieRef} id='movie' className='genreContainer'>
+                        <div ref={this.movieRef} id='movie' className='genreContainer' onMouseLeave={() => this.hideGenres('movie')}>
                             {this.createGenreList(movieGenres)}
                         </div>
-                        <div ref={this.tvRef} id='tv' className='genreContainer'>
+                        <div ref={this.tvRef} id='tv' className='genreContainer' onMouseLeave={() => this.hideGenres('tv')}>
                             {this.createGenreList(tvGenres)}
                         </div>
                     </nav>

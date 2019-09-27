@@ -26,7 +26,7 @@ class Background extends Component {
     }
 
     getPath = (getData, genre,type, category) => {
-console.log(getData);
+
         for(let i = 0; i < genre.length; i++) {
             if(window.location.href === 'http://localhost:3000/movies') return  getData.data.now_playingMovie.results
             if(window.location.href === 'http://localhost:3000/tv') return  getData.data.trendingTv.results
@@ -77,11 +77,14 @@ console.log(getData);
 
         let image = this.getPath(getData, genre, type, category);
 
+        let title = image[0].original_title;
+        if(type === 'tv') title = image[0].original_name;
+
         return (
             <div className='background-image' key='background-image'>
                 <img src={`https://image.tmdb.org/t/p/w1280/${image[0].backdrop_path}`}/>
                 <div className='info-overlay'>
-                    <h2>{image[0].original_title}</h2>
+                    <h2>{title}</h2>
                     <p>{image[0].overview}</p>
                     <ul className='genres'>
                         {this.createGenres(image, genre)}
