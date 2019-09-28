@@ -60,47 +60,78 @@ class Flix extends Component{
     );
   }
 
-  render() {
-    const {getSlides, getData, fetchProducts} = this.props;
+  getGenre = (genre, id) => {
+      for(let i = 0; i < genre.length; i++) {
+          if(genre[i].id === id) {
+              return genre[i].name;
+          }
+      }
+  }
 
+  createGenres = (image, genre) => {
+      let genreList = [];
+
+      for(let i = 0; i < image[0].genre_ids.length; i++) {
+          let genres;
+
+          
+          genres = this.getGenre(genre, image[0].genre_ids[i]);
+          genreList.push(<li id={image[0].genre_ids[i]} key={i} className={genres}>{genres}</li>);
+      }
+      return genreList;
+  }
+
+  render() {
+    const {getData, fetchProducts, getSlides, getPosterInfo} = this.props;
+    console.log(getData);
     if(!(Object.getOwnPropertyNames(getData.data).length >= 7)) return <LoadingSpinner />
 
     return(
       <Router>
         <div className="App">
-          <Header getData={getData}/>
+          <Header 
+          getData={getData}
+          createGenres={this.createGenres}  
+          />
 
-            <Switch>
-              <Route exact 
-              path='/' 
-              render={() => <Home 
-                getData={getData} 
-                getSlides={getSlides} /> 
-              } />
-              <Route 
-              path='/pages/:type-:category-:page' 
-              render={(props) => <Pages 
-                type={props.match.params.type}
-                category={props.match.params.category}
-                page={props.match.params.page} 
-                getData={getData}
-                fetchProducts={fetchProducts}
-                />
-              } />
-              <Route 
-              path='/movies' 
-              render={() => <Movie 
-                getData={getData} 
-                getSlides={getSlides} />
-              } />
-              <Route 
-              path='/tv' 
-                render={() => <Shows 
-                getData={getData} 
-                getSlides={getSlides} />
-              } />
-              
-            </Switch>
+          <Switch>
+            <Route exact 
+            path='/' 
+            render={() => <Home 
+              createGenres={this.createGenres}
+              getData={getData} 
+              getSlides={getSlides}
+              getPosterInfo={getPosterInfo} /> 
+            } />
+            <Route 
+            path='/pages/:type-:category-:page' 
+            render={(props) => <Pages 
+              createGenres={this.createGenres}
+              getPosterInfo={getPosterInfo}
+              type={props.match.params.type}
+              category={props.match.params.category}
+              page={props.match.params.page} 
+              getData={getData}
+              fetchProducts={fetchProducts}
+              />
+            } />
+            <Route 
+            path='/movies' 
+            render={() => <Movie 
+              createGenres={this.createGenres}
+              getPosterInfo={getPosterInfo}
+              getData={getData} 
+              getSlides={getSlides} />
+            } />
+            <Route 
+            path='/tv' 
+              render={() => <Shows 
+              createGenres={this.createGenres}
+              getPosterInfo={getPosterInfo}
+              getData={getData} 
+              getSlides={getSlides} />
+            } />
+          </Switch>
           <Footer />
         </div>
       </Router>
@@ -114,7 +145,8 @@ Flix.propTypes = {
 
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchProducts: fetchProductsAction,
-  getSlides: StoreActionCreators.getSlideToShow
+  getSlides: StoreActionCreators.getSlideToShow,
+  getPosterInfo: StoreActionCreators.getPosterInfo
 }, dispatch)
 
 const mapStateToProps = state => ({

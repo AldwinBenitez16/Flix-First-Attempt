@@ -14,6 +14,10 @@
     margin: 0 auto;
 }
 
+.poster img {
+    width: unset;
+}
+
 .page-container .poster {
     padding: 10px;
 }
@@ -21,10 +25,6 @@
 .page-container .title {
     text-align: center;
     flex: 1 100%;
-}
-
-.poster img {
-    width: unset;
 }
 
 .page-btns {

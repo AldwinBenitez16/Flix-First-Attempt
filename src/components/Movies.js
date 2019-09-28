@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 // Components
 import SliderContainer from './SliderContainer';
+import Info from '../components/Info';
 
 // CSS
 import '../css/movie.css';
@@ -24,27 +25,54 @@ class Movie extends Component {
         updateSlides();
     }
 
+    containerRef = React.createRef();
+    infoRef = React.createRef();
+
     render() {
-        const {getData} = this.props;
+        const {getData, getPosterInfo, createGenres} = this.props;
 
         return (
-            <div className='main-container'>
-                <SliderContainer slideToShow={getData.slideToShow} 
+            <div className='info-wrapper'>
+                <Info 
+                createGenres={createGenres} 
+                getData={getData} 
+                containerRef={this.containerRef}
+                infoRef={this.infoRef}
+                />
+                <div ref={this.containerRef} className='main-container'>
+                <SliderContainer 
+                getPosterInfo={getPosterInfo}
+                containerRef={this.containerRef} 
+                infoRef={this.infoRef}
+                slideToShow={getData.slideToShow} 
                 getData={getData}  
                 type='now_playingMovie'
                 title='Playing Now' />
-                <SliderContainer slideToShow={getData.slideToShow} 
+                <SliderContainer 
+                getPosterInfo={getPosterInfo}
+                containerRef={this.containerRef} 
+                infoRef={this.infoRef}
+                slideToShow={getData.slideToShow} 
                 getData={getData} 
                 type='trendingMovie'
                 title='Trending Movies' />
-                <SliderContainer slideToShow={getData.slideToShow} 
+                <SliderContainer 
+                getPosterInfo={getPosterInfo}
+                containerRef={this.containerRef} 
+                infoRef={this.infoRef}
+                slideToShow={getData.slideToShow} 
                 getData={getData}  
                 type='top_ratedMovie'
                 title='Top Rated' />
-                <SliderContainer slideToShow={getData.slideToShow} 
+                <SliderContainer 
+                getPosterInfo={getPosterInfo}
+                containerRef={this.containerRef} 
+                infoRef={this.infoRef}
+                slideToShow={getData.slideToShow} 
                 getData={getData} 
                 type='upcomingMovie'
                 title='Upcoming Movies' />
+            </div>
             </div>
         );
     }

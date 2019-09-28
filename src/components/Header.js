@@ -48,7 +48,7 @@ class Header extends Component {
     }
 
     render() {
-        const {getData} = this.props;
+        const {getData, createGenres} = this.props;
 
         if(!(Object.getOwnPropertyNames(getData.data).length >= 5)) {
             return <LoadingSpinner />;
@@ -64,7 +64,8 @@ class Header extends Component {
                 render={() => <Background 
                     getData={getData} 
                     movieGenres={movieGenres}
-                    tvGenres={tvGenres}    
+                    tvGenres={tvGenres}  
+                    createGenres={createGenres}  
                     />} 
                 />
                     

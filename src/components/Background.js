@@ -6,25 +6,6 @@ import LoadingSpinner from './Loading';
 
 class Background extends Component {
 
-    getGenre = (genre, id) => {
-        for(let i = 0; i < genre.length; i++) {
-            if(genre[i].id === id) {
-                return genre[i].name;
-            }
-        }
-    }
-
-    createGenres = (image, genre) => {
-        let genreList = [];
-        for(let i = 0; i < image[0].genre_ids.length; i++) {
-            let genres;
-
-            genres = this.getGenre(genre, image[0].genre_ids[i]);
-            genreList.push(<li key={i} className={genres}>{genres}</li>);
-        }
-        return genreList;
-    }
-
     getPath = (getData, genre,type, category) => {
 
         for(let i = 0; i < genre.length; i++) {
@@ -57,7 +38,7 @@ class Background extends Component {
     }
 
     render() {
-        const {getData, movieGenres, tvGenres} = this.props;
+        const {getData, movieGenres, tvGenres, createGenres} = this.props;
 
         let genre = movieGenres;
         let test = window.location.href.substring(window.location.href.lastIndexOf('/')+1);
@@ -76,10 +57,9 @@ class Background extends Component {
         if(type === 'tv') genre = tvGenres
 
         let image = this.getPath(getData, genre, type, category);
-
         let title = image[0].original_title;
         if(type === 'tv') title = image[0].original_name;
-
+  
         return (
             <div className='background-image' key='background-image'>
                 <img src={`https://image.tmdb.org/t/p/w1280/${image[0].backdrop_path}`}/>
@@ -87,7 +67,7 @@ class Background extends Component {
                     <h2>{title}</h2>
                     <p>{image[0].overview}</p>
                     <ul className='genres'>
-                        {this.createGenres(image, genre)}
+                        {createGenres(image, genre)}
                     </ul>
                 </div> 
             </div>

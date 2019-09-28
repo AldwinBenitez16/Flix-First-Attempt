@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 
 // Components
 import Loading from './Loading';
+import Info from '../components/Info';
 
 // CSS
 import '../css/pages.css';
@@ -78,44 +79,60 @@ class Pages extends Component {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    containerRef = React.createRef();
+    infoRef = React.createRef();
+
     render() {
-        const {getData, category, type, page} = this.props;
+        const {getData, category, type, page, getPosterInfo, createGenres} = this.props;
 
         if(!getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`]) return <Loading />
 
         let data = getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`];
 
         return(
-            <div className='pagination-container'>
-                <div className='page-container'>
-                    <div className='title'>
-                            <h3>{category}</h3>
+            <div className='info-wrapper'>
+                <Info 
+                createGenres={createGenres} 
+                getData={getData} 
+                containerRef={this.containerRef}
+                infoRef={this.infoRef}
+                />
+                <div ref={this.containerRef} className='main-container'>
+                    <div className='page-container'>
+                        <div className='title'>
+                                <h3>{category}</h3>
+                        </div>
+                            {data.results.map((item,index) => {
+                                return(
+                                    <div key={index} className='poster'>
+                                        <img
+                                        onClick={() => {
+                                            this.infoRef.current.style.display = 'flex';
+                                            this.containerRef.current.style.width = '80vw';
+                                            getPosterInfo(item);       
+                                        }}
+                                        onError={(e) => {
+                                            e.target.src='https://i.imgur.com/zwpr2vD.jpg'
+                                        }} 
+                                        src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} />
+                                    </div>
+                                );
+                            })}
                     </div>
-                        {data.results.map((trend,index) => {
-                            return(
-                                <div key={index} className='poster'>
-                                    <img
-                                    onError={(e) => {
-                                        e.target.src='https://i.imgur.com/zwpr2vD.jpg'
-                                    }} 
-                                    src={`https://image.tmdb.org/t/p/w500/${trend.poster_path}`} />
-                                </div>
-                            );
-                        })}
-                </div>
-                <div className='page-btns'>
-                    <div className='btn-bar'>
-                        <button onClick={() => { 
-                            if(parseInt(page)-1 > 0) 
-                                this.newPage((parseInt(page) -1)) 
-                            }
-                        }>&lt;</button>
-                        {this.createPages(category, page, data.total_pages)}
-                        <button onClick={() => { 
-                            if(parseInt(page) < data.total_pages){ 
-                                this.newPage((parseInt(page) + 1));
-                            }
-                        }}>&gt;</button>
+                    <div className='page-btns'>
+                        <div className='btn-bar'>
+                            <button onClick={() => { 
+                                if(parseInt(page)-1 > 0) 
+                                    this.newPage((parseInt(page) -1)) 
+                                }
+                            }>&lt;</button>
+                            {this.createPages(category, page, data.total_pages)}
+                            <button onClick={() => { 
+                                if(parseInt(page) < data.total_pages){ 
+                                    this.newPage((parseInt(page) + 1));
+                                }
+                            }}>&gt;</button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -5,7 +5,15 @@ const initialState = {
     pending: false,
     data: {},
     error: null, 
-    slideToShow: 1
+    slideToShow: 1,
+    posterInfo: {
+        data: {
+            genre_ids: []
+        },
+        title: 'N/A',
+        overview: 'N/A', 
+        genres: []
+    }
 };
 
 export default function Store(state=initialState, action) {
@@ -36,6 +44,16 @@ export default function Store(state=initialState, action) {
             return {
                 ...state,
                 slideToShow: action.slides
+            }
+        case StoreActionTypes.GET_POSTER_INFO: 
+            return {
+                ...state,
+                posterInfo: {
+                    data: action.data,
+                    title: action.data.title,
+                    overview: action.data.overview,
+                    genres: action.data.genre_ids
+                }
             }
         default:
             return state;

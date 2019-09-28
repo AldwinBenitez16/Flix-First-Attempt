@@ -11,9 +11,9 @@ import LoadingSpinner from './Loading';
 
 class SliderContainer extends Component {
     render() {
-        const {slideToShow, getData, type, title} = this.props;
+        const {slideToShow, getData, type, title, containerRef, infoRef, getPosterInfo} = this.props;
 
-        if (!getData.data[type]) return <LoadingSpinner />;
+        if (!getData.data[type] || !(infoRef.current !== null)) return <LoadingSpinner />;
 
         let settings = { 
             dots: false,
@@ -22,8 +22,6 @@ class SliderContainer extends Component {
             slidesToShow: slideToShow,
             slidesToScroll: slideToShow
         }
-
-        console.log(getData.data[type]);
 
         let queryType = 'movie';
         if(type.indexOf('Tv') !== -1) queryType = 'tv'
@@ -46,6 +44,11 @@ class SliderContainer extends Component {
                             <div key={index} className='poster'>
                                 <div className='voteAvg'>{item.vote_average}</div>
                                 <img
+                                onClick={() => {
+                                    infoRef.current.style.display = 'flex';
+                                    containerRef.current.style.width = '80vw';  
+                                    getPosterInfo(item);       
+                                }}
                                 onError={(e) => {
                                     e.target.src='https://i.imgur.com/zwpr2vD.jpg'
                                 }} 

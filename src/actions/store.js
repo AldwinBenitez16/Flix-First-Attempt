@@ -31,3 +31,10 @@ export function getSlideToShow(width) {
         slides
     }
 }
+
+export function getPosterInfo(data) {
+    return {
+        type: StoreActionTypes.GET_POSTER_INFO,
+        data
+    }
+}
