@@ -86,7 +86,7 @@ class Flix extends Component{
 
   containerRef = React.createRef();
   render() {
-    const {getData, fetchProducts, getSlides, getPosterInfo} = this.props;
+    const {getData, fetchProducts, getSlides, getPosterInfo, getUserInfo} = this.props;
 
     if(!(Object.getOwnPropertyNames(getData.data).length >= 7)) return <Loading />
 
@@ -140,6 +140,7 @@ class Flix extends Component{
               path='/login' 
               render={() => <Login 
                 getData={getData}
+                getUserInfo={getUserInfo}
                 fetchProducts={fetchProducts} />
             } />
             <PrivateRoute 
@@ -163,7 +164,8 @@ Flix.propTypes = {
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchProducts: fetchProductsAction,
   getSlides: StoreActionCreators.getSlideToShow,
-  getPosterInfo: StoreActionCreators.getPosterInfo
+  getPosterInfo: StoreActionCreators.getPosterInfo,
+  getUserInfo: StoreActionCreators.getUserInfo
 }, dispatch)
 
 const mapStateToProps = state => ({

@@ -4,7 +4,7 @@ import * as StoreActionTypes from '../actiontypes/store';
 const initialState = {
     pending: false,
     data: {},
-    error: null, 
+    error: null,    
     slideToShow: 1,
     posterInfo: {
         data: {
@@ -60,6 +60,14 @@ export default function Store(state=initialState, action) {
                     title: action.data.title,
                     overview: action.data.overview,
                     genres: action.data.genre_ids
+                }
+            }
+        case StoreActionTypes.GET_USER_INFO:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    ...action.data
                 }
             }
         default:

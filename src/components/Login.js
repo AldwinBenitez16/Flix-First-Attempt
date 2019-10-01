@@ -67,23 +67,27 @@ class Login extends Component {
     }
 
     change = () => {
-        console.log('changed');
         const {user} = this.props.getData;
+        const {getUserInfo} = this.props;
 
         const username = this.userRef.current.name;
         const uservalue = this.userRef.current.value;
-        user[username] = uservalue;
+        
+        getUserInfo({
+            [username]: uservalue
+        });
 
         const passname = this.passRef.current.name;
         const passvalue = this.passRef.current.value;
-        user[passname] = passvalue;
-        console.log(user);
+
+        getUserInfo({
+            [passname]: passvalue
+        });
     }
 
-    submit = (event) => {
+    submit = () => {
         this.change();
         this.getSessionId();
-        // window.location.pathname = '/authenticated';
     }
 
     validateToken = () => {
@@ -117,8 +121,10 @@ class Login extends Component {
             .then(res => {
                 getData.user.isAuthenticated = true;
                 getData.user.session_id = res.data.session_id;
+                console.log(getData.user);
                 console.log('Succesfully retrieved session Id');
             })
+            .then(() => window.location.pathname = '/authenticated')
             .catch(err => console.log('Could not retrieve id', err));
         }
 

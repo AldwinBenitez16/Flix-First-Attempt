@@ -38,3 +38,10 @@ export function getPosterInfo(data) {
         data
     }
 }
+
+export function getUserInfo(data) {
+    return {
+        type: StoreActionTypes.GET_USER_INFO,
+        data
+    }
+}
