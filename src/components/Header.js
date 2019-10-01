@@ -97,7 +97,7 @@ class Header extends Component {
                         </div>
                     </nav>
                     <div className='search'>
-                        <h2>Welcome <span>Name</span></h2>
+                        {getData.user.isAuthenticated ? <h2>Welcome <span>{getData.user.name}</span></h2> : null}
                         <input type='text' id='search' name='search' placeholder=' Search' />
                         <NavLink onClick={() => {
                             window.location.pathname = '/login';

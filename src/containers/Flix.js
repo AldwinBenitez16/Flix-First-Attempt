@@ -16,7 +16,9 @@ import Home from '../components/Home';
 import Pages from '../components/Pages';
 import Movie from '../components/Movies';
 import Shows from '../components/Shows';
+import Authenticated from '../components/Authenticated';
 
+import PrivateRoute from '../components/PrivateRoute';
 import Loading from '../components/Loading';
 
 
@@ -99,12 +101,6 @@ class Flix extends Component{
 
           <Switch>
             <Route 
-              path='/login' 
-              render={() => <Login 
-                getData={getData}
-                fetchProducts={fetchProducts}
-              />} />
-            <Route 
             path='/home' 
             render={() => <Home 
               createGenres={this.createGenres}
@@ -140,6 +136,18 @@ class Flix extends Component{
               getData={getData} 
               getSlides={getSlides} />
             } />
+            <Route 
+              path='/login' 
+              render={() => <Login 
+                getData={getData}
+                fetchProducts={fetchProducts} />
+            } />
+            <PrivateRoute 
+              getData={getData}
+              path='/authenticated'
+              render={() => <Authenticated 
+              />}
+            />
           </Switch>
           <Footer />
         </div>

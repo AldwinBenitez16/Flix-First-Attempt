@@ -25,12 +25,14 @@ class Login extends Component {
         );
     }
 
+    userRef = React.createRef();
+    passRef = React.createRef();
+
     render() {
         const {getData} = this.props;
-        const {username, password, errors} = getData.user;
-
+        const {errors} = getData.user;
         if(!getData.data.token) return <Loading />
-
+        
         return (
             <div className="login-form">
                 <div className='login-overlay'>
@@ -46,15 +48,13 @@ class Login extends Component {
                             id="username" 
                             name="username" 
                             type="text"
-                            value={username} 
-                            onChange={this.change} 
+                            ref={this.userRef}
                             placeholder="User Name" />
                             <input 
                             id="password" 
                             name="password"
                             type="password"
-                            value={password} 
-                            onChange={this.change} 
+                            ref={this.passRef}
                             placeholder="Password" />                
                         </React.Fragment>
                     )} />
@@ -66,30 +66,36 @@ class Login extends Component {
         );
     }
 
-    change = (event) => {
-        const {user} = this.props.user;
-        const name = event.target.name;
-        const value = event.target.value;
-    
-        this.setState(() => {
-          return {
-            [name]: value
-          };
-        });
-      }
+    change = () => {
+        console.log('changed');
+        const {user} = this.props.getData;
 
-    submit = () => {
+        const username = this.userRef.current.name;
+        const uservalue = this.userRef.current.value;
+        user[username] = uservalue;
+
+        const passname = this.passRef.current.name;
+        const passvalue = this.passRef.current.value;
+        user[passname] = passvalue;
+        console.log(user);
+    }
+
+    submit = (event) => {
+        this.change();
         this.getSessionId();
+        // window.location.pathname = '/authenticated';
     }
 
     validateToken = () => {
         const {getData} = this.props;
+        const {user} = getData;
+
         const data = axios({
             url: 'https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=a34097a10fd6daf67cb09e71f3d7a0ea',
             method: 'post',
             data: {
-                username: this.state.username,
-                password: this.state.password,
+                username: user.username,
+                password: user.password,
                 request_token: getData.data.token.request_token,
             }
         })
@@ -108,14 +114,18 @@ class Login extends Component {
                     request_token: getData.data.token.request_token
                 },
             })
-            .then(res => getData.isAuthenticated = true)
+            .then(res => {
+                getData.user.isAuthenticated = true;
+                getData.user.session_id = res.data.session_id;
+                console.log('Succesfully retrieved session Id');
+            })
             .catch(err => console.log('Could not retrieve id', err));
         }
 
     }
     
     cancel = () => {
-        
+        window.location.pathname = '/home';
     }
 }
 
