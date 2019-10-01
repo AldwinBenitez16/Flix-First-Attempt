@@ -13,6 +13,13 @@ const initialState = {
         title: 'N/A',
         overview: 'N/A', 
         genres: []
+    },
+    user: {
+        isAuthenticated: false,
+        username: '',
+        password: '',
+        session_id: '',
+        errors: []
     }
 };
 

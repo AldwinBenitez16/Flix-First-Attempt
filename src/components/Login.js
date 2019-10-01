@@ -25,15 +25,9 @@ class Login extends Component {
         );
     }
 
-    state = {
-        username: '',
-        password: '',
-        errors: []
-    };
-
     render() {
-        const {getData, fetchProducts} = this.props;
-        const {username, password, errors} = this.state;
+        const {getData} = this.props;
+        const {username, password, errors} = getData.user;
 
         if(!getData.data.token) return <Loading />
 
@@ -73,6 +67,7 @@ class Login extends Component {
     }
 
     change = (event) => {
+        const {user} = this.props.user;
         const name = event.target.name;
         const value = event.target.value;
     
@@ -84,7 +79,39 @@ class Login extends Component {
       }
 
     submit = () => {
-        
+        this.getSessionId();
+    }
+
+    validateToken = () => {
+        const {getData} = this.props;
+        const data = axios({
+            url: 'https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=a34097a10fd6daf67cb09e71f3d7a0ea',
+            method: 'post',
+            data: {
+                username: this.state.username,
+                password: this.state.password,
+                request_token: getData.data.token.request_token,
+            }
+        })
+        .catch(err => console.log('Could not retrieve id', err));
+        return data;
+    }
+
+    async getSessionId() {
+        const {getData} = this.props;
+        const data = await this.validateToken();
+        if(data && data.status === 200) {
+            axios({
+                url: `https://api.themoviedb.org/3/authentication/session/new?api_key=a34097a10fd6daf67cb09e71f3d7a0ea`,
+                method: 'post',
+                data: {
+                    request_token: getData.data.token.request_token
+                },
+            })
+            .then(res => getData.isAuthenticated = true)
+            .catch(err => console.log('Could not retrieve id', err));
+        }
+
     }
     
     cancel = () => {

@@ -56,7 +56,7 @@ class Header extends Component {
 
         const movieGenres = getData.data.movieGenres.genres;
         const tvGenres = getData.data.tvGenres.genres;
-        const loginPath = (window.location.pathname !== '/login');
+        const loginPath = (window.location.pathname !== '/login') && (window.location.pathname !== '/authenticated');
         return (
             <div ref={containerRef} className={loginPath ? 'header-container' : 'login-container'}>
                 { loginPath ?
@@ -97,6 +97,7 @@ class Header extends Component {
                         </div>
                     </nav>
                     <div className='search'>
+                        <h2>Welcome <span>Name</span></h2>
                         <input type='text' id='search' name='search' placeholder=' Search' />
                         <NavLink onClick={() => {
                             window.location.pathname = '/login';
@@ -107,6 +108,5 @@ class Header extends Component {
         );
     }
 } 
-
 
 export default (Header);
