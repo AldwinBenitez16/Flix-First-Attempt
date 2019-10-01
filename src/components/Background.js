@@ -47,7 +47,7 @@ class Background extends Component {
         let category = test.substring(indices[0]+1, indices[1]);
 
         if(!(Object.getOwnPropertyNames(getData.data).length >= 8) && 
-        !(window.location.href === 'http://localhost:3000/') &&
+        !(window.location.href === 'http://localhost:3000/home') &&
         !(window.location.href === 'http://localhost:3000/movies') &&
         !(window.location.href === 'http://localhost:3000/tv') && 
         !(getData.data[`${category.replace(/%20/g,'')}${this.capitalize(type)}`])) {

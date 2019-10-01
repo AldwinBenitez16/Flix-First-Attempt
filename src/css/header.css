@@ -4,6 +4,11 @@
     height: 50vh;
 }
 
+.login-container {
+    background: #404042;
+    height: 221px;
+}
+
 .background-image {
     position: relative;
     height: 100%;
@@ -73,7 +78,7 @@ header nav {
     align-items: center;
     width: 450px;
     z-index: 1200;
-    background-color: #E6E2EB;
+    background-color: #c6c6cf;
     padding: 20px;
     text-align: center;
     border-radius: 10px;
@@ -96,7 +101,7 @@ nav ul {
     padding: 0;
 }
 
-nav ul li{
+nav ul li {
     display: block;
     padding: 2px 0;
     text-align: center;
@@ -114,23 +119,31 @@ nav ul a {
     cursor: pointer;
 }
 
-nav ul a:hover {
+nav ul a:hover,
+.login:hover {
     color: #787064;
-    background-color: #E6E2EB;
+    background-color: #c6c6cf;
 }
 
 .active {
     color: #787064;
-    background-color: #E6E2EB;
+    background-color: #c6c6cf;
 }
 
 .search input {
-    background-color: #E6E2EB;
+    background-color: #c6c6cf;
     width: 50vw;
     border: none;
     padding: 7px;
     margin: 10px 0 ;
     border-radius: 3px;
+}
+
+.login {
+    text-decoration: none;
+    color: #3c3840;
+    transition: color 1.5s;
+    padding: 2px;
 }
 
 @media (min-width: 768px) {
@@ -144,6 +157,10 @@ nav ul a:hover {
         flex-direction: row;
         justify-content: center;
         align-items: center;
+    }
+
+    .login-container {
+        height: 79px;
     }
 
     nav ul a {

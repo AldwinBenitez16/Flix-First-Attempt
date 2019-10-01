@@ -48,7 +48,7 @@ class Header extends Component {
     }
 
     render() {
-        const {getData, createGenres} = this.props;
+        const {getData, createGenres, containerRef} = this.props;
 
         if(!(Object.getOwnPropertyNames(getData.data).length >= 5)) {
             return <LoadingSpinner />;
@@ -56,22 +56,26 @@ class Header extends Component {
 
         const movieGenres = getData.data.movieGenres.genres;
         const tvGenres = getData.data.tvGenres.genres;
-
+        const loginPath = (window.location.pathname !== '/login');
         return (
-            <div className='header-container'>
-                <Route 
-                path='/' 
-                render={() => <Background 
-                    getData={getData} 
-                    movieGenres={movieGenres}
-                    tvGenres={tvGenres}  
-                    createGenres={createGenres}  
-                    />} 
-                />
-                    
+            <div ref={containerRef} className={loginPath ? 'header-container' : 'login-container'}>
+                { loginPath ?
+                    (<Route 
+                    path='/' 
+                    render={() => <Background 
+                        getData={getData} 
+                        movieGenres={movieGenres}
+                        tvGenres={tvGenres}  
+                        createGenres={createGenres}  
+                        />} 
+                    />)
+                    :
+                    (null)
+                }
+
                 <header>
                     <div className='../images/logo.svg'>
-                        <NavLink activeClassName='logoActive' to='/'> 
+                        <NavLink activeClassName='logoActive' to='/home'> 
                             <img className='logo' src={logo} alt='' height='40'/>
                         </NavLink>
                         <a href='https://www.themoviedb.org/?language=en-US' target='_blank'>
@@ -80,7 +84,7 @@ class Header extends Component {
                     </div>
                     <nav>
                         <ul>
-                            <li><NavLink exact to='/'>Home</NavLink></li>
+                            <li><NavLink to='/home'>Home</NavLink></li>
                             <li><NavLink to='/movies' className='genre-btn' onMouseOver={ () => this.showGenres('movie')} >Movies</NavLink></li>    
                             <li><NavLink to='/tv' className='genre-btn' onMouseOver={() => this.showGenres('tv')} >Tv Shows</NavLink></li>
                             <li><NavLink to='/favourites'>Favourites</NavLink></li>
@@ -94,6 +98,9 @@ class Header extends Component {
                     </nav>
                     <div className='search'>
                         <input type='text' id='search' name='search' placeholder=' Search' />
+                        <NavLink onClick={() => {
+                            window.location.pathname = '/login';
+                        }} className='login' to='/login'>Log In</NavLink>
                     </div>
                 </header>
         </div>

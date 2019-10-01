@@ -9,6 +9,7 @@ import * as StoreActionCreators from '../actions/store';
 import fetchProductsAction from '../actions/fetchProducts';
 
 // Component
+import Login from '../components/Login';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Home from '../components/Home';
@@ -16,7 +17,7 @@ import Pages from '../components/Pages';
 import Movie from '../components/Movies';
 import Shows from '../components/Shows';
 
-import LoadingSpinner from '../components/Loading';
+import Loading from '../components/Loading';
 
 
 // React Router
@@ -81,10 +82,11 @@ class Flix extends Component{
       return genreList;
   }
 
+  containerRef = React.createRef();
   render() {
     const {getData, fetchProducts, getSlides, getPosterInfo} = this.props;
-    console.log(getData);
-    if(!(Object.getOwnPropertyNames(getData.data).length >= 7)) return <LoadingSpinner />
+
+    if(!(Object.getOwnPropertyNames(getData.data).length >= 7)) return <Loading />
 
     return(
       <Router>
@@ -92,11 +94,18 @@ class Flix extends Component{
           <Header 
           getData={getData}
           createGenres={this.createGenres}  
+          containerRef={this.containerRef}
           />
 
           <Switch>
-            <Route exact 
-            path='/' 
+            <Route 
+              path='/login' 
+              render={() => <Login 
+                getData={getData}
+                fetchProducts={fetchProducts}
+              />} />
+            <Route 
+            path='/home' 
             render={() => <Home 
               createGenres={this.createGenres}
               getData={getData} 
