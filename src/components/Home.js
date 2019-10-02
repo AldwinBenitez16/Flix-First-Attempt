@@ -8,8 +8,6 @@ import Info from '../components/Info';
 // CSS
 import '../css/home.css';
 
-// Image
-
 class Home extends Component {
 
     UNSAFE_componentWillMount() {

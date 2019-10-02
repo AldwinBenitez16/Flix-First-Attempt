@@ -6,7 +6,7 @@
 
 .login-container {
     background: #404042;
-    height: 221px;
+    height: 259px;
 }
 
 .background-image {
@@ -17,6 +17,11 @@
 
 .background-image img {
     height: 100%;
+}
+
+.welcome {
+    font-weight: 500;
+    margin: 0;
 }
 
 .info-overlay {
@@ -81,7 +86,6 @@ header nav {
     background-color: #c6c6cf;
     padding: 20px;
     text-align: center;
-    border-radius: 10px;
     top: 254px;
     left: calc(50% - (450px/2));
 }
@@ -92,6 +96,30 @@ header nav {
     padding-right: 5px;
     min-height: 35px;
     width: 25%;
+}
+
+.auth-container {
+    position: relative;
+    margin-left: 15px;
+    padding-bottom: 5px;
+}
+
+.auth-container a {
+    margin: 0;
+}
+
+.auth-overlay {
+    display: none;
+    position: absolute;
+    background-color: #c6c6cf;
+    top: 25px;
+    left: 0;
+    width: 100%;
+}
+
+.auth-overlay a {
+    margin: 5px 0;
+    cursor: pointer;
 }
 
 nav ul {
@@ -130,6 +158,14 @@ nav ul a:hover,
     background-color: #c6c6cf;
 }
 
+.search {
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 15px;
+}
+
 .search input {
     background-color: #c6c6cf;
     width: 50vw;
@@ -140,11 +176,22 @@ nav ul a:hover,
 }
 
 .login {
-    text-decoration: none;
     color: #3c3840;
-    transition: color 1.5s;
-    padding: 2px;
+    text-decoration: none;
+    height: 100%; 
+    width: 100%;
+    border-radius: 3px;
 }
+
+.login a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    height: 100%;
+}
+
+
 
 @media (min-width: 768px) {
 
@@ -196,6 +243,29 @@ nav ul a:hover,
     .search input {
         width: 20vw;
         margin-right: 10px;
+    }
+
+    .search {
+        flex-direction: row;
+        min-height: unset;
+        height: 28px;
+        padding: 0;
+    }
+
+    .login {
+        color: #3c3840;
+        text-decoration: none;
+        height: 100%; 
+        border-radius: 3px;
+        width: unset;
+    }
+    
+    .login a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        height: 100%;
     }
 }
 

@@ -18,7 +18,6 @@ import Movie from '../components/Movies';
 import Shows from '../components/Shows';
 import Authenticated from '../components/Authenticated';
 
-import PrivateRoute from '../components/PrivateRoute';
 import Loading from '../components/Loading';
 
 
@@ -26,6 +25,7 @@ import Loading from '../components/Loading';
 import {
   BrowserRouter as Router,
   Route,
+  Redirect,
   Switch
 } from 'react-router-dom';
 
@@ -144,10 +144,22 @@ class Flix extends Component{
                 getUserInfo={getUserInfo}
                 fetchProducts={fetchProducts} />
             } />
-            <PrivateRoute 
-              getData={getData}
+            <Route //private route
               path='/authenticated'
-              component={Authenticated}
+              render={ props => getData.user.isAuthenticated ? (
+                <Authenticated 
+                  getData={getData}
+                  createGenres={this.createGenres}
+                  getSlides={getSlides}
+                  getUserInfo={getUserInfo}
+                  getPosterInfo={getPosterInfo}
+                /> // Loads the component passed to it
+              ) : (
+                  <Redirect to={{
+                  pathname: '/login',
+                  state: {from: props.location}
+                  }} />// Redirects to signin page
+              )}
             />
           </Switch>
           <Footer />

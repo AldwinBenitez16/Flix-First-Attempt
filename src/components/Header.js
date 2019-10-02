@@ -38,6 +38,7 @@ class Header extends Component {
         return genreList;
     } 
 
+    authRef = React.createRef();
     movieRef = React.createRef();
     tvRef = React.createRef();
     showGenres = (type) => {
@@ -102,8 +103,18 @@ class Header extends Component {
                             <li><NavLink to='/home'>Home</NavLink></li>
                             <li><NavLink to='/movies' className='genre-btn' onMouseOver={ () => this.showGenres('movie')} >Movies</NavLink></li>    
                             <li><NavLink to='/tv' className='genre-btn' onMouseOver={() => this.showGenres('tv')} >Tv Shows</NavLink></li>
-                            <li><NavLink to='/favourites'>Favourites</NavLink></li>
+                            <li className='auth-container'>
+                            {getData.user.isAuthenticated ? (<NavLink onMouseOver={() => {
+                                this.authRef.current.style.display = 'initial';
+                            }} className='authenticated' exact to='/authenticated'>Welcome <span>{getData.user.username}</span></NavLink>) : null}
+                            <div onMouseLeave={() => {
+                                this.authRef.current.style.display = '';
+                            }} ref={this.authRef} className='auth-overlay'>
+                                <a onClick={() => this.removeUser()}>Log out</a>
+                            </div>
+                            </li>
                         </ul>
+
                         <div ref={this.movieRef} id='movie' className='genreContainer' onMouseLeave={() => this.hideGenres('movie')}>
                             {this.createGenreList(movieGenres)}
                         </div>
@@ -112,15 +123,10 @@ class Header extends Component {
                         </div>
                     </nav>
                     <div className='search'>
-                        {getData.user.isAuthenticated ? <h2>Welcome <span>{getData.user.name}</span></h2> : null}
                         <input type='text' id='search' name='search' placeholder=' Search' />
-                        <NavLink onClick={() => {
-                            if(getData.user.isAuthenticated) {
-                                this.removeUser();
-                            } else {
-                                window.location.pathname = '/login';
-                            }
-                        }} className='login' to='/login'>{getData.user.isAuthenticated ? 'Log out' : 'Log in'}</NavLink>
+                        {getData.user.isAuthenticated ? null : (<div  className='login'><NavLink onClick={() => {
+                            window.location.pathname = '/login'
+                        }} className='login' to='/login'>Log In</NavLink></div>)}
                     </div>
                 </header>
         </div>

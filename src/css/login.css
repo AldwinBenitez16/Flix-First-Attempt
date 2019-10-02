@@ -28,10 +28,10 @@
 
 .login-overlay {
     position: absolute;
-    width: 20vw;
-    height: 60vh;
-    left: calc(50% - (20vw/2));
-    top: calc(50% - (60vh/2));
+    width: 80vw;
+    height: 40vh;
+    left: calc(50% - (80vw/2));
+    top: calc(50% - (40vh/2));
     border: none;
     border-radius: 5px;
     background-color: #c6c6cf;
@@ -43,6 +43,13 @@
 }
 
 @media (min-width: 768px) {
+    .login-overlay {
+        width: 30vw;
+        height: 60vh;
+        left: calc(50% - (30vw/2));
+        top: calc(50% - (60vh/2));
+    }
+
     .login-form {
         height: calc(100vh - (79px + 10vh)); 
      }
