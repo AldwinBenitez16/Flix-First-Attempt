@@ -1,6 +1,9 @@
 // redux
 import * as StoreActionTypes from '../actiontypes/store';
 
+// Cookie manager
+import Cookies from 'js-cookie';
+
 const initialState = {
     pending: false,
     data: {},
@@ -14,7 +17,7 @@ const initialState = {
         overview: 'N/A', 
         genres: []
     },
-    user: {
+    user: Cookies.getJSON('AuthenticatedUser') || {
         isAuthenticated: false,
         username: '',
         password: '',

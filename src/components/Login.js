@@ -14,6 +14,9 @@ import Loading from '../components/Loading';
 // CSS
 import '../css/login.css';
 
+// Cookie manager
+import Cookies from 'js-cookie';
+
 class Login extends Component {
 
     UNSAFE_componentWillMount() {
@@ -35,9 +38,6 @@ class Login extends Component {
         
         return (
             <div className="login-form">
-                <button onClick={() => {
-                    console.log(this.props.getData.user);
-                }}>adasdada</button>
                 <div className='login-overlay'>
                     <h1>Sign In</h1>
                     <Form 
@@ -83,7 +83,8 @@ class Login extends Component {
             [passname]: passvalue
         });
         await this.getSessionId();
-
+        Cookies.set('AuthenticatedUser', JSON.stringify(this.props.getData.user), {expires: 1});
+        window.location.pathname = '/authenticated';
     }
 
     submit = () => {

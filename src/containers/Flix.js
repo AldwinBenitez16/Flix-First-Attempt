@@ -97,6 +97,7 @@ class Flix extends Component{
           getData={getData}
           createGenres={this.createGenres}  
           containerRef={this.containerRef}
+          getUserInfo={getUserInfo}
           />
 
           <Switch>
@@ -146,8 +147,7 @@ class Flix extends Component{
             <PrivateRoute 
               getData={getData}
               path='/authenticated'
-              render={() => <Authenticated 
-              />}
+              component={Authenticated}
             />
           </Switch>
           <Footer />

@@ -22,6 +22,9 @@ import tmdb from '../images/tmdb-logo2.png'
 // CSS
 import '../css/header.css';
 
+// Cookie manager
+import Cookie from 'js-cookie';
+
 class Header extends Component {
 
     createGenreList = (genreData) => {
@@ -45,6 +48,18 @@ class Header extends Component {
     hideGenres = (type) => {
         let reference = this[`${type}Ref`];
         reference.current.style.display = '';
+    }
+
+    async removeUser() {
+        const {getUserInfo} = this.props;
+        await getUserInfo({
+            isAuthenticated: false,
+            username: "",
+            password: "",
+            session_id: "",
+            errors: []
+        });
+        await Cookie.remove('AuthenticatedUser');
     }
 
     render() {
@@ -100,8 +115,12 @@ class Header extends Component {
                         {getData.user.isAuthenticated ? <h2>Welcome <span>{getData.user.name}</span></h2> : null}
                         <input type='text' id='search' name='search' placeholder=' Search' />
                         <NavLink onClick={() => {
-                            window.location.pathname = '/login';
-                        }} className='login' to='/login'>Log In</NavLink>
+                            if(getData.user.isAuthenticated) {
+                                this.removeUser();
+                            } else {
+                                window.location.pathname = '/login';
+                            }
+                        }} className='login' to='/login'>{getData.user.isAuthenticated ? 'Log out' : 'Log in'}</NavLink>
                     </div>
                 </header>
         </div>
