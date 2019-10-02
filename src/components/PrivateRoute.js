@@ -5,8 +5,8 @@ import Loading from '../components/Loading';
 
 export default ({ component: Component, getData, ...rest}) => {
 
-    if(getData.user.session_id === "") return <Loading /> 
-
+    // if(getData.user.session_id === "") return <Loading /> 
+    console.log(getData.user);
     return (
         <Route
             {...rest}

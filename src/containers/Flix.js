@@ -157,10 +157,6 @@ class Flix extends Component{
   }
 }
 
-Flix.propTypes = {
-  getDataPending: PropTypes.bool
-}
-
 const mapDispatchToProps = dispatch => bindActionCreators({
   fetchProducts: fetchProductsAction,
   getSlides: StoreActionCreators.getSlideToShow,

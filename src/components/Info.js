@@ -25,8 +25,6 @@ class Info extends Component {
     render() {
         const {getData, containerRef, infoRef, createGenres} = this.props;
 
-        // if(!(Object.getOwnPropertyNames(getData.posterInfo).length != 0)) return <Loading />
-
         let data = getData.posterInfo;
 
         let genreArray = [data.data];

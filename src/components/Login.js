@@ -35,6 +35,9 @@ class Login extends Component {
         
         return (
             <div className="login-form">
+                <button onClick={() => {
+                    console.log(this.props.getData.user);
+                }}>adasdada</button>
                 <div className='login-overlay'>
                     <h1>Sign In</h1>
                     <Form 
@@ -66,33 +69,30 @@ class Login extends Component {
         );
     }
 
-    change = () => {
-        const {user} = this.props.getData;
+    async change() {
         const {getUserInfo} = this.props;
 
         const username = this.userRef.current.name;
         const uservalue = this.userRef.current.value;
-        
-        getUserInfo({
-            [username]: uservalue
-        });
 
         const passname = this.passRef.current.name;
         const passvalue = this.passRef.current.value;
 
-        getUserInfo({
+        await getUserInfo({
+            [username]: uservalue,
             [passname]: passvalue
         });
+        await this.getSessionId();
+
     }
 
     submit = () => {
         this.change();
-        this.getSessionId();
     }
 
     validateToken = () => {
         const {getData} = this.props;
-        const {user} = getData;
+        const {user} = this.props.getData;
 
         const data = axios({
             url: 'https://api.themoviedb.org/3/authentication/token/validate_with_login?api_key=a34097a10fd6daf67cb09e71f3d7a0ea',
@@ -108,10 +108,10 @@ class Login extends Component {
     }
 
     async getSessionId() {
-        const {getData} = this.props;
+        const {getData, getUserInfo} = this.props;
         const data = await this.validateToken();
         if(data && data.status === 200) {
-            axios({
+            await axios({
                 url: `https://api.themoviedb.org/3/authentication/session/new?api_key=a34097a10fd6daf67cb09e71f3d7a0ea`,
                 method: 'post',
                 data: {
@@ -119,12 +119,12 @@ class Login extends Component {
                 },
             })
             .then(res => {
-                getData.user.isAuthenticated = true;
-                getData.user.session_id = res.data.session_id;
-                console.log(getData.user);
+                getUserInfo({
+                    isAuthenticated: true,
+                    session_id: res.data.session_id
+                });
                 console.log('Succesfully retrieved session Id');
             })
-            .then(() => window.location.pathname = '/authenticated')
             .catch(err => console.log('Could not retrieve id', err));
         }
 
