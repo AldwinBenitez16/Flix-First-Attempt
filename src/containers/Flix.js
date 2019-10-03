@@ -149,6 +149,7 @@ class Flix extends Component{
               render={ props => getData.user.isAuthenticated ? (
                 <Authenticated 
                   getData={getData}
+                  fetchProducts={fetchProducts}
                   createGenres={this.createGenres}
                   getSlides={getSlides}
                   getUserInfo={getUserInfo}

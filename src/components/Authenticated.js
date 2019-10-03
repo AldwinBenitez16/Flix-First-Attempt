@@ -40,7 +40,7 @@ class Authenticated extends PureComponent {
                 containerRef={this.containerRef}
                 infoRef={this.infoRef}
                 />
-                <div ref={this.containerRef} className='main-container'>
+                {/* <div ref={this.containerRef} className='main-container'>
                     <SliderContainer 
                     getPosterInfo={getPosterInfo}
                     containerRef={this.containerRef} 
@@ -73,7 +73,7 @@ class Authenticated extends PureComponent {
                     getData={getData} 
                     type='upcomingMovie'
                     title='Upcoming Movies' />
-                </div>
+                </div> */}
             </div>
         );
     }
