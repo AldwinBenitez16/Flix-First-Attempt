@@ -86,7 +86,7 @@ class Flix extends Component{
 
   containerRef = React.createRef();
   render() {
-    const {getData, fetchProducts, getSlides, getPosterInfo, getUserInfo, updateList} = this.props;
+    const {getData, fetchProducts, getSlides, getPosterInfo, getUserInfo, updateCreated, updateList} = this.props;
 
     if(!(Object.getOwnPropertyNames(getData.data).length >= 7)) return <Loading />
 
@@ -154,6 +154,7 @@ class Flix extends Component{
                   getSlides={getSlides}
                   getUserInfo={getUserInfo}
                   getPosterInfo={getPosterInfo}
+                  updateCreated={updateCreated}
                   updateList={updateList}
                 /> // Loads the component passed to it
               ) : (
@@ -176,6 +177,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getSlides: StoreActionCreators.getSlideToShow,
   getPosterInfo: StoreActionCreators.getPosterInfo,
   getUserInfo: StoreActionCreators.getUserInfo,
+  updateCreated: StoreActionCreators.updateCreated,
   updateList: StoreActionCreators.updateList
 }, dispatch)
 

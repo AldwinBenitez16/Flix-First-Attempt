@@ -52,3 +52,11 @@ export function updateList(data) {
         data
     }
 }
+
+export function updateCreated(data) {
+    return {
+        type: StoreActionTypes.UPDATE_USER_LIST_CREATED,
+        data
+    }
+}
+

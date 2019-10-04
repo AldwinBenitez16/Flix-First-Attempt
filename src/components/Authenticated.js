@@ -14,7 +14,7 @@ import Cookies from 'js-cookie';
 class Authenticated extends PureComponent {
 
     UNSAFE_componentWillMount() {
-        const {getSlides} = this.props;
+        const {getSlides, getData} = this.props;
         getSlides(window.innerWidth);
 
         let prevWidth = window.innerWidth;
@@ -27,6 +27,39 @@ class Authenticated extends PureComponent {
             let frameID = window.requestAnimationFrame(updateSlides);
         }
         updateSlides();
+        console.log(getData.list);
+        if(!getData.list.favorites.list_id) {
+            this.update('Favorites', 'My favorite movies and tv shows', 'favorites');
+        }
+        if(!getData.list.watch_later.list_id) {
+            this.update('Watch Later', 'Movies and tv shows Ill watch later', 'watch_later');
+        }
+        if(!getData.list.rated.list_id) {
+            this.update('Rated Movies', 'Movies that Ive Rated', 'rated');
+        }
+    }
+
+    update = (name, desc, type) => {
+        this.updateStoreList(name, desc, type);
+    }
+
+    async updateStoreList(name, desc, type) {
+        const {updateList, getData} = this.props;
+        await axios({
+            url: `https://api.themoviedb.org/3/list?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${getData.user.session_id}`,
+            method: 'post',
+            data: {
+                name: name,
+                description: desc,
+                language: 'en'
+            }
+        })
+        .then(res => {
+            const list_id = res.data.list_id;
+            updateList({[type]: {list_id, name: name, desc: desc}});
+        });
+        console.log(this.props.getData.list[type]);
+        Cookies.set(type, JSON.stringify(this.props.getData.list[type]), {expires: 2147483647});
     }
 
     containerRef = React.createRef();
@@ -36,7 +69,7 @@ class Authenticated extends PureComponent {
     listdescRef = React.createRef();
     listnameRef = React.createRef();
     async createList() {
-        const {getData, updateList} = this.props;
+        const {getData, updateCreated} = this.props;
         const name = this.listnameRef.current.value;
         const desc = this.listdescRef.current.value;
         const session_id = getData.user.session_id;
@@ -60,11 +93,10 @@ class Authenticated extends PureComponent {
             })
             .then(res => {
                 const list_id = res.data.list_id;
-                updateList({list_id, name: name, desc: desc});
+                updateCreated({list_id, name: name, desc: desc});
             });
             console.log(this.props.getData.list.created);
-            Cookies.set('created', JSON.stringify(this.props.getData.list.created), {expires: 1});
-            Cookies.remove('created');
+            Cookies.set('created', JSON.stringify(this.props.getData.list.created), {expires: 2147483647});
         } else {
             console.log(`A similar list has been created. Please use another desc/name or delete the existing list, ${name}.`);
         }
@@ -125,38 +157,8 @@ class Authenticated extends PureComponent {
                             </div>
                         </div>
                     </div>
-                    {/* <SliderContainer 
-                    getPosterInfo={getPosterInfo}
-                    containerRef={this.containerRef} 
-                    infoRef={this.infoRef}
-                    slideToShow={getData.slideToShow} 
-                    getData={getData}  
-                    type='now_playingMovie'
-                    title='Playing Now' />
-                    <SliderContainer 
-                    getPosterInfo={getPosterInfo}
-                    containerRef={this.containerRef}
-                    infoRef={this.infoRef} 
-                    slideToShow={getData.slideToShow} 
-                    getData={getData} 
-                    type='trendingMovie'
-                    title='Trending Movies' />
-                    <SliderContainer 
-                    getPosterInfo={getPosterInfo}
-                    containerRef={this.containerRef} 
-                    infoRef={this.infoRef}
-                    slideToShow={getData.slideToShow} 
-                    getData={getData}
-                    type='trendingTv' 
-                    title='Trending TV Shows' />
-                    <SliderContainer 
-                    getPosterInfo={getPosterInfo}
-                    containerRef={this.containerRef} 
-                    infoRef={this.infoRef}
-                    slideToShow={getData.slideToShow} 
-                    getData={getData} 
-                    type='upcomingMovie'
-                    title='Upcoming Movies' /> */}
+                    
+                    
                 </div>
             </div>
         );
