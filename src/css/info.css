@@ -34,8 +34,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 40%;
-    margin: 0 auto;
+    width: 100%;
+    height: 50px;
 }
 
 .rating-container p {
@@ -56,3 +56,19 @@
     display: block;
     border: none;
 }
+
+.list-bar {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+.addlist {
+    width: 30%;
+    flex-grow: 1;
+    text-align: center;
+    height: 50px;
+    border: 1px solid #404042;
+    padding: 10px;
+}
+

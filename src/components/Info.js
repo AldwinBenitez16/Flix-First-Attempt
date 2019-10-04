@@ -85,13 +85,30 @@ class Info extends Component {
                 <ul className='genres'>
                     {cleanArray}
                 </ul>
-                <div className='rating-container'>
-                    <button onClick={() => this.deleteRating(type, id, getData.user.session_id)}>Delete Rating</button>
-                    <button onClick={() => this.updateValue(-(0.5))}>-</button>
-                    <p ref={this.inputRef}>0</p>
-                    <button onClick={() => this.updateValue(0.5)}>+</button>
-                    <button onClick={() => this.rateMovie(this.inputRef.current.textContent, type, id, getData.user.session_id)}>Rate</button>
-                </div>
+                { getData.user.isAuthenticated ?
+                (
+                    <div className='list-bar'> 
+                        <div className='rating-container'>
+                            <button onClick={() => this.deleteRating(type, id, getData.user.session_id)}>Delete Rating</button>
+                            <button onClick={() => this.updateValue(-(0.5))}>-</button>
+                            <p ref={this.inputRef}>0</p>
+                            <button onClick={() => this.updateValue(0.5)}>+</button>
+                            <button onClick={() => this.rateMovie(this.inputRef.current.textContent, type, id, getData.user.session_id)}>Rate</button>
+                        </div>
+                        <div className='addlist'>
+                            <p>Add to List</p>
+                        </div>
+                        <div className='addlist'>
+                            <p>Add to favorites</p>
+                        </div>
+                        <div className='addlist'>
+                            <p>Add to Watch Later</p>
+                        </div>
+                    </div>
+                )
+                :
+                null
+                }
             </div>
         );
     }
