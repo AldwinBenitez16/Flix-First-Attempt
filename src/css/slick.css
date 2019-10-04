@@ -32,6 +32,11 @@
     z-index: 100;
 }
 
+.slick-next:before,
+.slick-prev:before {
+    color: rgba(212, 75, 45, .9);
+}
+
 .slick-list {
     height: 100%;
     width: 100%;

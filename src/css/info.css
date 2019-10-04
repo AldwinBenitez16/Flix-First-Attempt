@@ -1,4 +1,8 @@
 
+.info-wrapper {
+    background-color: #A7CB92;
+}
+
 .info-container {
     display: none;
     position: relative;

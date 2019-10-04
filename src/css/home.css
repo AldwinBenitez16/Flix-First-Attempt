@@ -2,7 +2,7 @@
 
 .main-container {
     width: 100vw;
-    background-color: rgba(165, 161, 171, .7);
+    background-color: rgba(243, 204, 108, .7);
 }
 
 .main-container .container {
@@ -30,12 +30,11 @@
 
 .poster .voteAvg {
     position: absolute;
-    background-color: #E6E2EB;
-    width: 30%;
+    color: rgb(243, 204, 108);;
+    background-color: rgb(212, 75, 45);
+    width: 20%;
     text-align: center;
-    border: 1px solid #404042;
-    border-radius: 1px;
-    left: 15%;
+    left: 11%;
     top: 0;
 }
 
@@ -51,6 +50,7 @@
 .title h3 {
     margin: 0;
     padding: 10px;
+    color: #D44B2D;
 }
 
 .title button {
@@ -59,6 +59,7 @@
     padding: 5px;
     margin: 0 2px;
     cursor: pointer;
+    background-color: rgba(212, 75, 45, .8);
     transition: background-color .5s ease-out;
 }
 

@@ -39,6 +39,8 @@
 }
 
 .btn-bar button {
+    background-color: rgba(212, 75, 45, .8);
+    color: #F3CC6C;
     border: none;
     border-radius: 2px;
     padding: 10px;
