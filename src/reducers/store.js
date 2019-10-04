@@ -23,6 +23,32 @@ const initialState = {
         password: '',
         session_id: '',
         errors: []
+    },
+    // list: {
+    //     favorites:  Cookies.getJSON('favorites') || {
+    //         list_id: ''
+    //     },
+    //     watch_later: Cookies.getJSON('watch_later') || {
+    //         list_id: ''
+    //     },
+    //     rated_movies: Cookies.getJSON('rated_movies') || {
+    //         list_id: ''
+    //     },
+    //     created: Cookies.getJSON('created') || {
+    //         list_id: {}
+    //     }
+    // }
+    list: {
+        favorites: {
+            list_id: ''
+        },
+        watch_later: {
+            list_id: ''
+        },
+        rated_movies: {
+            list_id: ''
+        },
+        created: Cookies.getJSON('created') || []
     }
 };
 
@@ -73,6 +99,17 @@ export default function Store(state=initialState, action) {
                     ...action.data
                 }
             }
+        case StoreActionTypes.UPDATE_USER_LIST:
+            return {
+                ...state,
+                list: {
+                    ...state.list,
+                    created: [
+                        ...state.list.created,
+                        {...action.data}
+                    ]
+                }
+            }    
         default:
             return state;
     }

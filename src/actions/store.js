@@ -45,3 +45,10 @@ export function getUserInfo(data) {
         data
     }
 }
+
+export function updateList(data) {
+    return {
+        type: StoreActionTypes.UPDATE_USER_LIST,
+        data
+    }
+}
