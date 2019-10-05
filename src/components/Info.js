@@ -25,6 +25,7 @@ class Info extends Component {
     }
 
     rateMovie = (rating, type, id, session_id) => {
+        
         axios({
             url: `https://api.themoviedb.org/3/${type}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
             method: 'post',
