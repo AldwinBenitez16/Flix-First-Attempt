@@ -24,8 +24,8 @@ class Info extends Component {
         return cleanArray;
     }
 
-    rateMovie = (rating, type, id, session_id) => {
-        
+    rateMovie = (rating, type, name, id, session_id) => {
+        this.addMovieToList(session_id, name, id, this.props.getData.list.rated.list_id, 'rated');
         axios({
             url: `https://api.themoviedb.org/3/${type}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
             method: 'post',
@@ -34,6 +34,19 @@ class Info extends Component {
             }
         })
         .then(res => console.log(res));
+    }
+
+    async addMovieToList(session_id, media_name, media_id, list_id, type) {
+        const {updateListMedia} = this.props;
+        // await axios({
+        //     url: `https://api.themoviedb.org/3/list/${list_id}/add_item?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
+        //     method: 'post',
+        //     data: {
+        //         media_id: media_id
+        //     }
+        // }).then(res => console.log(res));
+        //updateListMedia(type, {[media_name]: media_id});
+        // updateListMedia('rated', {rated: 1231231});
     }
 
     deleteRating = (type, id, session_id) => {
@@ -94,7 +107,7 @@ class Info extends Component {
                             <button onClick={() => this.updateValue(-(0.5))}>-</button>
                             <p ref={this.inputRef}>0</p>
                             <button onClick={() => this.updateValue(0.5)}>+</button>
-                            <button onClick={() => this.rateMovie(this.inputRef.current.textContent, type, id, getData.user.session_id)}>Rate</button>
+                            <button onClick={() => this.rateMovie(this.inputRef.current.textContent, type, title, id, getData.user.session_id)}>Rate</button>
                         </div>
                         <div className='addlist'>
                             <p>Add to List</p>

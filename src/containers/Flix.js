@@ -86,7 +86,7 @@ class Flix extends Component{
 
   containerRef = React.createRef();
   render() {
-    const {getData, fetchProducts, getSlides, getPosterInfo, getUserInfo, updateCreated, updateList} = this.props;
+    const {getData, fetchProducts, getSlides, getPosterInfo, getUserInfo, updateCreated, updateList, updateListMedia} = this.props;
 
     if(!(Object.getOwnPropertyNames(getData.data).length >= 7)) return <Loading />
 
@@ -107,7 +107,9 @@ class Flix extends Component{
               createGenres={this.createGenres}
               getData={getData} 
               getSlides={getSlides}
-              getPosterInfo={getPosterInfo} /> 
+              getPosterInfo={getPosterInfo} 
+              updateListMedia={updateListMedia}  
+              /> 
             } />
             <Route 
             path='/pages/:type-:category-:page' 
@@ -178,7 +180,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getPosterInfo: StoreActionCreators.getPosterInfo,
   getUserInfo: StoreActionCreators.getUserInfo,
   updateCreated: StoreActionCreators.updateCreated,
-  updateList: StoreActionCreators.updateList
+  updateList: StoreActionCreators.updateList,
+  updateListMedia: StoreActionCreators.updateListMedia
 }, dispatch)
 
 const mapStateToProps = state => ({

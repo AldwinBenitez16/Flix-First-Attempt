@@ -26,15 +26,18 @@ const initialState = {
     },
     list: {
         favorites: Cookies.getJSON('favorites') || {
-            list_id: ''
+            list_id: '',
+            media: {}
         },
         watch_later: Cookies.getJSON('watch_later') || {
-            list_id: ''
+            list_id: '',
+            media: {}
         },
         rated: Cookies.getJSON('rated') || {
-            list_id: ''
+            list_id: '',
+            media: {}
         },
-        created: Cookies.getJSON('created') || []
+        created: Cookies.getJSON('created') || {}
     }
 };
 
@@ -98,10 +101,23 @@ export default function Store(state=initialState, action) {
                 ...state,
                 list: {
                     ...state.list,
-                    created: [
+                    created: {
                         ...state.list.created,
-                        {...action.data}
-                    ]
+                        ...action.data
+                    }
+                }
+            } 
+        case StoreActionTypes.UPDATE_LIST_MEDIA:
+            return {
+                ...state,
+                list: {
+                    ...state.list,
+                    [action.type]: {
+                        media: {
+                            ...state.list[action.type].media,
+                            ...action.data
+                        }
+                    }
                 }
             }    
         default:

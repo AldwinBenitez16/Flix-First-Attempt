@@ -60,3 +60,13 @@ export function updateCreated(data) {
     }
 }
 
+export function updateListMedia(type, data) {
+    return {
+        type: StoreActionTypes.UPDATE_LIST_MEDIA,
+        type,
+        data
+    }
+}
+
+
+

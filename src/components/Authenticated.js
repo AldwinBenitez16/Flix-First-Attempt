@@ -42,7 +42,7 @@ class Authenticated extends PureComponent {
     update = (name, desc, type) => {
         this.updateStoreList(name, desc, type);
     }
-
+    
     async updateStoreList(name, desc, type) {
         const {updateList, getData} = this.props;
         await axios({
@@ -93,7 +93,7 @@ class Authenticated extends PureComponent {
             })
             .then(res => {
                 const list_id = res.data.list_id;
-                updateCreated({list_id, name: name, desc: desc});
+                updateCreated({[list_id]: {name: name, desc: desc}});
             });
             console.log(this.props.getData.list.created);
             Cookies.set('created', JSON.stringify(this.props.getData.list.created), {expires: 2147483647});
@@ -111,6 +111,11 @@ class Authenticated extends PureComponent {
 
         return (
             <div className='info-wrapper'>
+            <button onClick={() => {
+                console.log(getData.list);
+            }}>
+                asdadada
+            </button>
                 <Info 
                 createGenres={createGenres} 
                 getData={getData} 

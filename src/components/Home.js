@@ -30,7 +30,7 @@ class Home extends Component {
     infoRef = React.createRef();
 
     render() {      
-        const {getData, getPosterInfo, createGenres} = this.props;
+        const {getData, getPosterInfo, createGenres, updateListMedia} = this.props;
 
         return (
             <div className='info-wrapper'>
@@ -39,6 +39,7 @@ class Home extends Component {
                 getData={getData} 
                 containerRef={this.containerRef}
                 infoRef={this.infoRef}
+                updateListMedia={updateListMedia}
                 />
                 <div ref={this.containerRef} className='main-container'>
                     <SliderContainer 
