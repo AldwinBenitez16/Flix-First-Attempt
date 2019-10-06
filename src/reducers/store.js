@@ -25,15 +25,6 @@ const initialState = {
         errors: []
     },
     list: {
-        Favorites:{
-            media: {}
-        },
-        ["Watch Later"]:{
-            media: {}
-        },
-        Rated:{
-            media: {}
-        }
     }
 };
 

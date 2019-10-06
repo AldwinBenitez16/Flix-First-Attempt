@@ -58,7 +58,7 @@ class Authenticated extends PureComponent {
         const {getData, updateList} = this.props;
         const session_id = getData.user.session_id;
 
-            await axios({
+            let response  = await axios({
                 url: `https://api.themoviedb.org/3/list?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
                 method: 'post',
                 data: {
@@ -72,16 +72,19 @@ class Authenticated extends PureComponent {
                 updateList({[name]: {list_id: list_id, desc: desc}});
             })
             .catch( err => {
-                console.log('Error has occured', MediaError);
+                if(err.response.status === 422) {
+                    console.log('Invalid name/description for list');
+                } else {
+                    console.log('Error has occured', err);
+                }
             });
             Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
     }
 
-    
-    
     render() {
         const {getData, createGenres} = this.props;
-
+        let name = this.listnameRef.current;
+        let desc = this.listdescRef.current;
         return (
             <div className='info-wrapper'>
             <button onClick={() => {
@@ -130,7 +133,7 @@ class Authenticated extends PureComponent {
                                     }
                                 }}> 
                                 </textarea>
-                                <button onClick={this.updateList}>Submit</button>
+                                <button onClick={ () =>this.updateList(name.value, desc.value)}>Submit</button>
                                 <button>Cancel</button>
                             </div>
                         </div>
