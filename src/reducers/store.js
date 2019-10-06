@@ -25,13 +25,13 @@ const initialState = {
         errors: []
     },
     list: {
-        favorites:{
+        Favorites:{
             media: {}
         },
-        watch_later:{
+        ["Watch Later"]:{
             media: {}
         },
-        rated:{
+        Rated:{
             media: {}
         }
     }

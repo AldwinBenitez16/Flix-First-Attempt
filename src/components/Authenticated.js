@@ -27,39 +27,21 @@ class Authenticated extends PureComponent {
             let frameID = window.requestAnimationFrame(updateSlides);
         }
         updateSlides();
-        console.log(getData.list);
-        if(!getData.list.favorites.list_id) {
-            this.update('Favorites', 'My favorite movies and tv shows', 'favorites');
-        }
-        if(!getData.list.watch_later.list_id) {
-            this.update('Watch Later', 'Movies and tv shows Ill watch later', 'watch_later');
-        }
-        if(!getData.list.rated.list_id) {
-            this.update('Rated Movies', 'Movies that Ive Rated', 'rated');
-        }
-    }
 
-    update = (name, desc, type) => {
-        this.updateStoreList(name, desc, type);
-    }
-    
-    async updateStoreList(name, desc, type) {
-        const {updateList, getData} = this.props;
-        await axios({
-            url: `https://api.themoviedb.org/3/list?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${getData.user.session_id}`,
-            method: 'post',
-            data: {
-                name: name,
-                description: desc,
-                language: 'en'
-            }
-        })
-        .then(res => {
-            const list_id = res.data.list_id;
-            updateList({[type]: {list_id, name: name, desc: desc}});
-        });
-        console.log(this.props.getData.list[type]);
-        Cookies.set(type, JSON.stringify(this.props.getData.list[type]), {expires: 2147483647});
+        console.log(getData.list);
+        // Cookies.remove('favorites');
+        // Cookies.remove('watch_later');
+        // Cookies.remove('rated');
+        // Cookies.remove('created');
+        if(!getData.list.Favorites) {
+            this.updateList('Favorites', 'My favorite movies and tv shows');
+        }
+        if(!getData.list["Watch Later"]) {
+            this.updateList('Watch Later', 'Movies and tv shows Ill watch later');
+        }
+        if(!getData.list.Rated) {
+            this.updateList('Rated', 'Movies that Ive Rated');
+        }
     }
 
     containerRef = React.createRef();
@@ -68,20 +50,14 @@ class Authenticated extends PureComponent {
     listRef = React.createRef();
     listdescRef = React.createRef();
     listnameRef = React.createRef();
-    async createList() {
-        const {getData, updateCreated} = this.props;
-        const name = this.listnameRef.current.value;
-        const desc = this.listdescRef.current.value;
+    updateList = (name, desc) => {
+        this.createList(name, desc);
+    }
+
+    async createList(name, desc) {
+        const {getData, updateList} = this.props;
         const session_id = getData.user.session_id;
 
-        let isCreated = false;
-        for(let i = 0; i < getData.list.created.length; i++) {
-            if(desc === getData.list.created[i].desc) {
-                isCreated = true;
-            }
-        }
-
-        if(!isCreated) {
             await axios({
                 url: `https://api.themoviedb.org/3/list?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
                 method: 'post',
@@ -93,28 +69,25 @@ class Authenticated extends PureComponent {
             })
             .then(res => {
                 const list_id = res.data.list_id;
-                updateCreated({[list_id]: {name: name, desc: desc}});
+                updateList({[name]: {list_id: list_id, desc: desc}});
+            })
+            .catch( err => {
+                console.log('Error has occured', MediaError);
             });
-            console.log(this.props.getData.list.created);
-            Cookies.set('created', JSON.stringify(this.props.getData.list.created), {expires: 2147483647});
-        } else {
-            console.log(`A similar list has been created. Please use another desc/name or delete the existing list, ${name}.`);
-        }
+            Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
     }
 
-    submit = () => {
-        this.createList();
-    }
-
+    
+    
     render() {
-        const {getData, getPosterInfo, createGenres} = this.props;
+        const {getData, createGenres} = this.props;
 
         return (
             <div className='info-wrapper'>
             <button onClick={() => {
                 console.log(getData.list);
             }}>
-                asdadada
+                get list
             </button>
                 <Info 
                 createGenres={createGenres} 
@@ -157,7 +130,7 @@ class Authenticated extends PureComponent {
                                     }
                                 }}> 
                                 </textarea>
-                                <button onClick={this.submit}>Submit</button>
+                                <button onClick={this.updateList}>Submit</button>
                                 <button>Cancel</button>
                             </div>
                         </div>

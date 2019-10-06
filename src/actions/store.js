@@ -53,13 +53,6 @@ export function updateList(data) {
     }
 }
 
-export function updateCreated(data) {
-    return {
-        type: StoreActionTypes.UPDATE_USER_LIST_CREATED,
-        data
-    }
-}
-
 export function updateListMedia(type, data) {
     return {
         type: StoreActionTypes.UPDATE_LIST_MEDIA,
