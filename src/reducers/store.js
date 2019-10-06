@@ -25,19 +25,15 @@ const initialState = {
         errors: []
     },
     list: {
-        favorites: Cookies.getJSON('favorites') || {
-            list_id: '',
+        favorites:{
             media: {}
         },
-        watch_later: Cookies.getJSON('watch_later') || {
-            list_id: '',
+        watch_later:{
             media: {}
         },
-        rated: Cookies.getJSON('rated') || {
-            list_id: '',
+        rated:{
             media: {}
-        },
-        created: Cookies.getJSON('created') || {}
+        }
     }
 };
 
@@ -96,23 +92,12 @@ export default function Store(state=initialState, action) {
                     ...action.data
                 }
             }    
-        case StoreActionTypes.UPDATE_USER_LIST_CREATED:
-            return {
-                ...state,
-                list: {
-                    ...state.list,
-                    created: {
-                        ...state.list.created,
-                        ...action.data
-                    }
-                }
-            } 
         case StoreActionTypes.UPDATE_LIST_MEDIA:
             return {
                 ...state,
                 list: {
                     ...state.list,
-                    [action.type]: {
+                    [action.lsname]: {
                         media: {
                             ...state.list[action.type].media,
                             ...action.data
