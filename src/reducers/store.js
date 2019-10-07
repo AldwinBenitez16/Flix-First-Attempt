@@ -24,7 +24,7 @@ const initialState = {
         session_id: '',
         errors: []
     },
-    list: {
+    list: Cookies.getJSON('list') || {
     }
 };
 
@@ -88,9 +88,10 @@ export default function Store(state=initialState, action) {
                 ...state,
                 list: {
                     ...state.list,
-                    [action.lsname]: {
+                    [action.lsid]: {
+                        ...state.list[action.lsid],
                         media: {
-                            ...state.list[action.type].media,
+                            ...state.list[action.lsid].media,
                             ...action.data
                         }
                     }

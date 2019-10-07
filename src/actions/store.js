@@ -53,10 +53,10 @@ export function updateList(data) {
     }
 }
 
-export function updateListMedia(type, data) {
+export function updateListMedia(lsid, data) {
     return {
         type: StoreActionTypes.UPDATE_LIST_MEDIA,
-        type,
+        lsid,
         data
     }
 }

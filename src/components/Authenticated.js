@@ -28,18 +28,24 @@ class Authenticated extends PureComponent {
         }
         updateSlides();
 
-        console.log(getData.list);
-        // Cookies.remove('favorites');
-        // Cookies.remove('watch_later');
-        // Cookies.remove('rated');
-        // Cookies.remove('created');
-        if(!getData.list.Favorites) {
+        // Cookies.remove('list');
+        // Checks if default lsit are created
+        let Favorites;
+        let Watch;
+        let Rated;
+        for(let key in getData.list) {
+            if(getData.list[key].name === 'Favorites') Favorites = getData.list[key];
+            if(getData.list[key].name === 'Watch Later') Watch = getData.list[key];
+            if(getData.list[key].name === 'Rated') Rated = getData.list[key];
+        }
+
+        if(!Favorites) {
             this.updateList('Favorites', 'My favorite movies and tv shows');
         }
-        if(!getData.list["Watch Later"]) {
+        if(!Watch) {
             this.updateList('Watch Later', 'Movies and tv shows Ill watch later');
         }
-        if(!getData.list.Rated) {
+        if(!Rated) {
             this.updateList('Rated', 'Movies that Ive Rated');
         }
     }
@@ -58,10 +64,10 @@ class Authenticated extends PureComponent {
         const {getData, updateList} = this.props;
         const session_id = getData.user.session_id;
 
-            let response  = await axios({
+            await axios({
                 url: `https://api.themoviedb.org/3/list?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
                 method: 'post',
-                data: {
+                data: { 
                     name: name,
                     description: desc,
                     language: 'en'
@@ -69,7 +75,7 @@ class Authenticated extends PureComponent {
             })
             .then(res => {
                 const list_id = res.data.list_id;
-                updateList({[name]: {list_id: list_id, desc: desc}});
+                updateList({[list_id]: {name, desc, media: {}}});
             })
             .catch( err => {
                 if(err.response.status === 422) {
