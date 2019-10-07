@@ -104,10 +104,7 @@ export default function Store(state=initialState, action) {
                     ...state.list,
                     [action.lsid]: {
                         ...state.list[action.lsid],
-                        media: {
-                            ...state.list[action.lsid].media,
-                            ...action.data
-                        }
+                        ...action.data
                     }
                 }
             } 

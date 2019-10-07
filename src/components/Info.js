@@ -26,7 +26,7 @@ class Info extends Component {
     }
 
     async addMovieToList(media_name, media_id, list_id) {
-        const {getData, updateListMedia} = this.props;
+        const {getData, addListMedia} = this.props;
         const session_id = getData.user.session_id;
     
         await axios({
@@ -36,25 +36,25 @@ class Info extends Component {
                 media_id: media_id
             }
         }).then(res => console.log(res));
-        await updateListMedia(list_id, {[media_id]: {name: media_name}});
+        await addListMedia(list_id, {[media_id]: {name: media_name}});
         console.log(this.props.getData.list);
         Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
     }
 
     async removeMoviesFromList(media_name, media_id, list_id) {
-        const {getData, updateListMedia} = this.props;
+        const {getData, removeListMedia} = this.props;
         const session_id = getData.user.session_id;
     
-        // await axios({
-        //     url: `https://api.themoviedb.org/3/list/${list_id}/remove_item?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
-        //     method: 'post',
-        //     data: {
-        //         media_id: media_id
-        //     }
-        // }).then(res => console.log(res));
-        await updateListMedia(list_id, {[media_id]: {name: media_name}});
-        console.log(this.props.getData.list);
-        // Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
+        await axios({
+            url: `https://api.themoviedb.org/3/list/${list_id}/remove_item?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
+            method: 'post',
+            data: {
+                media_id: media_id
+            }
+        }).then(res => console.log(res));
+        await removeListMedia(list_id, delete getData.list[list_id].media[media_id]);
+        console.log(getData.list);
+        Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
     }
 
     rateMovie = (rating, type, name, id, session_id) => {
@@ -74,12 +74,17 @@ class Info extends Component {
         this.addMovieToList(name, id, list_id);
     } 
 
-    deleteRating = (type, id, session_id) => {
+    deleteRating = (type, session_id, name, id) => {
         axios({
             method: 'delete',
             url: `https://api.themoviedb.org/3/${type}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`
         })
         .then(res => console.log(res));
+        let list_id;
+        for(let key in this.props.getData.list) {
+            if(this.props.getData.list[key].name === 'Rated') list_id = key
+        }
+        this.removeMoviesFromList(name, id, list_id);
     }
 
     updateValue = (step) => {
@@ -128,11 +133,11 @@ class Info extends Component {
                 (
                     <div className='list-bar'> 
                         <div className='rating-container'>
-                            <button onClick={() => this.deleteRating(type, id, getData.user.session_id)}>Delete Rating</button>
+                            <button onClick={() => this.deleteRating(type, getData.user.session_id, title, id)}>Delete Rating</button>
                             <button onClick={() => this.updateValue(-(0.5))}>-</button>
                             <p ref={this.inputRef}>0</p>
                             <button onClick={() => this.updateValue(0.5)}>+</button>
-                            <button onClick={() => this.rateMovie(this.inputRef.current.textContent, type, title, id, getData.user.session_id)}>Rate</button>
+                            <button onClick={() => this.rateMovie(this.inputRef.current.textContent, type, title, id)}>Rate</button>
                         </div>
                         <div className='addlist'>
                             <p>Add to List</p>

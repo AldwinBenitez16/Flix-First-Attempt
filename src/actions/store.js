@@ -53,9 +53,17 @@ export function updateList(data) {
     }
 }
 
-export function updateListMedia(lsid, data) {
+export function addListMedia(lsid, data) {
     return {
-        type: StoreActionTypes.UPDATE_LIST_MEDIA,
+        type: StoreActionTypes.ADD_LIST_MEDIA,
+        lsid,
+        data
+    }
+}
+
+export function removeListMedia(lsid, data) {
+    return {
+        type: StoreActionTypes.REMOVE_LIST_MEDIA,
         lsid,
         data
     }
