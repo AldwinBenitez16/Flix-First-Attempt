@@ -83,7 +83,7 @@ export default function Store(state=initialState, action) {
                     ...action.data
                 }
             }    
-        case StoreActionTypes.UPDATE_LIST_MEDIA:
+        case StoreActionTypes.ADD_LIST_MEDIA:
             return {
                 ...state,
                 list: {
@@ -97,6 +97,20 @@ export default function Store(state=initialState, action) {
                     }
                 }
             }    
+        case StoreActionTypes.REMOVE_LIST_MEDIA:
+            return {
+                ...state,
+                list: {
+                    ...state.list,
+                    [action.lsid]: {
+                        ...state.list[action.lsid],
+                        media: {
+                            ...state.list[action.lsid].media,
+                            ...action.data
+                        }
+                    }
+                }
+            } 
         default:
             return state;
     }

@@ -41,6 +41,22 @@ class Info extends Component {
         Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
     }
 
+    async removeMoviesFromList(media_name, media_id, list_id) {
+        const {getData, updateListMedia} = this.props;
+        const session_id = getData.user.session_id;
+    
+        // await axios({
+        //     url: `https://api.themoviedb.org/3/list/${list_id}/remove_item?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
+        //     method: 'post',
+        //     data: {
+        //         media_id: media_id
+        //     }
+        // }).then(res => console.log(res));
+        await updateListMedia(list_id, {[media_id]: {name: media_name}});
+        console.log(this.props.getData.list);
+        // Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
+    }
+
     rateMovie = (rating, type, name, id, session_id) => {
         axios({
             url: `https://api.themoviedb.org/3/${type}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
