@@ -86,7 +86,14 @@ class Flix extends Component{
 
   containerRef = React.createRef();
   render() {
-    const {getData, fetchProducts, getSlides, getPosterInfo, getUserInfo, updateList, addListMedia, removeListMedia} = this.props;
+    const {getData, 
+      fetchProducts, 
+      getSlides, 
+      getPosterInfo, 
+      getUserInfo, 
+      updateList, 
+      addListMedia, 
+      removeListMedia} = this.props;
 
     if(!(Object.getOwnPropertyNames(getData.data).length >= 7)) return <Loading />
 

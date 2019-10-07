@@ -13,6 +13,9 @@ import Cookies from 'js-cookie';
 import '../css/info.css';
 
 // images
+import list from '../images/svg/list.svg'
+import favorite from '../images/svg/add-favorite.svg'
+import watch from '../images/svg/add-watch.svg'
 
 
 class Info extends Component {
@@ -42,8 +45,8 @@ class Info extends Component {
                 media_id: media_id
             }
         }).then(res => console.log(res));
-        addListMedia(list_id, {[media_id]: {name: media_name}});
-        console.log(this.props.getData.list);
+        await addListMedia(list_id, {[media_id]: {name: media_name}});
+        // console.log(this.props.getData.list);
         Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
     }
 
@@ -58,7 +61,7 @@ class Info extends Component {
                 media_id: media_id
             }
         }).then(res => console.log(res));
-        await removeListMedia(list_id, delete getData.list[list_id].media[media_id]);
+        removeListMedia(list_id, delete getData.list[list_id].media[media_id]);
         console.log(getData.list);
         Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
     }
@@ -91,6 +94,22 @@ class Info extends Component {
         let list_id;
         for(let key in this.props.getData.list) {
             if(this.props.getData.list[key].name === 'Rated') list_id = key
+        }
+        this.removeMoviesFromList(id, list_id);
+    }
+
+    addMedia = (type, name, id) => {
+        let list_id;
+        for(let key in this.props.getData.list) {
+            if(this.props.getData.list[key].name === type) list_id = key
+        }
+        this.addMovieToList(name, id, list_id);
+    }
+
+    deleteMedia = (type, id) => {
+        let list_id;
+        for(let key in this.props.getData.list) {
+            if(this.props.getData.list[key].name === type) list_id = key
         }
         this.removeMoviesFromList(id, list_id);
     }
@@ -148,13 +167,24 @@ class Info extends Component {
                             <button onClick={() => this.rateMovie(this.inputRef.current.textContent, type, title, id)}>Rate</button>
                         </div>
                         <div className='addlist'>
-                            <p>Add to List</p>
+                            <img 
+                            src={list} 
+                            alt='list icon'
+                            />
                         </div>
                         <div className='addlist'>
-                            <p>Add to favorites</p>
+                            <img 
+                            src={favorite} 
+                            alt='favorite icon' 
+                            onClick={() => this.addMedia('Favorites', title, id)}     
+                            />
                         </div>
                         <div className='addlist'>
-                            <p>Add to Watch Later</p>
+                            <img 
+                            src={watch} 
+                            alt='watch later icon' 
+                            onClick={() => this.addMedia('Watch Later',title, id)}  
+                            />
                         </div>
                     </div>
                 )
