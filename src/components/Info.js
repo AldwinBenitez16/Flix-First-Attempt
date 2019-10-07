@@ -14,9 +14,10 @@ import '../css/info.css';
 
 // images
 import list from '../images/svg/list.svg'
-import favorite from '../images/svg/add-favorite.svg'
-import watch from '../images/svg/add-watch.svg'
-
+import addfavorite from '../images/svg/add-favorite.svg'
+import removefavorite from '../images/svg/remove-favorite.svg'
+import addwatch from '../images/svg/add-watch.svg'
+import removewatch from '../images/svg/remove-watch.svg'
 
 class Info extends Component {
 
@@ -76,11 +77,7 @@ class Info extends Component {
             }
         })
         .then(res => console.log(res));
-        let list_id;
-        for(let key in this.props.getData.list) {
-            if(this.props.getData.list[key].name === 'Rated') list_id = key
-        }
-        console.log(list_id);
+        const list_id = this.getList(type);
         this.addMovieToList(name, id, list_id);
     } 
 
@@ -91,26 +88,17 @@ class Info extends Component {
             url: `https://api.themoviedb.org/3/${type}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`
         })
         .then(res => console.log(res));
-        let list_id;
-        for(let key in this.props.getData.list) {
-            if(this.props.getData.list[key].name === 'Rated') list_id = key
-        }
+        const list_id = this.getList(type);
         this.removeMoviesFromList(id, list_id);
     }
 
     addMedia = (type, name, id) => {
-        let list_id;
-        for(let key in this.props.getData.list) {
-            if(this.props.getData.list[key].name === type) list_id = key
-        }
+        const list_id = this.getList(type);
         this.addMovieToList(name, id, list_id);
     }
 
     deleteMedia = (type, id) => {
-        let list_id;
-        for(let key in this.props.getData.list) {
-            if(this.props.getData.list[key].name === type) list_id = key
-        }
+        const list_id = this.getList(type);
         this.removeMoviesFromList(id, list_id);
     }
 
@@ -119,6 +107,14 @@ class Info extends Component {
         if(input + step <= 10 && input + step >= 0) {
             this.inputRef.current.textContent = input + step;
         }
+    }
+
+    getList = (type) => {
+        let list_id;
+        for(let key in this.props.getData.list) {
+            if(this.props.getData.list[key].name === type) list_id = key
+        }
+        return list_id;
     }
 
     inputRef = React.createRef();
@@ -174,14 +170,14 @@ class Info extends Component {
                         </div>
                         <div className='addlist'>
                             <img 
-                            src={favorite} 
+                            src={!(id in getData.list[this.getList('Favorites')].media) ? addfavorite : removefavorite} 
                             alt='favorite icon' 
                             onClick={() => this.addMedia('Favorites', title, id)}     
                             />
                         </div>
                         <div className='addlist'>
                             <img 
-                            src={watch} 
+                            src={!(id in getData.list[this.getList('Watch Later')].media) ? addwatch : removewatch} 
                             alt='watch later icon' 
                             onClick={() => this.addMedia('Watch Later',title, id)}  
                             />
