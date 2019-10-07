@@ -41,13 +41,14 @@
     align-items: center;
     width: 100%;
     height: 50px;
+    margin-bottom: 5px;
 }
 
 .rating-container p {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 25px;
+    height: 50px;
     width: 40%;
     background-color: #94949c;
     border: 1px solid #404042;
@@ -55,7 +56,7 @@
 
 .rating-container button {
     background-color: #404042;
-    height: 25px;
+    height: 50px;
     width: 30%;
     cursor: pointer;
     display: block;
@@ -64,16 +65,25 @@
 
 .list-bar {
     display: flex;
-    width: 100%;
     flex-wrap: wrap;
+    width: 80%;
+    margin: 0 auto;
 }
 
 .addlist {
-    width: 30%;
-    flex-grow: 1;
-    text-align: center;
+    background-color: #94949c;
+    width: 50px;
     height: 50px;
-    border: 1px solid #404042;
+    margin: 2px;
+    margin: 0 auto;
+    text-align: center;
+    border: 1px solid #040408;
     padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.addlist p {
+    margin: 0;
 }
 

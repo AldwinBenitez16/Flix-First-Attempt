@@ -3,11 +3,17 @@ import React, {Component} from 'react';
 // Components
 import Loading from './Loading';
 
+// axios
 import axios from 'axios';
+
+// cookies
 import Cookies from 'js-cookie';
 
 // CSS
 import '../css/info.css';
+
+// images
+
 
 class Info extends Component {
 
@@ -28,7 +34,7 @@ class Info extends Component {
     async addMovieToList(media_name, media_id, list_id) {
         const {getData, addListMedia} = this.props;
         const session_id = getData.user.session_id;
-    
+
         await axios({
             url: `https://api.themoviedb.org/3/list/${list_id}/add_item?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
             method: 'post',
@@ -36,12 +42,12 @@ class Info extends Component {
                 media_id: media_id
             }
         }).then(res => console.log(res));
-        await addListMedia(list_id, {[media_id]: {name: media_name}});
+        addListMedia(list_id, {[media_id]: {name: media_name}});
         console.log(this.props.getData.list);
         Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
     }
 
-    async removeMoviesFromList(media_name, media_id, list_id) {
+    async removeMoviesFromList(media_id, list_id) {
         const {getData, removeListMedia} = this.props;
         const session_id = getData.user.session_id;
     
@@ -57,7 +63,8 @@ class Info extends Component {
         Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
     }
 
-    rateMovie = (rating, type, name, id, session_id) => {
+    rateMovie = (rating, type, name, id) => {
+        const session_id = this.props.getData.user.session_id;
         axios({
             url: `https://api.themoviedb.org/3/${type}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
             method: 'post',
@@ -74,7 +81,8 @@ class Info extends Component {
         this.addMovieToList(name, id, list_id);
     } 
 
-    deleteRating = (type, session_id, name, id) => {
+    deleteRating = (type, id) => {
+        let session_id = this.props.getData.user.session_id;
         axios({
             method: 'delete',
             url: `https://api.themoviedb.org/3/${type}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`
@@ -84,7 +92,7 @@ class Info extends Component {
         for(let key in this.props.getData.list) {
             if(this.props.getData.list[key].name === 'Rated') list_id = key
         }
-        this.removeMoviesFromList(name, id, list_id);
+        this.removeMoviesFromList(id, list_id);
     }
 
     updateValue = (step) => {
@@ -133,7 +141,7 @@ class Info extends Component {
                 (
                     <div className='list-bar'> 
                         <div className='rating-container'>
-                            <button onClick={() => this.deleteRating(type, getData.user.session_id, title, id)}>Delete Rating</button>
+                            <button onClick={() => this.deleteRating(type, id)}>Delete Rating</button>
                             <button onClick={() => this.updateValue(-(0.5))}>-</button>
                             <p ref={this.inputRef}>0</p>
                             <button onClick={() => this.updateValue(0.5)}>+</button>
