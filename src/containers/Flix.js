@@ -129,6 +129,8 @@ class Flix extends Component{
               page={props.match.params.page} 
               getData={getData}
               fetchProducts={fetchProducts}
+              addListMedia={addListMedia}
+              removeListMedia={removeListMedia}  
               />
             } />
             <Route 
@@ -137,7 +139,9 @@ class Flix extends Component{
               createGenres={this.createGenres}
               getPosterInfo={getPosterInfo}
               getData={getData} 
-              getSlides={getSlides} />
+              getSlides={getSlides}
+              addListMedia={addListMedia}
+              removeListMedia={removeListMedia} />
             } />
             <Route 
             path='/tv' 
@@ -145,7 +149,9 @@ class Flix extends Component{
               createGenres={this.createGenres}
               getPosterInfo={getPosterInfo}
               getData={getData} 
-              getSlides={getSlides} />
+              getSlides={getSlides} 
+              addListMedia={addListMedia}
+              removeListMedia={removeListMedia} />
             } />
             <Route 
               path='/login' 

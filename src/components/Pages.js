@@ -83,7 +83,7 @@ class Pages extends Component {
     infoRef = React.createRef();
 
     render() {
-        const {getData, category, type, page, getPosterInfo, createGenres} = this.props;
+        const {getData, category, type, page, getPosterInfo, createGenres, addListMedia, removeListMedia} = this.props;
 
         if(!getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`]) return <Loading />
 
@@ -96,6 +96,8 @@ class Pages extends Component {
                 getData={getData} 
                 containerRef={this.containerRef}
                 infoRef={this.infoRef}
+                addListMedia={addListMedia}
+                removeListMedia={removeListMedia}  
                 />
                 <div ref={this.containerRef} className='main-container'>
                     <div className='page-container'>

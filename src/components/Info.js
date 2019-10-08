@@ -50,7 +50,7 @@ class Info extends Component {
         }).then(res => console.log(res));
         await addListMedia(list_id, {[media_id]: {name: media_name}});
         // console.log(this.props.getData.list);
-        Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
+        Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 7});
     }
 
     async removeMoviesFromList(media_id, list_id) {
@@ -66,7 +66,7 @@ class Info extends Component {
         }).then(res => console.log(res));
         removeListMedia(list_id, delete getData.list[list_id].media[media_id]);
         console.log(getData.list);
-        Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
+        Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 7});
     }
 
     rateMovie = (rating, type, mediatype, name, id) => {
@@ -168,6 +168,9 @@ class Info extends Component {
         if(data.data.first_air_date) date = data.data.first_air_date.substring(0, 4);
         
         const id = data.data.id;
+
+        const favorites = getData.list[this.getList('Favorites')];
+        const watch = getData.list[this.getList('Watch Later')];
         return (
             <div ref={infoRef} className='info-container'>
                 <h2>{title}<span>({date})</span></h2>
@@ -208,16 +211,16 @@ class Info extends Component {
                         </div>
                         <div className='addlist'>
                             <img 
-                            src={!(id in getData.list[this.getList('Favorites')].media) ? addfavorite : removefavorite} 
+                            src={!(favorites ? id in favorites.media : false) ? addfavorite : removefavorite} 
                             alt='favorite icon' 
-                            onClick={() => !(id in getData.list[this.getList('Favorites')].media) ? this.addMedia('Favorites', title, id) : this.deleteMedia('Favorites', id)}     
+                            onClick={() => !(favorites ? id in favorites.media : false) ? this.addMedia('Favorites', title, id) : this.deleteMedia('Favorites', id)}     
                             />
                         </div>
                         <div className='addlist'>
                             <img 
-                            src={!(id in getData.list[this.getList('Watch Later')].media) ? addwatch : removewatch} 
+                            src={!(favorites ? id in watch.media : false) ? addwatch : removewatch} 
                             alt='watch later icon' 
-                            onClick={() => !(id in getData.list[this.getList('Watch Later')].media) ? this.addMedia('Watch Later',title, id) : this.deleteMedia('Watch Later', id)}  
+                            onClick={() => !(favorites ? id in watch.media : false) ? this.addMedia('Watch Later',title, id) : this.deleteMedia('Watch Later', id)}  
                             />
                         </div>
                     </div>
