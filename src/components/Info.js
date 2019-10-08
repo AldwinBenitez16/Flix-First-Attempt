@@ -172,14 +172,14 @@ class Info extends Component {
                             <img 
                             src={!(id in getData.list[this.getList('Favorites')].media) ? addfavorite : removefavorite} 
                             alt='favorite icon' 
-                            onClick={() => this.addMedia('Favorites', title, id)}     
+                            onClick={() => !(id in getData.list[this.getList('Favorites')].media) ? this.addMedia('Favorites', title, id) : this.deleteMedia('Favorites', id)}     
                             />
                         </div>
                         <div className='addlist'>
                             <img 
                             src={!(id in getData.list[this.getList('Watch Later')].media) ? addwatch : removewatch} 
                             alt='watch later icon' 
-                            onClick={() => this.addMedia('Watch Later',title, id)}  
+                            onClick={() => !(id in getData.list[this.getList('Watch Later')].media) ? this.addMedia('Watch Later',title, id) : this.deleteMedia('Watch Later', id)}  
                             />
                         </div>
                     </div>
