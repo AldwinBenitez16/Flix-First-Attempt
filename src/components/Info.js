@@ -37,36 +37,44 @@ class Info extends Component {
         return cleanArray;
     }
 
-    async addMovieToList(media_name, media_id, list_id) {
+    async addMovieToList(media_name, media_id, list_id, mediatype) {
         const {getData, addListMedia} = this.props;
         const session_id = getData.user.session_id;
-
-        await axios({
-            url: `https://api.themoviedb.org/3/list/${list_id}/add_item?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
-            method: 'post',
-            data: {
-                media_id: media_id
-            }
-        }).then(res => console.log(res));
-        await addListMedia(list_id, {[media_id]: {name: media_name}});
-        // console.log(this.props.getData.list);
-        Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 7});
+        // console.log(mediatype);
+        if(mediatype === 'movie') {
+            await axios({
+                url: `https://api.themoviedb.org/3/list/${list_id}/add_item?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
+                method: 'post',
+                data: {
+                    media_id: media_id
+                }
+            }).then(res => console.log(res));
+            await addListMedia(list_id, {[media_id]: {name: media_name}});
+            // console.log(this.props.getData.list);
+            Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 7});
+        } else {
+            console.log('Unable to add tv shows to list at current version');
+        }
     }
 
-    async removeMoviesFromList(media_id, list_id) {
+    async removeMoviesFromList(media_id, list_id, mediatype) {
         const {getData, removeListMedia} = this.props;
         const session_id = getData.user.session_id;
     
-        await axios({
-            url: `https://api.themoviedb.org/3/list/${list_id}/remove_item?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
-            method: 'post',
-            data: {
-                media_id: media_id
-            }
-        }).then(res => console.log(res));
-        removeListMedia(list_id, delete getData.list[list_id].media[media_id]);
-        console.log(getData.list);
-        Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 7});
+        if(mediatype === 'movie') {
+            await axios({
+                url: `https://api.themoviedb.org/3/list/${list_id}/remove_item?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
+                method: 'post',
+                data: {
+                    media_id: media_id
+                }
+            }).then(res => console.log(res));
+            removeListMedia(list_id, delete getData.list[list_id].media[media_id]);
+            // console.log(getData.list);
+            Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 7});
+        } else {
+            console.log('Unable to add tv shows to list at current version');
+        }
     }
 
     rateMovie = (rating, type, mediatype, name, id) => {
@@ -80,7 +88,7 @@ class Info extends Component {
         })
         .then(res => console.log(res));
         const list_id = this.getList(type);
-        this.addMovieToList(name, id, list_id);
+        this.addMovieToList(name, id, list_id, mediatype);
     } 
 
     deleteRating = (type, mediatype, id) => {
@@ -91,15 +99,16 @@ class Info extends Component {
         })
         .then(res => console.log(res));
         const list_id = this.getList(type);
-        this.removeMoviesFromList(id, list_id);
+        this.removeMoviesFromList(id, list_id, mediatype);
     }
 
-    addMedia = (type, name, id) => {
+    addMedia = (type, mediatype, name, id) => {
         const list_id = this.getList(type);
-        this.addMovieToList(name, id, list_id);
+        console.log(mediatype);
+        this.addMovieToList(name, id, list_id, mediatype);
     }
 
-    deleteMedia = (type, id) => {
+    deleteMedia = (type, mediatype, id) => {
         const list_id = this.getList(type);
         this.removeMoviesFromList(id, list_id);
     }
@@ -119,7 +128,7 @@ class Info extends Component {
         }
     }
 
-    createList = (name, id) => {
+    createList = (name, id, mediatype) => {
         const {getData} = this.props;
         let list = [];
         for(let key in getData.list) {
@@ -129,8 +138,8 @@ class Info extends Component {
                 list.push(
                 <li id={key} key={key} onClick={(e) => {
                     const list_id = e.currentTarget.id;
-                    {!(id in getData.list[key].media) ? this.addMovieToList(name, id, list_id) 
-                    : this.removeMoviesFromList(id, list_id)}
+                    {!(id in getData.list[key].media) ? this.addMovieToList(name, id, list_id, mediatype) 
+                    : this.removeMoviesFromList(id, list_id, mediatype)}
                 }}>{getData.list[key].name}
                 <img 
                 className='icon'
@@ -206,21 +215,21 @@ class Info extends Component {
                             alt='list icon'
                             />
                             <div ref={this.lsRef} className='ls-overlay'>
-                                {this.createList(title, id)}
+                                {this.createList(title, id, type)}
                             </div>
                         </div>
                         <div className='addlist'>
                             <img 
                             src={!(favorites ? id in favorites.media : false) ? addfavorite : removefavorite} 
                             alt='favorite icon' 
-                            onClick={() => !(favorites ? id in favorites.media : false) ? this.addMedia('Favorites', title, id) : this.deleteMedia('Favorites', id)}     
+                            onClick={() => !(favorites ? id in favorites.media : false) ? this.addMedia('Favorites', title, id, type) : this.deleteMedia('Favorites', id, type)}     
                             />
                         </div>
                         <div className='addlist'>
                             <img 
                             src={!(favorites ? id in watch.media : false) ? addwatch : removewatch} 
                             alt='watch later icon' 
-                            onClick={() => !(favorites ? id in watch.media : false) ? this.addMedia('Watch Later',title, id) : this.deleteMedia('Watch Later', id)}  
+                            onClick={() => !(favorites ? id in watch.media : false) ? this.addMedia('Watch Later', title, id, type) : this.deleteMedia('Watch Later', id, type)}  
                             />
                         </div>
                     </div>
