@@ -130,6 +130,7 @@ class Info extends Component {
     }
 
     inputRef = React.createRef();
+    lsRef = React.createRef();
     render() {
         const {getData, containerRef, infoRef, createGenres} = this.props;
 
@@ -176,10 +177,18 @@ class Info extends Component {
                         </div>
                         <div className='addlist ls-container'>
                             <img 
+                            onClick={() => {
+                                console.log(this.lsRef.current.style.display);
+                                if(this.lsRef.current.style.display === '') {
+                                    this.lsRef.current.style.display = 'initial';
+                                } else {
+                                    this.lsRef.current.style.display = '';
+                                }
+                            }}
                             src={list} 
                             alt='list icon'
                             />
-                            <div className='ls-overlay'>
+                            <div ref={this.lsRef} className='ls-overlay'>
                                 {this.createList()}
                             </div>
                         </div>

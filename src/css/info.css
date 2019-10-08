@@ -89,3 +89,27 @@
     margin: 0;
 }
 
+.ls-container {
+    position: relative;
+}
+
+.ls-overlay {
+    display: none;
+    position: absolute;
+    width: 150px;
+    background-color: #94949c;
+    border: 1px solid #404042;
+    top: 50px;
+    left: -50px;
+}
+
+.ls-overlay li {
+    list-style-type: none;
+    display: block;
+    padding: 5px;
+}
+
+.ls-overlay li:hover {
+    width: 100%;
+    background-color: #d4d4dc;
+}
