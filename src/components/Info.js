@@ -14,6 +14,8 @@ import '../css/info.css';
 
 // images
 import list from '../images/svg/list.svg'
+import showlist from '../images/svg/addlist.svg'
+import hidelist from '../images/svg/removelist.svg'
 import addfavorite from '../images/svg/add-favorite.svg'
 import removefavorite from '../images/svg/remove-favorite.svg'
 import addwatch from '../images/svg/add-watch.svg'
@@ -102,6 +104,14 @@ class Info extends Component {
         this.removeMoviesFromList(id, list_id);
     }
 
+    getList = (type) => {
+        let list_id;
+        for(let key in this.props.getData.list) {
+            if(this.props.getData.list[key].name === type) list_id = key
+        }
+        return list_id;
+    }
+
     updateValue = (step) => {
         let input = parseFloat(this.inputRef.current.textContent);
         if(input + step <= 10 && input + step >= 0) {
@@ -109,12 +119,14 @@ class Info extends Component {
         }
     }
 
-    getList = (type) => {
-        let list_id;
-        for(let key in this.props.getData.list) {
-            if(this.props.getData.list[key].name === type) list_id = key
+    createList = () => {
+        const {getData} = this.props;
+        let list = [];
+        for(let key in getData.list) {
+            list.push(<li id={key} key={key}>{getData.list[key].name}</li>);
         }
-        return list_id;
+
+        return list;
     }
 
     inputRef = React.createRef();
@@ -162,11 +174,14 @@ class Info extends Component {
                             <button onClick={() => this.updateValue(0.5)}>+</button>
                             <button onClick={() => this.rateMovie(this.inputRef.current.textContent, type, title, id)}>Rate</button>
                         </div>
-                        <div className='addlist'>
+                        <div className='addlist ls-container'>
                             <img 
                             src={list} 
                             alt='list icon'
                             />
+                            <div className='ls-overlay'>
+                                {this.createList()}
+                            </div>
                         </div>
                         <div className='addlist'>
                             <img 
