@@ -14,8 +14,8 @@ import '../css/info.css';
 
 // images
 import list from '../images/svg/list.svg'
-import showlist from '../images/svg/addlist.svg'
-import hidelist from '../images/svg/removelist.svg'
+import addlist from '../images/svg/addlist.svg'
+import removelist from '../images/svg/removelist.svg'
 import addfavorite from '../images/svg/add-favorite.svg'
 import removefavorite from '../images/svg/remove-favorite.svg'
 import addwatch from '../images/svg/add-watch.svg'
@@ -69,10 +69,10 @@ class Info extends Component {
         Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 2147483647});
     }
 
-    rateMovie = (rating, type, name, id) => {
+    rateMovie = (rating, type, mediatype, name, id) => {
         const session_id = this.props.getData.user.session_id;
         axios({
-            url: `https://api.themoviedb.org/3/${type}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
+            url: `https://api.themoviedb.org/3/${mediatype}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
             method: 'post',
             data: {
                 value:  (parseFloat(rating) === 0) ? 0.50 : rating
@@ -83,11 +83,11 @@ class Info extends Component {
         this.addMovieToList(name, id, list_id);
     } 
 
-    deleteRating = (type, id) => {
+    deleteRating = (type, mediatype, id) => {
         let session_id = this.props.getData.user.session_id;
         axios({
             method: 'delete',
-            url: `https://api.themoviedb.org/3/${type}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`
+            url: `https://api.themoviedb.org/3/${mediatype}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`
         })
         .then(res => console.log(res));
         const list_id = this.getList(type);
@@ -119,11 +119,26 @@ class Info extends Component {
         }
     }
 
-    createList = () => {
+    createList = (name, id) => {
         const {getData} = this.props;
         let list = [];
         for(let key in getData.list) {
-            list.push(<li id={key} key={key}>{getData.list[key].name}</li>);
+            if(getData.list[key].name !== 'Rated' &&
+            getData.list[key].name !== 'Favorites' && 
+            getData.list[key].name !== 'Watch Later') {
+                list.push(
+                <li id={key} key={key} onClick={(e) => {
+                    const list_id = e.currentTarget.id;
+                    {!(id in getData.list[key].media) ? this.addMovieToList(name, id, list_id) 
+                    : this.removeMoviesFromList(id, list_id)}
+                }}>{getData.list[key].name}
+                <img 
+                className='icon'
+                src={!(id in getData.list[key].media) ? addlist : removelist} 
+                alt='list icon'/>
+                </li>
+                );
+            }    
         }
 
         return list;
@@ -169,16 +184,15 @@ class Info extends Component {
                 (
                     <div className='list-bar'> 
                         <div className='rating-container'>
-                            <button onClick={() => this.deleteRating(type, id)}>Delete Rating</button>
+                            <button onClick={() => this.deleteRating('Rated', type, id)}>Delete Rating</button>
                             <button onClick={() => this.updateValue(-(0.5))}>-</button>
                             <p ref={this.inputRef}>0</p>
                             <button onClick={() => this.updateValue(0.5)}>+</button>
-                            <button onClick={() => this.rateMovie(this.inputRef.current.textContent, type, title, id)}>Rate</button>
+                            <button onClick={() => this.rateMovie(this.inputRef.current.textContent, 'Rated', type, title, id)}>Rate</button>
                         </div>
                         <div className='addlist ls-container'>
                             <img 
                             onClick={() => {
-                                console.log(this.lsRef.current.style.display);
                                 if(this.lsRef.current.style.display === '') {
                                     this.lsRef.current.style.display = 'initial';
                                 } else {
@@ -189,7 +203,7 @@ class Info extends Component {
                             alt='list icon'
                             />
                             <div ref={this.lsRef} className='ls-overlay'>
-                                {this.createList()}
+                                {this.createList(title, id)}
                             </div>
                         </div>
                         <div className='addlist'>

@@ -105,11 +105,18 @@
 
 .ls-overlay li {
     list-style-type: none;
-    display: block;
     padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .ls-overlay li:hover {
     width: 100%;
     background-color: #d4d4dc;
 }
+
+.ls-overlay li .icon {
+    width: 20px;
+}
+
