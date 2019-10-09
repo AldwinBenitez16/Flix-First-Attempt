@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react';
 
 // Components
-import SliderContainer from './SliderContainer';
 import Info from '../components/Info';
 import Loading from '../components/Loading';
+import List from '../components/List';
 
 // CSS
 import '../css/authenticated.css';
@@ -38,7 +38,6 @@ class Authenticated extends PureComponent {
             if(getData.list[key].name === 'Watch Later') Watch = getData.list[key];
             if(getData.list[key].name === 'Rated') Rated = getData.list[key];
         }
-
         if(!Favorites) {
             this.updateList('Favorites', 'My favorite movies and tv shows');
         }
@@ -88,24 +87,19 @@ class Authenticated extends PureComponent {
     }
 
     render() {
-        const {getData, createGenres} = this.props;
+        const {getData, getSlides} = this.props;
+
         let name = this.listnameRef.current;
         let desc = this.listdescRef.current;
         return (
             <div className='info-wrapper'>
-            <button onClick={() => {
-                console.log(getData.list);
-            }}>
-                get list
-            </button>
-                <Info 
-                createGenres={createGenres} 
-                getData={getData} 
-                containerRef={this.containerRef}
-                infoRef={this.infoRef}
-                />
                 <div ref={this.containerRef} className='main-container'>
                     <div className='authlist-container'>
+                        <button onClick={() => {
+                            console.log(getData.list);
+                        }}>
+                            get list
+                        </button>
                         <div className='boxes'>
                             <div className='quantity'>0</div>
                             <h3>Favourites</h3>
@@ -144,8 +138,11 @@ class Authenticated extends PureComponent {
                             </div>
                         </div>
                     </div>
-                    
-                    
+                    <List
+                    getData={getData}
+                    getSlides={getSlides}
+                    slideToShow={getData.slideToShow} 
+                    />
                 </div>
             </div>
         );

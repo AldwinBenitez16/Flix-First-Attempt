@@ -37,6 +37,22 @@ class Info extends Component {
         return cleanArray;
     }
 
+    async getMovie(type, list_id, media_id, media_name){
+        const {getData, addListMedia} = this.props;
+        const path = `https://api.themoviedb.org/3/${type}/${media_id}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US`;
+        const movieData = await axios({
+            url: path,
+            method: 'get'
+        })
+        .catch(err => {
+            console.log(media_id + ' was not retrieved', err);
+        });
+
+        await addListMedia(list_id, {[media_id]: {name: media_name, data: movieData.data}});
+        Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 365});
+        console.log(Cookies.getJSON('list'));
+    }
+
     async addMovieToList(media_name, media_id, list_id, mediatype) {
         const {getData, addListMedia} = this.props;
         const session_id = getData.user.session_id;
@@ -48,10 +64,7 @@ class Info extends Component {
                 data: {
                     media_id: media_id
                 }
-            }).then(res => console.log(res));
-            await addListMedia(list_id, {[media_id]: {name: media_name}});
-            // console.log(this.props.getData.list);
-            Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 7});
+            }).then(res => console.log(res.data.status_message));
         } else {
             console.log('Unable to add tv shows to list at current version');
         }
@@ -69,9 +82,9 @@ class Info extends Component {
                     media_id: media_id
                 }
             }).then(res => console.log(res));
-            removeListMedia(list_id, delete getData.list[list_id].media[media_id]);
+            await removeListMedia(list_id, delete getData.list[list_id].media[media_id]);
             // console.log(getData.list);
-            Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 7});
+            Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 365});
         } else {
             console.log('Unable to add tv shows to list at current version');
         }
@@ -102,15 +115,14 @@ class Info extends Component {
         this.removeMoviesFromList(id, list_id, mediatype);
     }
 
-    addMedia = (type, mediatype, name, id) => {
+    addMedia = (type, name, id, mediatype) => {
         const list_id = this.getList(type);
-        console.log(mediatype);
         this.addMovieToList(name, id, list_id, mediatype);
     }
 
-    deleteMedia = (type, mediatype, id) => {
+    deleteMedia = (type, id, mediatype) => {
         const list_id = this.getList(type);
-        this.removeMoviesFromList(id, list_id);
+        this.removeMoviesFromList(id, list_id, mediatype);
     }
 
     getList = (type) => {
@@ -138,8 +150,12 @@ class Info extends Component {
                 list.push(
                 <li id={key} key={key} onClick={(e) => {
                     const list_id = e.currentTarget.id;
-                    {!(id in getData.list[key].media) ? this.addMovieToList(name, id, list_id, mediatype) 
-                    : this.removeMoviesFromList(id, list_id, mediatype)}
+                    if(!(id in getData.list[key].media)) { 
+                        this.addMovieToList(name, id, list_id, mediatype)
+                        this.getMovie(mediatype, list_id, id, name);
+                    } else {
+                        this.removeMoviesFromList(id, list_id, mediatype)
+                    }
                 }}>{getData.list[key].name}
                 <img 
                 className='icon'
