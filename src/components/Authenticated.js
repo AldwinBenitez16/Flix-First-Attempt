@@ -27,7 +27,6 @@ class Authenticated extends PureComponent {
             let frameID = window.requestAnimationFrame(updateSlides);
         }
         updateSlides();
-
         // Cookies.remove('list');
         // Checks if default lsit are created
         let Favorites;

@@ -49,7 +49,8 @@ class Home extends Component {
                     infoRef={this.infoRef}
                     slideToShow={getData.slideToShow} 
                     getData={getData}  
-                    type='now_playingMovie'
+                    category='now_playing'
+                    data={getData.data['now_playingMovie'].results}
                     title='Playing Now' />
                     <SliderContainer 
                     getPosterInfo={getPosterInfo}
@@ -57,7 +58,8 @@ class Home extends Component {
                     infoRef={this.infoRef} 
                     slideToShow={getData.slideToShow} 
                     getData={getData} 
-                    type='trendingMovie'
+                    category='trending'
+                    data={getData.data['trendingMovie'].results}
                     title='Trending Movies' />
                     <SliderContainer 
                     getPosterInfo={getPosterInfo}
@@ -65,7 +67,8 @@ class Home extends Component {
                     infoRef={this.infoRef}
                     slideToShow={getData.slideToShow} 
                     getData={getData}
-                    type='trendingTv' 
+                    category='trending'
+                    data={getData.data['trendingTv'].results}
                     title='Trending TV Shows' />
                     <SliderContainer 
                     getPosterInfo={getPosterInfo}
@@ -73,7 +76,8 @@ class Home extends Component {
                     infoRef={this.infoRef}
                     slideToShow={getData.slideToShow} 
                     getData={getData} 
-                    type='upcomingMovie'
+                    category='upcoming'
+                    data={getData.data['upcomingMovie'].results}
                     title='Upcoming Movies' />
                 </div>
             </div>

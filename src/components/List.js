@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+// Components
+import Loading from '../components/Loading';
+
 // Slick
 import Slider from "react-slick";
 
@@ -7,7 +10,7 @@ import Slider from "react-slick";
 import {NavLink} from 'react-router-dom';
 
 import axios from 'axios';
-import { arrayExpression } from '@babel/types';
+
 
 class List extends Component {
 
@@ -25,6 +28,8 @@ class List extends Component {
             let frameID = window.requestAnimationFrame(updateSlides);
         }
         updateSlides();
+
+        this.createList();
     }
 
     async getList(list_id){
@@ -34,14 +39,9 @@ class List extends Component {
             method: 'get'
         })
         .then(res => {
-            let counter = 0;
-            if(res) {
-                for(let i = 0; i < res.data.items.length; i++) {
-                    counter++;
-                    // addListMedia(list_id, {[res.data.items[i].id]: {data: res.data.items[i]}});
-                }
+            for(let i = 0; i < res.data.items.length; i++) {
+                addListMedia(list_id, {[res.data.items[i].id]: {data: res.data.items[i]}});
             }
-            console.log(res.data.items.length);
         })
         .catch(err => {
             console.log(list_id + ' was not retrieved', err);
@@ -52,32 +52,31 @@ class List extends Component {
         this.getList(list_id);
     } 
 
-    createList = (results) => {
-        this.updateMovie(results);
+    createList = () => {
+        const {getData} = this.props;
+        for(let key in getData.list) {
+            this.updateMovie(key);
+        }
     }
 
     createListSlides = () => {
         const {getData} = this.props;
-        const list = [];
 
+        const lists = [];
         let results = [];
         for(let key in getData.list) {
-            list.push(this.createList(key));
+            results = [];
+            for(let mediakey in getData.list[key].media) {
+                results.push(getData.list[key].media[mediakey]);
+            }
+            lists.push(results);
         }
+        
+        console.log(lists);
 
-        return list;
     }
 
     render() {
-        const {slideToShow} = this.props;
-
-        let settings = { 
-            dots: false,
-            infinite: true,
-            speed: 500,
-            slidesToShow: slideToShow,
-            slidesToScroll: slideToShow
-        }
 
         return(
             <div className='list-main-container'>
