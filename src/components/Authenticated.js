@@ -86,7 +86,7 @@ class Authenticated extends PureComponent {
     }
 
     render() {
-        const {getData, getSlides, addListMedia} = this.props;
+        const {getData, getSlides, addListMedia, updateList} = this.props;
 
         let name = this.listnameRef.current;
         let desc = this.listdescRef.current;
@@ -142,6 +142,7 @@ class Authenticated extends PureComponent {
                     getSlides={getSlides}
                     slideToShow={getData.slideToShow} 
                     addListMedia={addListMedia}
+                    updateList={updateList}
                     />
                 </div>
             </div>

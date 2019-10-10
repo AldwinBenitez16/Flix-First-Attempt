@@ -176,6 +176,7 @@ class Flix extends Component{
                   createGenres={this.createGenres}
                   getPosterInfo={getPosterInfo} 
                   removeListMedia={removeListMedia}  
+                  updateList={updateList}
                 /> // Loads the component passed to it
               ) : (
                   <Redirect to={{

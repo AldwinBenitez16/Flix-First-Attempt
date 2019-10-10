@@ -14,7 +14,7 @@ import axios from 'axios';
 
 
 class List extends Component {
-
+    
     UNSAFE_componentWillMount() {
         const {getSlides} = this.props;
         getSlides(window.innerWidth);
@@ -32,17 +32,21 @@ class List extends Component {
 
         this.createList();
     }
+    
+    state = {
+        verify: []
+    }
 
     async getList(list_id){
-        const {addListMedia} = this.props;
+        const {addListMedia, updateList} = this.props;
         const data = await axios({
             url: `https://api.themoviedb.org/3/list/${list_id}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US`,
             method: 'get'
         })
         .then(res => {
-            console.log(res);
+            updateList({[list_id]: {...this.props.getData.list[list_id], items: res.data.items.length}});
             for(let i = 0; i < res.data.items.length; i++) {
-                addListMedia(list_id, {[res.data.items[i].id]: {data: res.data.items[i]}});
+                addListMedia(list_id, {[res.data.items[i].id]: {...this.props.getData.list[list_id].media[res.data.items[i].id],data: res.data.items[i]}});
             }
         })
         .catch(err => {
@@ -67,24 +71,34 @@ class List extends Component {
     createListSlides = () => {
         const {getData, getPosterInfo, createGenres, addListMedia, removeListMedia} = this.props;
         const list = [];
-
         const lists = [];
+        
         let results = [];
         let title = [];
-        let verify = 0;
+        let listId = [];
         for(let key in getData.list) {
             results = [];
+
+            listId.push(key);
             title.push(getData.list[key].name);
             for(let mediakey in getData.list[key].media) {
-                verify++;
                 results.push(getData.list[key].media[mediakey].data);
             }
             lists.push(results);
         }
 
-        console.log(verify);
-            for(let i = 0; i < lists.length; i++) {
-                if(lists[i][0]) {
+        for(let i = 0; i < 1; i++) {
+            if(this.props.getData.list[listId[i]].items) {
+                // console.log(this.props.getData.list[listId[i]].items);
+                // console.log(lists[i].length);
+                this.setState({
+                    verify: [listId[i]]
+                });
+                // for(let x = 0; x < verify.length; x++) {
+                    
+                // }
+
+                if(lists[i].length === 12) {
                 list.push(                    
                     <SliderContainer 
                         key={title[i]}
@@ -93,12 +107,14 @@ class List extends Component {
                         infoRef={this.infoRef} 
                         slideToShow={getData.slideToShow} 
                         getData={getData} 
-                        category='trending'
                         data={lists[i]}
                         title={title[i]} />
                     );
                 }
             }
+        }  
+
+        console.log(this.state.verify);
         return list;
     }
 

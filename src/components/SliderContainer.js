@@ -31,9 +31,12 @@ class SliderContainer extends Component {
             <div className='container'>
                     <div className='title'>
                         <h3>{title}</h3>
-                        {/* <NavLink to={`/pages/${queryType}-${queryCategory}-1`}>
+                        {queryCategory ?
+                        <NavLink to={`/pages/${queryType}-${queryCategory}-1`}>
                         <button>View More</button>
-                        </NavLink> */}
+                        </NavLink>
+                        :
+                        null}
                     </div>
                     <Slider {...settings}>
                     {data.map((item,index) => {
