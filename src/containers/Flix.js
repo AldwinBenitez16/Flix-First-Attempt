@@ -20,6 +20,7 @@ import Authenticated from '../components/Authenticated';
 
 import Loading from '../components/Loading';
 
+import axios from 'axios';
 
 // React Router
 import {
@@ -84,6 +85,34 @@ class Flix extends Component{
       return genreList;
   }
 
+  async getList(list_id){
+    const {addListMedia, updateList, removeListMedia} = this.props;
+    const data = await axios({
+        url: `https://api.themoviedb.org/3/list/${list_id}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US`,
+        method: 'get'
+    })
+    .then(res => {
+        updateList({[list_id]: {...this.props.getData.list[list_id], items: res.data.items.length}});
+        for(let i = 0; i < res.data.items.length; i++) {
+            addListMedia(list_id, {[res.data.items[i].id]: {...this.props.getData.list[list_id].media[res.data.items[i].id],data: res.data.items[i]}});
+        }
+    })
+    .catch(err => {
+        console.log(list_id + ' was not retrieved', err);
+    });
+}
+
+updateMovie = (list_id) => {
+    this.getList(list_id);
+} 
+
+createList = () => {
+    const {getData} = this.props;
+    for(let key in getData.list) {
+        this.updateMovie(key);
+    }
+}
+
   containerRef = React.createRef();
   render() {
     const {getData, 
@@ -117,6 +146,7 @@ class Flix extends Component{
               getPosterInfo={getPosterInfo} 
               addListMedia={addListMedia}
               removeListMedia={removeListMedia}  
+              createList={this.createList}
               /> 
             } />
             <Route 
@@ -131,6 +161,7 @@ class Flix extends Component{
               fetchProducts={fetchProducts}
               addListMedia={addListMedia}
               removeListMedia={removeListMedia}  
+              createList={this.createList}
               />
             } />
             <Route 
@@ -141,7 +172,9 @@ class Flix extends Component{
               getData={getData} 
               getSlides={getSlides}
               addListMedia={addListMedia}
-              removeListMedia={removeListMedia} />
+              removeListMedia={removeListMedia} 
+              createList={this.createList}
+              />
             } />
             <Route 
             path='/tv' 
@@ -151,7 +184,9 @@ class Flix extends Component{
               getData={getData} 
               getSlides={getSlides} 
               addListMedia={addListMedia}
-              removeListMedia={removeListMedia} />
+              removeListMedia={removeListMedia} 
+              createList={this.createList}
+              />
             } />
             <Route 
               path='/login' 
@@ -173,6 +208,7 @@ class Flix extends Component{
                   getSlides={getSlides}
                   addListMedia={addListMedia}
                   removeListMedia={removeListMedia}  
+                  createList={this.createList}
                 /> // Loads the component passed to it
               ) : (
                   <Redirect to={{

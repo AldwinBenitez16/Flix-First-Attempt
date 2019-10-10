@@ -38,7 +38,7 @@ class Info extends Component {
     }
 
     async addMovieToList(media_name, media_id, list_id, mediatype) {
-        const {getData, addListMedia} = this.props;
+        const {getData, addListMedia, createList} = this.props;
         const session_id = getData.user.session_id;
 
         if(mediatype === 'movie') {
@@ -50,6 +50,7 @@ class Info extends Component {
                 }
             });
             addListMedia(list_id, {[media_id]: {name: media_name}});
+            createList();
         } else {
             console.log('Unable to add tv shows to list at current version');
         }

@@ -17,7 +17,7 @@ import image from '../images/poster-add.png';
 class List extends Component {
     
     UNSAFE_componentWillMount() {
-        const {getSlides} = this.props;
+        const {getSlides, createList} = this.props;
         getSlides(window.innerWidth);
 
         let prevWidth = window.innerWidth;
@@ -31,35 +31,7 @@ class List extends Component {
         }
         updateSlides();
 
-        this.createList();
-    }
-
-    async getList(list_id){
-        const {addListMedia, updateList} = this.props;
-        const data = await axios({
-            url: `https://api.themoviedb.org/3/list/${list_id}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US`,
-            method: 'get'
-        })
-        .then(res => {
-            updateList({[list_id]: {...this.props.getData.list[list_id], items: res.data.items.length}});
-            for(let i = 0; i < res.data.items.length; i++) {
-                addListMedia(list_id, {[res.data.items[i].id]: {...this.props.getData.list[list_id].media[res.data.items[i].id],data: res.data.items[i]}});
-            }
-        })
-        .catch(err => {
-            console.log(list_id + ' was not retrieved', err);
-        });
-    }
-
-    updateMovie = (list_id) => {
-        this.getList(list_id);
-    } 
-
-    createList = () => {
-        const {getData} = this.props;
-        for(let key in getData.list) {
-            this.updateMovie(key);
-        }
+        createList();
     }
 
     containerRef = React.createRef();
@@ -108,7 +80,7 @@ class List extends Component {
     }
 
     render() {
-        const {getData, createGenres, addListMedia, removeListMedia} = this.props;
+        const {getData, createGenres, addListMedia, removeListMedia, createList} = this.props;
 
         return(
             <div className='info-wrapper'>
@@ -119,6 +91,7 @@ class List extends Component {
                 infoRef={this.infoRef}
                 addListMedia={addListMedia}
                 removeListMedia={removeListMedia}  
+                createList={createList}
                 />
                 <div ref={this.containerRef} className='main-container'>
                     {this.createListSlides()}

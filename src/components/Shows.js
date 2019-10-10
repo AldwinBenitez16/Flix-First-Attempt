@@ -29,7 +29,7 @@ class Shows extends Component {
     infoRef = React.createRef();
 
     render() {
-        const {getData, getPosterInfo, createGenres, addListMedia, removeListMedia} = this.props;
+        const {getData, getPosterInfo, createGenres, addListMedia, removeListMedia, createList} = this.props;
     
         return (
             <div className='info-wrapper'>
@@ -40,6 +40,7 @@ class Shows extends Component {
                 infoRef={this.infoRef}
                 addListMedia={addListMedia}
                 removeListMedia={removeListMedia}  
+                createList={this.createList}
                 />
                 <div ref={this.containerRef} className='main-container'>
                 <SliderContainer 
