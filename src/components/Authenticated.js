@@ -48,9 +48,6 @@ class Authenticated extends PureComponent {
         }
     }
 
-    containerRef = React.createRef();
-    infoRef = React.createRef();
-
     listRef = React.createRef();
     listdescRef = React.createRef();
     listnameRef = React.createRef();
@@ -86,65 +83,61 @@ class Authenticated extends PureComponent {
     }
 
     render() {
-        const {getData, getSlides, addListMedia, updateList} = this.props;
+        const {getData, getSlides, addListMedia, createGenres, removeListMedia, updateList, getPosterInfo} = this.props;
 
         let name = this.listnameRef.current;
         let desc = this.listdescRef.current;
         return (
-            <div className='info-wrapper'>
-                <div ref={this.containerRef} className='main-container'>
-                    <div className='authlist-container'>
-                        <button onClick={() => {
-                            console.log(this.props.getData.list);
-                        }}>
-                            get list
-                        </button>
-                        <div className='boxes'>
-                            <div className='quantity'>0</div>
-                            <h3>Favourites</h3>
-                        </div>
-                        <div className='boxes'>
-                            <div className='quantity'>0</div>
-                            <h3>Watch Later</h3>
-                        </div>
-                        <div className='boxes'>
-                            <div  className='quantity'>0</div>
-                            <h3>Rated Movie</h3>
-                        </div>
-                        <div className='boxes list-container'>
-                            <button id='create' onClick={() => {
-                                if(this.listRef.current.style.display === '') {
-                                    this.listRef.current.style.display = 'flex'
-                                } else {
-                                    this.listRef.current.style.display = ''
+            <div>
+                <div className='authlist-container'>
+                    <div className='boxes'>
+                        <div className='quantity'>0</div>
+                        <h3>Favourites</h3>
+                    </div>
+                    <div className='boxes'>
+                        <div className='quantity'>0</div>
+                        <h3>Watch Later</h3>
+                    </div>
+                    <div className='boxes'>
+                        <div  className='quantity'>0</div>
+                        <h3>Rated Movie</h3>
+                    </div>
+                    <div className='boxes list-container'>
+                        <button id='create' onClick={() => {
+                            if(this.listRef.current.style.display === '') {
+                                this.listRef.current.style.display = 'flex'
+                            } else {
+                                this.listRef.current.style.display = ''
+                            }
+                        }}>+</button>
+                        <h3>Create List</h3>
+                        <div className='list-overlay' ref={this.listRef}>
+                            <input ref={this.listnameRef} type='text' name='name' defaultValue='name' onClick={(e) => {
+                                if(e.currentTarget.value === 'name') {
+                                    e.currentTarget.value = '';
                                 }
-                            }}>+</button>
-                            <h3>Create List</h3>
-                            <div className='list-overlay' ref={this.listRef}>
-                                <input ref={this.listnameRef} type='text' name='name' defaultValue='name' onClick={(e) => {
-                                    if(e.currentTarget.value === 'name') {
-                                        e.currentTarget.value = '';
-                                    }
-                                }} />
-                                <textarea ref={this.listdescRef} defaultValue='A description of the list...' onClick={(e) => {
-                                    if(e.currentTarget.value === 'A description of the list...') {
-                                        e.currentTarget.value = '';
-                                    }
-                                }}> 
-                                </textarea>
-                                <button onClick={ () =>this.updateList(name.value, desc.value)}>Submit</button>
-                                <button>Cancel</button>
-                            </div>
+                            }} />
+                            <textarea ref={this.listdescRef} defaultValue='A description of the list...' onClick={(e) => {
+                                if(e.currentTarget.value === 'A description of the list...') {
+                                    e.currentTarget.value = '';
+                                }
+                            }}> 
+                            </textarea>
+                            <button onClick={ () =>this.updateList(name.value, desc.value)}>Submit</button>
+                            <button>Cancel</button>
                         </div>
                     </div>
-                    <List
-                    getData={getData}
-                    getSlides={getSlides}
-                    slideToShow={getData.slideToShow} 
-                    addListMedia={addListMedia}
-                    updateList={updateList}
-                    />
                 </div>
+                <List
+                getData={getData}
+                getSlides={getSlides}
+                slideToShow={getData.slideToShow} 
+                updateList={updateList}
+                getPosterInfo={getPosterInfo}
+                createGenres={createGenres}
+                addListMedia={addListMedia}
+                removeListMedia={removeListMedia}  
+                />
             </div>
         );
     }

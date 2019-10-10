@@ -11,6 +11,7 @@ import Info from './Info';
 import {NavLink} from 'react-router-dom';
 
 import axios from 'axios';
+import image from '../images/poster-add.png';
 
 
 class List extends Component {
@@ -31,10 +32,6 @@ class List extends Component {
         updateSlides();
 
         this.createList();
-    }
-    
-    state = {
-        verify: []
     }
 
     async getList(list_id){
@@ -69,7 +66,7 @@ class List extends Component {
     infoRef = React.createRef();
 
     createListSlides = () => {
-        const {getData, getPosterInfo, createGenres, addListMedia, removeListMedia} = this.props;
+        const {getData, getPosterInfo} = this.props;
         const list = [];
         const lists = [];
         
@@ -84,53 +81,45 @@ class List extends Component {
             for(let mediakey in getData.list[key].media) {
                 results.push(getData.list[key].media[mediakey].data);
             }
+            while(results.length < 7) {
+                results.push({
+                    
+                });
+            }
             lists.push(results);
         }
 
-        for(let i = 0; i < 1; i++) {
-            if(this.props.getData.list[listId[i]].items) {
-                // console.log(this.props.getData.list[listId[i]].items);
-                // console.log(lists[i].length);
-                this.setState({
-                    verify: [listId[i]]
-                });
-                // for(let x = 0; x < verify.length; x++) {
-                    
-                // }
-
-                if(lists[i].length === 12) {
-                list.push(                    
-                    <SliderContainer 
-                        key={title[i]}
-                        getPosterInfo={getPosterInfo}
-                        containerRef={this.containerRef}
-                        infoRef={this.infoRef} 
-                        slideToShow={getData.slideToShow} 
-                        getData={getData} 
-                        data={lists[i]}
-                        title={title[i]} />
-                    );
-                }
-            }
+        for(let i = 0; i < lists.length; i++) {
+            list.push(                    
+                <SliderContainer 
+                    key={title[i]}
+                    getPosterInfo={getPosterInfo}
+                    containerRef={this.containerRef}
+                    infoRef={this.infoRef} 
+                    slideToShow={getData.slideToShow} 
+                    getData={getData} 
+                    data={lists[i]}
+                    title={title[i]} 
+                    listImage={image} />
+            );
         }  
 
-        console.log(this.state.verify);
         return list;
     }
 
     render() {
-        const {getData, getPosterInfo, createGenres, addListMedia, removeListMedia} = this.props;
+        const {getData, createGenres, addListMedia, removeListMedia} = this.props;
 
         return(
-            <div ref={this.infoRef} className='info-wrapper'>
-                {/* <Info 
+            <div className='info-wrapper'>
+                <Info 
                 createGenres={createGenres} 
                 getData={getData} 
                 containerRef={this.containerRef}
                 infoRef={this.infoRef}
                 addListMedia={addListMedia}
                 removeListMedia={removeListMedia}  
-                /> */}
+                />
                 <div ref={this.containerRef} className='main-container'>
                     {this.createListSlides()}
                 </div>

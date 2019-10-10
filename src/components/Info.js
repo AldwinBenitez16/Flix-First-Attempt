@@ -157,7 +157,6 @@ class Info extends Component {
         const {getData, containerRef, infoRef, createGenres} = this.props;
 
         let data = getData.posterInfo;
-
         let genreArray = [data.data];
         let movieArray = createGenres(genreArray, getData.data.movieGenres.genres);
         let tvArray = createGenres(genreArray, getData.data.tvGenres.genres);

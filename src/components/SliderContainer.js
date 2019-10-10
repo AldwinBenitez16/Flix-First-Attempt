@@ -11,7 +11,7 @@ import LoadingSpinner from './Loading';
 
 class SliderContainer extends Component {
     render() {
-        const {slideToShow, getData, category, data, title, containerRef, infoRef, getPosterInfo} = this.props;
+        const {slideToShow, getData, category, data, title, containerRef, infoRef, getPosterInfo, listImage} = this.props;
 
         if (!data || !(infoRef.current !== null)) return <LoadingSpinner />;
 
@@ -52,7 +52,8 @@ class SliderContainer extends Component {
                                 onError={(e) => {
                                     e.target.src='https://i.imgur.com/zwpr2vD.jpg'
                                 }} 
-                                src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`} />
+                                src={item.poster_path ? `https://image.tmdb.org/t/p/w500/${item.poster_path}` : listImage}
+                                />
                             </div>
                         );
                     })}
