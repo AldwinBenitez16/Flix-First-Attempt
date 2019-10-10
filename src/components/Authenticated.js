@@ -87,7 +87,7 @@ class Authenticated extends PureComponent {
     }
 
     render() {
-        const {getData, getSlides} = this.props;
+        const {getData, getSlides, addListMedia} = this.props;
 
         let name = this.listnameRef.current;
         let desc = this.listdescRef.current;
@@ -96,7 +96,7 @@ class Authenticated extends PureComponent {
                 <div ref={this.containerRef} className='main-container'>
                     <div className='authlist-container'>
                         <button onClick={() => {
-                            console.log(Cookies.getJSON('list'));
+                            console.log(this.props.getData.list);
                         }}>
                             get list
                         </button>
@@ -142,6 +142,7 @@ class Authenticated extends PureComponent {
                     getData={getData}
                     getSlides={getSlides}
                     slideToShow={getData.slideToShow} 
+                    addListMedia={addListMedia}
                     />
                 </div>
             </div>

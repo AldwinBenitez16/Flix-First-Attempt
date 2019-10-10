@@ -28,33 +28,32 @@ class List extends Component {
     }
 
     async getList(list_id){
-        await axios({
+        const {addListMedia} = this.props;
+        const data = await axios({
             url: `https://api.themoviedb.org/3/list/${list_id}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US`,
             method: 'get'
         })
         .then(res => {
-            console.log(res);
+            let counter = 0;
+            if(res) {
+                for(let i = 0; i < res.data.items.length; i++) {
+                    counter++;
+                    // addListMedia(list_id, {[res.data.items[i].id]: {data: res.data.items[i]}});
+                }
+            }
+            console.log(res.data.items.length);
         })
         .catch(err => {
             console.log(list_id + ' was not retrieved', err);
         });
     }
 
-    updateMovie = (type) => {
-        let list_id = this.getListid(type);
+    updateMovie = (list_id) => {
         this.getList(list_id);
-    }
+    } 
 
     createList = (results) => {
-        this.updateMovie('Favorites');
-    }
-
-    getListid = (type) => {
-        let list_id;
-        for(let key in this.props.getData.list) {
-            if(this.props.getData.list[key].name === type) list_id = key
-        }
-        return list_id;
+        this.updateMovie(results);
     }
 
     createListSlides = () => {
@@ -63,12 +62,10 @@ class List extends Component {
 
         let results = [];
         for(let key in getData.list) {
-            results = [];
-            for(let mediakey in getData.list[key].media) {
-                results.push(getData.list[key].media[mediakey].data);
-            }
-            this.createList(results);
+            list.push(this.createList(key));
         }
+
+        return list;
     }
 
     render() {
