@@ -27,15 +27,13 @@ class SliderContainer extends Component {
         if(data[0].name) queryType = 'tv'
         
         let queryCategory = category;
-
-        console.log(data);
         return(
             <div className='container'>
                     <div className='title'>
                         <h3>{title}</h3>
-                        <NavLink to={`/pages/${queryType}-${queryCategory}-1`}>
+                        {/* <NavLink to={`/pages/${queryType}-${queryCategory}-1`}>
                         <button>View More</button>
-                        </NavLink>
+                        </NavLink> */}
                     </div>
                     <Slider {...settings}>
                     {data.map((item,index) => {

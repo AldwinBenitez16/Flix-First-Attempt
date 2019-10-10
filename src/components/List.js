@@ -4,7 +4,8 @@ import React, {Component} from 'react';
 import Loading from '../components/Loading';
 
 // Slick
-import Slider from "react-slick";
+import SliderContainer from "./SliderContainer";
+import Info from './Info';
 
 // React-Router-Dom
 import {NavLink} from 'react-router-dom';
@@ -39,6 +40,7 @@ class List extends Component {
             method: 'get'
         })
         .then(res => {
+            console.log(res);
             for(let i = 0; i < res.data.items.length; i++) {
                 addListMedia(list_id, {[res.data.items[i].id]: {data: res.data.items[i]}});
             }
@@ -59,28 +61,63 @@ class List extends Component {
         }
     }
 
+    containerRef = React.createRef();
+    infoRef = React.createRef();
+
     createListSlides = () => {
-        const {getData} = this.props;
+        const {getData, getPosterInfo, createGenres, addListMedia, removeListMedia} = this.props;
+        const list = [];
 
         const lists = [];
         let results = [];
+        let title = [];
+        let verify = 0;
         for(let key in getData.list) {
             results = [];
+            title.push(getData.list[key].name);
             for(let mediakey in getData.list[key].media) {
-                results.push(getData.list[key].media[mediakey]);
+                verify++;
+                results.push(getData.list[key].media[mediakey].data);
             }
             lists.push(results);
         }
-        
-        console.log(lists);
 
+        console.log(verify);
+            for(let i = 0; i < lists.length; i++) {
+                if(lists[i][0]) {
+                list.push(                    
+                    <SliderContainer 
+                        key={title[i]}
+                        getPosterInfo={getPosterInfo}
+                        containerRef={this.containerRef}
+                        infoRef={this.infoRef} 
+                        slideToShow={getData.slideToShow} 
+                        getData={getData} 
+                        category='trending'
+                        data={lists[i]}
+                        title={title[i]} />
+                    );
+                }
+            }
+        return list;
     }
 
     render() {
+        const {getData, getPosterInfo, createGenres, addListMedia, removeListMedia} = this.props;
 
         return(
-            <div className='list-main-container'>
-                {this.createListSlides()}
+            <div ref={this.infoRef} className='info-wrapper'>
+                {/* <Info 
+                createGenres={createGenres} 
+                getData={getData} 
+                containerRef={this.containerRef}
+                infoRef={this.infoRef}
+                addListMedia={addListMedia}
+                removeListMedia={removeListMedia}  
+                /> */}
+                <div ref={this.containerRef} className='main-container'>
+                    {this.createListSlides()}
+                </div>
             </div>
         );
     }

@@ -49,7 +49,7 @@ class Info extends Component {
                     media_id: media_id
                 }
             });
-            addListMedia(list_id, {[media_id]: {}});
+            addListMedia(list_id, {[media_id]: {name: media_name}});
         } else {
             console.log('Unable to add tv shows to list at current version');
         }
