@@ -37,20 +37,24 @@ class Info extends Component {
         return cleanArray;
     }
 
-    async getMovie(type, list_id, media_id, media_name){
-        const {getData, addListMedia} = this.props;
-        const path = `https://api.themoviedb.org/3/${type}/${media_id}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US`;
-        const movieData = await axios({
-            url: path,
+    async getMovie(type, media_id){
+        const data = await axios({
+            url: `https://api.themoviedb.org/3/${type}/${media_id}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US`,
             method: 'get'
         })
         .catch(err => {
             console.log(media_id + ' was not retrieved', err);
         });
 
-        await addListMedia(list_id, {[media_id]: {name: media_name, data: movieData.data}});
+        return data.data;
+    }
+
+    async updateMovie(mediatype, list_id, media_id, media_name){
+        const {addListMedia} = this.props;
+        const data = await this.getMovie(mediatype, media_id);
+        console.log(data);
+        await addListMedia(list_id, {[media_id]: {name: media_name, data: data}});
         Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 365});
-        console.log(Cookies.getJSON('list'));
     }
 
     async addMovieToList(media_name, media_id, list_id, mediatype) {
@@ -58,13 +62,13 @@ class Info extends Component {
         const session_id = getData.user.session_id;
         // console.log(mediatype);
         if(mediatype === 'movie') {
-            await axios({
-                url: `https://api.themoviedb.org/3/list/${list_id}/add_item?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
-                method: 'post',
-                data: {
-                    media_id: media_id
-                }
-            }).then(res => console.log(res.data.status_message));
+            // await axios({
+            //     url: `https://api.themoviedb.org/3/list/${list_id}/add_item?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
+            //     method: 'post',
+            //     data: {
+            //         media_id: media_id
+            //     }
+            // });
         } else {
             console.log('Unable to add tv shows to list at current version');
         }
@@ -152,7 +156,7 @@ class Info extends Component {
                     const list_id = e.currentTarget.id;
                     if(!(id in getData.list[key].media)) { 
                         this.addMovieToList(name, id, list_id, mediatype)
-                        this.getMovie(mediatype, list_id, id, name);
+                        this.updateMovie(mediatype, list_id, id, name);
                     } else {
                         this.removeMoviesFromList(id, list_id, mediatype)
                     }

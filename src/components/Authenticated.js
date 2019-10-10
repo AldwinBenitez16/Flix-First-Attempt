@@ -96,7 +96,7 @@ class Authenticated extends PureComponent {
                 <div ref={this.containerRef} className='main-container'>
                     <div className='authlist-container'>
                         <button onClick={() => {
-                            console.log(getData.list);
+                            console.log(Cookies.getJSON('list'));
                         }}>
                             get list
                         </button>
