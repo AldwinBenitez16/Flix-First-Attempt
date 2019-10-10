@@ -51,6 +51,7 @@ class Info extends Component {
             console.log(media_id + ' was not retrieved', err);
         });
         console.log(this.props.getData.list);
+        Cookies.remove('list');
         Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 365});
     }
 
@@ -63,13 +64,13 @@ class Info extends Component {
         const session_id = getData.user.session_id;
 
         if(mediatype === 'movie') {
-            // await axios({
-            //     url: `https://api.themoviedb.org/3/list/${list_id}/add_item?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
-            //     method: 'post',
-            //     data: {
-            //         media_id: media_id
-            //     }
-            // });
+            await axios({
+                url: `https://api.themoviedb.org/3/list/${list_id}/add_item?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
+                method: 'post',
+                data: {
+                    media_id: media_id
+                }
+            });
         } else {
             console.log('Unable to add tv shows to list at current version');
         }
@@ -89,7 +90,6 @@ class Info extends Component {
             }).then(res => console.log(res));
             await removeListMedia(list_id, delete getData.list[list_id].media[media_id]);
             // console.log(getData.list);
-            Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 365});
         } else {
             console.log('Unable to add tv shows to list at current version');
         }
@@ -123,6 +123,7 @@ class Info extends Component {
     addMedia = (type, name, id, mediatype) => {
         const list_id = this.getList(type);
         this.addMovieToList(name, id, list_id, mediatype);
+        this.updateMovie(mediatype, list_id, id, name);
     }
 
     deleteMedia = (type, id, mediatype) => {
@@ -156,7 +157,7 @@ class Info extends Component {
                 <li id={key} key={key} onClick={(e) => {
                     const list_id = e.currentTarget.id;
                     if(!(id in getData.list[key].media)) { 
-                        // this.addMovieToList(name, id, list_id, mediatype)
+                        this.addMovieToList(name, id, list_id, mediatype)
                         this.updateMovie(mediatype, list_id, id, name);
                     } else {
                         this.removeMoviesFromList(id, list_id, mediatype)
