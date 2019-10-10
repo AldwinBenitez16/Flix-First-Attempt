@@ -48,7 +48,8 @@ class Shows extends Component {
                 infoRef={this.infoRef}
                 slideToShow={getData.slideToShow} 
                 getData={getData}
-                type='trendingTv' 
+                category='trending'
+                data={getData.data['trendingTv'].results}
                 title='Trenidng TV Shows' />
                 </div>
             </div>
