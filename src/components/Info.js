@@ -50,9 +50,6 @@ class Info extends Component {
         .catch(err => {
             console.log(media_id + ' was not retrieved', err);
         });
-        console.log(this.props.getData.list);
-        Cookies.remove('list');
-        Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 365});
     }
 
     updateMovie = (mediatype, list_id, media_id, media_name) => {
@@ -71,6 +68,9 @@ class Info extends Component {
                     media_id: media_id
                 }
             });
+            addListMedia(list_id, {[media_id]: {name: media_name}});
+            console.log(this.props.getData.list);
+            Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 365});
         } else {
             console.log('Unable to add tv shows to list at current version');
         }
@@ -123,7 +123,7 @@ class Info extends Component {
     addMedia = (type, name, id, mediatype) => {
         const list_id = this.getList(type);
         this.addMovieToList(name, id, list_id, mediatype);
-        this.updateMovie(mediatype, list_id, id, name);
+        // this.updateMovie(mediatype, list_id, id, name);
     }
 
     deleteMedia = (type, id, mediatype) => {
@@ -158,7 +158,7 @@ class Info extends Component {
                     const list_id = e.currentTarget.id;
                     if(!(id in getData.list[key].media)) { 
                         this.addMovieToList(name, id, list_id, mediatype)
-                        this.updateMovie(mediatype, list_id, id, name);
+                        // this.updateMovie(mediatype, list_id, id, name);
                     } else {
                         this.removeMoviesFromList(id, list_id, mediatype)
                     }

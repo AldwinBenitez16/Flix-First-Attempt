@@ -27,8 +27,34 @@ class List extends Component {
         updateSlides();
     }
 
+    async getList(list_id){
+        await axios({
+            url: `https://api.themoviedb.org/3/list/${list_id}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US`,
+            method: 'get'
+        })
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(list_id + ' was not retrieved', err);
+        });
+    }
+
+    updateMovie = (type) => {
+        let list_id = this.getListid(type);
+        this.getList(list_id);
+    }
+
     createList = (results) => {
-        console.log(results);
+        this.updateMovie('Favorites');
+    }
+
+    getListid = (type) => {
+        let list_id;
+        for(let key in this.props.getData.list) {
+            if(this.props.getData.list[key].name === type) list_id = key
+        }
+        return list_id;
     }
 
     createListSlides = () => {

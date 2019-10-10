@@ -83,7 +83,6 @@ class Authenticated extends PureComponent {
                     console.log('Error has occured', err);
                 }
             });
-            Cookies.remove('list');
             Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 365});
     }
 
