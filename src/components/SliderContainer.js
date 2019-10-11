@@ -27,6 +27,7 @@ class SliderContainer extends Component {
         if(data[0].name) queryType = 'tv'
         
         let queryCategory = category;
+
         return(
             <div className='container'>
                     <div className='title'>
@@ -40,6 +41,8 @@ class SliderContainer extends Component {
                     </div>
                     <Slider {...settings}>
                     {data.map((item,index) => {
+                        if(!item) return null
+
                         return(
                             <div key={index} className='poster'>
                                 <div className='voteAvg'>{item.vote_average}</div>

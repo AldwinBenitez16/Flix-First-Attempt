@@ -86,7 +86,7 @@ class Flix extends Component{
   }
 
   async getList(list_id){
-    const {addListMedia, updateList, removeListMedia} = this.props;
+    const {addListMedia, updateList} = this.props;
     const data = await axios({
         url: `https://api.themoviedb.org/3/list/${list_id}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US`,
         method: 'get'

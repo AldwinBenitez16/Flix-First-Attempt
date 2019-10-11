@@ -62,18 +62,20 @@ class List extends Component {
         }
 
         for(let i = 0; i < lists.length; i++) {
+            if(lists[i][0]) {
             list.push(                    
-                <SliderContainer 
-                    key={title[i]}
-                    getPosterInfo={getPosterInfo}
-                    containerRef={this.containerRef}
-                    infoRef={this.infoRef} 
-                    slideToShow={getData.slideToShow} 
-                    getData={getData} 
-                    data={lists[i]}
-                    title={title[i]} 
-                    listImage={image} />
-            );
+                    <SliderContainer 
+                        key={title[i]}
+                        getPosterInfo={getPosterInfo}
+                        containerRef={this.containerRef}
+                        infoRef={this.infoRef} 
+                        slideToShow={getData.slideToShow} 
+                        getData={getData} 
+                        data={lists[i]}
+                        title={title[i]} 
+                        listImage={image} />
+                );
+            }
         }  
 
         return list;
