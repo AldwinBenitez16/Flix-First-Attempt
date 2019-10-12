@@ -74,29 +74,31 @@ class Info extends Component {
         }
     }
 
-    rateMovie = (rating, type, mediatype, name, id) => {
-        const session_id = this.props.getData.user.session_id;
+    rateMovie = (rating, type, mediatype, name, id, session_id, session_type) => {
         axios({
-            url: `https://api.themoviedb.org/3/${mediatype}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`,
+            url: `https://api.themoviedb.org/3/${mediatype}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&${session_type}=${session_id}`,
             method: 'post',
             data: {
                 value:  (parseFloat(rating) === 0) ? 0.50 : rating
             }
         })
         .then(res => console.log(res));
-        const list_id = this.getList(type);
-        this.addMovieToList(name, id, list_id, mediatype);
+        if(!this.props.getData.guest.isAuthenticated) {
+            const list_id = this.getList(type);
+            this.addMovieToList(name, id, list_id, mediatype);
+        }
     } 
 
-    deleteRating = (type, mediatype, id) => {
-        let session_id = this.props.getData.user.session_id;
+    deleteRating = (type, mediatype, id, session_id, session_type) => {
         axios({
             method: 'delete',
-            url: `https://api.themoviedb.org/3/${mediatype}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&session_id=${session_id}`
+            url: `https://api.themoviedb.org/3/${mediatype}/${id}/rating?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&${session_type}=${session_id}`
         })
         .then(res => console.log(res));
-        const list_id = this.getList(type);
-        this.removeMoviesFromList(id, list_id, mediatype);
+        if(!this.props.getData.guest.isAuthenticated) {
+            const list_id = this.getList(type);
+            this.removeMoviesFromList(id, list_id, mediatype);
+        }
     }
 
     addMedia = (type, name, id, mediatype) => {
@@ -175,6 +177,8 @@ class Info extends Component {
         if(data.data.first_air_date) date = data.data.first_air_date.substring(0, 4);
         
         const id = data.data.id;
+        const authId = this.props.getData.user.session_id;
+        const guestId = getData.guest.session_id;
 
         const favorites = getData.list[this.getList('Favorites')];
         const watch = getData.list[this.getList('Watch Later')];
@@ -194,11 +198,11 @@ class Info extends Component {
                 (
                     <div className='list-bar'> 
                         <div className='rating-container'>
-                            <button onClick={() => this.deleteRating('Rated', type, id)}>Delete Rating</button>
+                            <button onClick={() => this.deleteRating('Rated', type, id, authId, 'session_id')}>Delete Rating</button>
                             <button onClick={() => this.updateValue(-(0.5))}>-</button>
                             <p ref={this.inputRef}>0</p>
                             <button onClick={() => this.updateValue(0.5)}>+</button>
-                            <button onClick={() => this.rateMovie(this.inputRef.current.textContent, 'Rated', type, title, id)}>Rate</button>
+                            <button onClick={() => this.rateMovie(this.inputRef.current.textContent, 'Rated', type, title, id, authId, 'session_id')}>Rate</button>
                         </div>
                         <div className='addlist ls-container'>
                             <img 
@@ -229,6 +233,22 @@ class Info extends Component {
                             alt='watch later icon' 
                             onClick={() => !(favorites ? id in watch.media : false) ? this.addMedia('Watch Later', title, id, type) : this.deleteMedia('Watch Later', id, type)}  
                             />
+                        </div>
+                    </div>
+                )
+                :
+                null
+                }
+
+                { getData.guest.isAuthenticated ?
+                (
+                    <div className='list-bar'> 
+                        <div className='rating-container'>
+                            <button onClick={() => this.deleteRating('Rated', type, id, guestId, 'guest_session_id')}>Delete Rating</button>
+                            <button onClick={() => this.updateValue(-(0.5))}>-</button>
+                            <p ref={this.inputRef}>0</p>
+                            <button onClick={() => this.updateValue(0.5)}>+</button>
+                            <button onClick={() => this.rateMovie(this.inputRef.current.textContent, 'Rated', type, title, id, guestId, 'guest_session_id')}>Rate</button>
                         </div>
                     </div>
                 )

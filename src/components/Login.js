@@ -90,7 +90,7 @@ class Login extends Component {
     }
 
     async getGuest() {
-            const {getData, getUserInfo, getGuestInfo} = this.props;
+            const {getData, getUserInfo} = this.props;
             await getUserInfo({
                 isAuthenticated: false,
                 username: "",
@@ -98,21 +98,26 @@ class Login extends Component {
                 session_id: "",
                 errors: []
             });
-            await Cookies.remove('AuthenticatedUser');
-            await axios({
-                url: 'https://api.themoviedb.org/3/authentication/guest_session/new?api_key=a34097a10fd6daf67cb09e71f3d7a0ea',
-                method: 'get'
-            })
-            .then(res => {
-                getGuestInfo({
-                    isAuthenticated: true,
-                    session_id: res.data.session_id
-                });
-                console.log('Succesfully retrieved guest session Id');
-            })
-            .catch(err => console.log('Could not retrieve id', err));
+            Cookies.remove('AuthenticatedUser');
+            await this.updateGuest();
             Cookies.set('guest', JSON.stringify(this.props.getData.guest), {expires: 1});
             window.location.pathname = '/authenticated';
+    }
+
+    async updateGuest() {
+        const {getGuestInfo} = this.props;
+        await axios({
+            url: 'https://api.themoviedb.org/3/authentication/guest_session/new?api_key=a34097a10fd6daf67cb09e71f3d7a0ea',
+            method: 'get'
+        })
+        .then(res => {
+            getGuestInfo({
+                isAuthenticated: true,
+                session_id: res.data.guest_session_id
+            });
+            console.log('Succesfully retrieved guest session Id');
+        })
+        .catch(err => console.log('Could not retrieve id', err));
     }
 
     submit = () => {

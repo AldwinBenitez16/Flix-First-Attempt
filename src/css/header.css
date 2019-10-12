@@ -186,7 +186,7 @@ nav ul a:hover,
 }
 
 .login a {
-    color: #F3CC6C;
+    color: #D44B2D;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -194,7 +194,6 @@ nav ul a:hover,
     height: 100%;
     transition: color 1.5s;
 }
-
 
 
 @media (min-width: 768px) {
