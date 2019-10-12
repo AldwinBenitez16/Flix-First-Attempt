@@ -82,6 +82,15 @@ class Authenticated extends PureComponent {
             Cookies.set('list', JSON.stringify(this.props.getData.list), {expires: 365});
     }
 
+    getId = (type) => {
+        const {getData} = this.props;
+        for(let key in getData.list) {
+            if(getData.list[key].name === type) {
+                return key;
+            }
+        }
+    }
+
     render() {
         const {getData, getSlides, addListMedia, createGenres, removeListMedia, updateList, getPosterInfo, createList} = this.props;
 
@@ -91,11 +100,11 @@ class Authenticated extends PureComponent {
             <div>
                 <div className='authlist-container'>
                     <div className='boxes'>
-                        <div className='quantity'>0</div>
+                        <div className='quantity'>{getData.list[this.getId('Favorites')].items}</div>
                         <h3>Favourites</h3>
                     </div>
                     <div className='boxes'>
-                        <div className='quantity'>0</div>
+                        <div className='quantity'></div>
                         <h3>Watch Later</h3>
                     </div>
                     <div className='boxes'>
