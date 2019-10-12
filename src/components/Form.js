@@ -4,6 +4,7 @@ export default (props) => {
   const {
     cancel,
     errors,
+    guest,
     submit,
     submitButtonText,
     elements,
@@ -19,6 +20,11 @@ export default (props) => {
     cancel();
   }
 
+  function handleGuest(event) {
+    event.preventDefault();
+    guest();
+  }
+
   return (
     <div>
       <ErrorsDisplay errors={errors} />
@@ -27,6 +33,7 @@ export default (props) => {
         <div className="form-btns">
           <button className="button" type="submit">{submitButtonText}</button>
           <button className="button button-secondary" onClick={handleCancel}>Cancel</button>
+          <button className="button button-secondary" onClick={handleGuest}>Log In As Guest</button>
         </div>
       </form>
     </div>

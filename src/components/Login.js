@@ -44,6 +44,7 @@ class Login extends Component {
                         cancel={this.cancel}
                         errors={errors}
                         submit={this.submit}
+                        guest={this.guest}
                         submitButtonText="Sign In"
                         elements={() => (
                         <React.Fragment>
@@ -82,13 +83,30 @@ class Login extends Component {
             [username]: uservalue,
             [passname]: passvalue
         });
+
         await this.getSessionId();
         Cookies.set('AuthenticatedUser', JSON.stringify(this.props.getData.user), {expires: 1});
         window.location.pathname = '/authenticated';
     }
 
+    async getGuest() {
+            await axios({
+                url: 'https://api.themoviedb.org/3/authentication/guest_session/new?api_key=a34097a10fd6daf67cb09e71f3d7a0ea',
+                method: 'get'
+            })
+            .then(res => {
+                Cookies.set('guest', JSON.stringify({session_id: res.data.guest_session_id}));
+                console.log('Succesfully retrieved guest session Id');
+            })
+            .catch(err => console.log('Could not retrieve id', err));
+    }
+
     submit = () => {
         this.change();
+    }
+
+    guest = () => {
+        this.getGuest();
     }
 
     validateToken = () => {

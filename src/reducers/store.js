@@ -24,6 +24,8 @@ const initialState = {
         session_id: '',
         errors: []
     },
+    guest: Cookies.getJSON('guest') || {
+    },
     list: Cookies.getJSON('list') || {
     }
 };
