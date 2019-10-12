@@ -121,8 +121,8 @@ class Authenticated extends PureComponent {
                         }}>+</button>
                         <h3>Create List</h3>
                         <div className='list-overlay' ref={this.listRef}>
-                            <input ref={this.listnameRef} type='text' name='name' defaultValue='name' onClick={(e) => {
-                                if(e.currentTarget.value === 'name') {
+                            <input ref={this.listnameRef} type='text' name='name' defaultValue='Name' onClick={(e) => {
+                                if(e.currentTarget.value === 'Name') {
                                     e.currentTarget.value = '';
                                 }
                             }} />
@@ -133,7 +133,7 @@ class Authenticated extends PureComponent {
                             }}> 
                             </textarea>
                             <button onClick={ () =>this.updateList(name.value, desc.value)}>Submit</button>
-                            <button>Cancel</button>
+                            <button onClick={() => this.listRef.current.style.display = ''}>Cancel</button>
                         </div>
                     </div>
                 </div>

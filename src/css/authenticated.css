@@ -52,7 +52,8 @@
 }
 
 .list-overlay {
-    background-color: #e1e1e8;
+    color: rgb(243, 204, 108);
+    background-color: rgb(212, 75, 45);
     position: absolute;
     display: none;
     flex-direction: row;
@@ -60,16 +61,19 @@
     width: 80%;
     top: 110px;
     right: calc(50% - (80%/2));
-    border: 1px solid #404042;
-    border-radius: 5px;
+    border: 2px solid rgb(212, 75, 45); 
+    padding: 10px;
+    z-index: 2000;
 }
 
 .list-overlay > * {
-    border: 1px solid #404042;
-    border-radius: 5px;
-    padding: 5px;
+    color: rgb(212, 75, 45);
+    background-color: rgba(243, 204, 108, .9);
+    border: 1px solid rgb(243, 204, 108);
+    padding: 8px;
     margin: 5px;
     width: 100%;
+    border-radius: 2px;
 }
 
 .list-overlay button {

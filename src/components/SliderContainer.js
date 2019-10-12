@@ -45,7 +45,7 @@ class SliderContainer extends Component {
 
                         return(
                             <div key={index} className='poster'>
-                                <div className='voteAvg'>{item.vote_average}</div>
+                                <div className='voteAvg'>{(item.vote_average > 0) ? item.vote_average : null}</div>
                                 <img
                                 onClick={() => {
                                     infoRef.current.style.display = 'flex';
