@@ -100,15 +100,15 @@ class Authenticated extends PureComponent {
             <div>
                 <div className='authlist-container'>
                     <div className='boxes'>
-                        <div className='quantity'>{getData.list[this.getId('Favorites')].items}</div>
+                        <div className='quantity'>{getData.list[this.getId('Favorites')].items || 0}</div>
                         <h3>Favourites</h3>
                     </div>
                     <div className='boxes'>
-                        <div className='quantity'></div>
+                        <div className='quantity'>{getData.list[this.getId('Watch Later')].items || 0}</div>
                         <h3>Watch Later</h3>
                     </div>
                     <div className='boxes'>
-                        <div  className='quantity'>0</div>
+                        <div  className='quantity'>{getData.list[this.getId('Rated')].items || 0}</div>
                         <h3>Rated Movie</h3>
                     </div>
                     <div className='boxes list-container'>
