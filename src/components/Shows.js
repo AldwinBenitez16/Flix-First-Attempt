@@ -51,7 +51,34 @@ class Shows extends Component {
                 getData={getData}
                 category='trending'
                 data={getData.data['trendingTv'].results}
-                title='Trenidng TV Shows' />
+                title='Trending TV Shows' />
+                <SliderContainer 
+                getPosterInfo={getPosterInfo}
+                containerRef={this.containerRef} 
+                infoRef={this.infoRef}
+                slideToShow={getData.slideToShow} 
+                getData={getData}
+                category='top_rated'
+                data={getData.data['top_ratedTv'].results}
+                title='Top Rated TV Shows' />
+                <SliderContainer 
+                getPosterInfo={getPosterInfo}
+                containerRef={this.containerRef} 
+                infoRef={this.infoRef}
+                slideToShow={getData.slideToShow} 
+                getData={getData}
+                category='on_the_air'
+                data={getData.data['on_the_airTv'].results}
+                title='New Episode This Week' />
+                <SliderContainer 
+                getPosterInfo={getPosterInfo}
+                containerRef={this.containerRef} 
+                infoRef={this.infoRef}
+                slideToShow={getData.slideToShow} 
+                getData={getData}
+                category='airing_today'
+                data={getData.data['airing_todayTv'].results}
+                title='Airing today' />
                 </div>
             </div>
         );

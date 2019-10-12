@@ -55,6 +55,18 @@ class Flix extends Component{
       'trendingTv'
     );
     fetchProducts(
+      'https://api.themoviedb.org/3/tv/top_rated?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&page=1',
+      'top_ratedTv'
+    );
+    fetchProducts(
+      'https://api.themoviedb.org/3/tv/on_the_air?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&page=1',
+      'on_the_airTv'
+    );
+    fetchProducts(
+      'https://api.themoviedb.org/3/tv/airing_today?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&page=1',
+      'airing_todayTv'
+    );
+    fetchProducts(
       'https://api.themoviedb.org/3/genre/movie/list?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US',
       'movieGenres'
     );
@@ -124,8 +136,8 @@ createList = () => {
       addListMedia, 
       removeListMedia} = this.props;
 
-    if(!(Object.getOwnPropertyNames(getData.data).length >= 7)) return <Loading />
-
+    if(!(Object.getOwnPropertyNames(getData.data).length >= 10)) return <Loading />
+      console.log(getData);
     return(
       <Router>
         <div className="App">
