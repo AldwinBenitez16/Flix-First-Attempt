@@ -46,6 +46,13 @@ export function getUserInfo(data) {
     }
 }
 
+export function getGuestInfo(data) {
+    return {
+        type: StoreActionTypes.GET_GUEST_INFO,
+        data
+    }
+}
+
 export function updateList(data) {
     return {
         type: StoreActionTypes.UPDATE_USER_LIST,

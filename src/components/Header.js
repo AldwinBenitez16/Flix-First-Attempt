@@ -52,7 +52,7 @@ class Header extends Component {
     }
 
     async removeUser() {
-        const {getUserInfo} = this.props;
+        const {getUserInfo, getGuestInfo} = this.props;
         await getUserInfo({
             isAuthenticated: false,
             username: "",
@@ -61,6 +61,11 @@ class Header extends Component {
             errors: []
         });
         await Cookie.remove('AuthenticatedUser');
+        await getGuestInfo({
+            isAuthenticated: false,
+            session_id: "",
+        });
+        await Cookie.remove('guest');
     }
 
     render() {
@@ -104,7 +109,7 @@ class Header extends Component {
                             <li><NavLink to='/movies' className='genre-btn' onMouseOver={ () => this.showGenres('movie')} >Movies</NavLink></li>    
                             <li><NavLink to='/tv' className='genre-btn' onMouseOver={() => this.showGenres('tv')} >Tv Shows</NavLink></li>
                             <li className='auth-container'>
-                            {getData.user.isAuthenticated ? (<NavLink onMouseOver={() => {
+                            {(getData.user.isAuthenticated || getData.guest.isAuthenticated) ? (<NavLink onMouseOver={() => {
                                 this.authRef.current.style.display = 'initial';
                             }} className='authenticated' exact to='/authenticated'>Welcome <span>{getData.user.username}</span></NavLink>) : null}
                             <div onMouseLeave={() => {
@@ -124,7 +129,7 @@ class Header extends Component {
                     </nav>
                     <div className='search'>
                         <input type='text' id='search' name='search' placeholder=' Search' />
-                        {getData.user.isAuthenticated ? null : (<div  className='login'><NavLink onClick={() => {
+                        {(getData.user.isAuthenticated || getData.guest.isAuthenticated) ? null : (<div  className='login'><NavLink onClick={() => {
                             window.location.pathname = '/login'
                         }} className='login' to='/login'>Log In</NavLink></div>)}
                     </div>

@@ -25,6 +25,8 @@ const initialState = {
         errors: []
     },
     guest: Cookies.getJSON('guest') || {
+        isAuthenticated: false,
+        session_id: ''
     },
     list: Cookies.getJSON('list') || {
     }
@@ -77,6 +79,14 @@ export default function Store(state=initialState, action) {
                     ...action.data
                 }
             }
+        case StoreActionTypes.GET_GUEST_INFO:
+        return {
+            ...state,
+            guest: {
+                ...state.guest,
+                ...action.data
+            }
+        }
         case StoreActionTypes.UPDATE_USER_LIST:
             return {
                 ...state,

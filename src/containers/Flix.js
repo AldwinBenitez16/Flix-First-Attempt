@@ -104,9 +104,12 @@ class Flix extends Component{
         method: 'get'
     })
     .then(res => {
-        updateList({[list_id]: {...this.props.getData.list[list_id], items: res.data.items.length}});
-        for(let i = 0; i < res.data.items.length; i++) {
-            addListMedia(list_id, {[res.data.items[i].id]: {...this.props.getData.list[list_id].media[res.data.items[i].id],data: res.data.items[i]}});
+        
+        if(!this.props.getData.guest.isAuthenticated) {
+          updateList({[list_id]: {...this.props.getData.list[list_id], items: res.data.items.length}});
+          for(let i = 0; i < res.data.items.length; i++) {
+              addListMedia(list_id, {[res.data.items[i].id]: {...this.props.getData.list[list_id].media[res.data.items[i].id],data: res.data.items[i]}});
+          }
         }
     })
     .catch(err => {
@@ -131,7 +134,8 @@ createList = () => {
       fetchProducts, 
       getSlides, 
       getPosterInfo, 
-      getUserInfo, 
+      getUserInfo,
+      getGuestInfo,
       updateList, 
       addListMedia, 
       removeListMedia} = this.props;
@@ -146,6 +150,7 @@ createList = () => {
           createGenres={this.createGenres}  
           containerRef={this.containerRef}
           getUserInfo={getUserInfo}
+          getGuestInfo={getGuestInfo}
           />
 
           <Switch>
@@ -205,11 +210,12 @@ createList = () => {
               render={() => <Login 
                 getData={getData}
                 getUserInfo={getUserInfo}
+                getGuestInfo={getGuestInfo}
                 fetchProducts={fetchProducts} />
             } />
             <Route //private route
               path='/authenticated'
-              render={ props => getData.user.isAuthenticated ? (
+              render={ props => (getData.user.isAuthenticated || getData.guest.isAuthenticated) ? (
                 <Authenticated 
                   getData={getData}
                   fetchProducts={fetchProducts}
@@ -242,6 +248,7 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getSlides: StoreActionCreators.getSlideToShow,
   getPosterInfo: StoreActionCreators.getPosterInfo,
   getUserInfo: StoreActionCreators.getUserInfo,
+  getGuestInfo: StoreActionCreators.getGuestInfo,
   updateList: StoreActionCreators.updateList,
   addListMedia: StoreActionCreators.addListMedia,
   removeListMedia: StoreActionCreators.removeListMedia
