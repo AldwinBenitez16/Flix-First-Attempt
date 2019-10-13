@@ -48,9 +48,11 @@ class SliderContainer extends Component {
                                 <div className='voteAvg'>{(item.vote_average > 0) ? item.vote_average : null}</div>
                                 <img
                                 onClick={() => {
-                                    infoRef.current.style.display = 'flex';
-                                    containerRef.current.style.width = '80vw';  
-                                    getPosterInfo(item);       
+                                    if(window.innerWidth) {
+                                        infoRef.current.style.display = 'flex';
+                                        containerRef.current.style.width = '60vw';  
+                                        getPosterInfo(item);
+                                    }       
                                 }}
                                 onError={(e) => {
                                     e.target.src='https://i.imgur.com/zwpr2vD.jpg'

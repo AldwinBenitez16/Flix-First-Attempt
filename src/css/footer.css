@@ -34,10 +34,17 @@ footer {
 }
 
 .tmdb a{
-    margin-left: 20px;
+    height: 50%;
+    margin-left: 5px;
 }
 
 .tmdb img {
-    margin-left: 20px;
     height: 100%;
+}
+
+@media (min-width: 768px) {
+    .tmdb a{
+        height: 60%;
+        margin-left: 20px;
+    }
 }
