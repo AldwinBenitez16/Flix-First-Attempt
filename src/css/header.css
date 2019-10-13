@@ -172,14 +172,35 @@ nav ul a:hover,
     padding-bottom: 15px;
 }
 
-.search input {
+.search input,
+.search-btn {
     background-color: rgba(243, 204, 108, .9);
     color: #D44B2D;
     width: 50vw;
     border: none;
-    padding: 7px;
-    margin: 10px 0 ;
+    margin: 10px 0;
     border-radius: 3px;
+}
+
+.search input {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    padding: 7px;
+}
+
+.search-btn {
+    width: 25px;
+    border-radius: 3px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    margin-right: 10px;
+    border: 1px solid #D44B2D;
+    min-height: 32px;
+}
+
+.search-btn img {
+    display: inline;
+    max-height: 12px;
 }
 
 .login {
@@ -190,13 +211,17 @@ nav ul a:hover,
 }
 
 .login a {
-    color: #D44B2D;
+    color: #F3CC6C;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 10px;
     height: 100%;
     transition: color 1.5s;
+}
+
+.login .active {
+    color: #D44B2D;
 }
 
 
@@ -263,7 +288,7 @@ nav ul a:hover,
 
     .search input {
         width: 20vw;
-        margin-right: 10px;
+        margin-right: 0px;
     }
 
     .search {

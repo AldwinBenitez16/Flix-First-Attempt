@@ -18,6 +18,7 @@ import LoadingSpinner from './Loading';
 // images
 import logo from '../images/svg/logo.svg';
 import tmdb from '../images/tmdb-logo2.png'
+import search from '../images/search.png';
 
 // CSS
 import '../css/header.css';
@@ -68,6 +69,7 @@ class Header extends Component {
         await Cookie.remove('guest');
     }
 
+    searchRef = React.createRef();
     render() {
         const {getData, createGenres, containerRef} = this.props;
 
@@ -128,7 +130,12 @@ class Header extends Component {
                         </div>
                     </nav>
                     <div className='search'>
-                        <input type='text' id='search' name='search' placeholder=' Search' />
+                        <div className='search-container' >
+                            <input ref={this.searchRef} type='text' id='search' name='search' placeholder=' Search' />
+                            <button className='search-btn' type='submit'>
+                                <img src={search} alt='search icon'/>
+                            </button>
+                        </div>
                         {(getData.user.isAuthenticated || getData.guest.isAuthenticated) ? null : (<div  className='login'><NavLink onClick={() => {
                             window.location.pathname = '/login'
                         }} className='login' to='/login'>Log In</NavLink></div>)}
