@@ -9,8 +9,8 @@ class Background extends Component {
     getPath = (getData, genre,type, category) => {
 
         for(let i = 0; i < genre.length; i++) {
-            if(window.location.href === 'http://localhost:3000/movies') return  getData.data.now_playingMovie.results
-            if(window.location.href === 'http://localhost:3000/tv') return  getData.data.trendingTv.results
+            if(window.location.href === `${window.location.origin}/movies`) return  getData.data.now_playingMovie.results
+            if(window.location.href === `${window.location.origin}/tv`) return  getData.data.trendingTv.results
 
             if(genre[i].name.toLowerCase().replace(/\s/g,'') === category.replace(/%20/g,'')) {
                 return  getData.data[`${category.replace(/%20/g,'')}${this.capitalize(type)}`].results;
@@ -47,9 +47,9 @@ class Background extends Component {
         let category = test.substring(indices[0]+1, indices[1]);
 
         if(!(Object.getOwnPropertyNames(getData.data).length >= 11) && 
-        !(window.location.href === 'http://localhost:3000/home') &&
-        !(window.location.href === 'http://localhost:3000/movies') &&
-        !(window.location.href === 'http://localhost:3000/tv') && 
+        !(window.location.href === `${window.location.origin}/home`) &&
+        !(window.location.href === `${window.location.origin}/movies`) &&
+        !(window.location.href === `${window.location.origin}/tv`) && 
         !(getData.data[`${category.replace(/%20/g,'')}${this.capitalize(type)}`])) {
             return <LoadingSpinner />
         }

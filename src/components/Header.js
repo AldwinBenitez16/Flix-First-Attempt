@@ -32,7 +32,7 @@ class Header extends Component {
         for(let i = 0; i < genreData.length; i++) {
             genreList.push(<a onClick={(e) => {
                 let type = e.currentTarget.parentNode.id;
-                window.location = `/pages/${type}-${genreData[i].name.toLowerCase()}-${1}`;
+                window.location.pathname = `/pages/${type}-${genreData[i].name.toLowerCase()}-${1}`;
             }} key={genreData[i].id} >{genreData[i].name}</a>);
         }
         return genreList;
