@@ -106,13 +106,13 @@ class Header extends Component {
                     <nav>
                         <ul>
                             <li><NavLink to='/home'>Home</NavLink></li>
-                            <li><NavLink to='/movies' className='genre-btn' onMouseOver={ () => this.showGenres('movie')} >Movies</NavLink></li>    
-                            <li><NavLink to='/tv' className='genre-btn' onMouseOver={() => this.showGenres('tv')} >Tv Shows</NavLink></li>
+                            <li><NavLink to='/movies' className='genre-btn' onMouseLeave={ () => this.hideGenres('movie')} onMouseOver={ () => this.showGenres('movie')} >Movies</NavLink></li>    
+                            <li><NavLink to='/tv' className='genre-btn' onMouseLeave={ () => this.hideGenres('tv')} onMouseOver={() => this.showGenres('tv')} >Tv Shows</NavLink></li>
                             <li className='auth-container'>
-                            {(getData.user.isAuthenticated || getData.guest.isAuthenticated) ? (<NavLink onMouseOver={() => {
+                            {(getData.user.isAuthenticated || getData.guest.isAuthenticated) ? (<NavLink onMouseLeave={() => this.authRef.current.style.display = ''} onMouseOver={() => {
                                 this.authRef.current.style.display = 'initial';
                             }} className='authenticated' exact to='/authenticated'>Welcome <span>{getData.user.username}</span></NavLink>) : null}
-                            <div onMouseLeave={() => {
+                            <div onMouseOver={ () => this.authRef.current.style.display = 'initial'} onMouseLeave={() => {
                                 this.authRef.current.style.display = '';
                             }} ref={this.authRef} className='auth-overlay'>
                                 <a onClick={() => this.removeUser()}>Log out</a>
@@ -120,10 +120,10 @@ class Header extends Component {
                             </li>
                         </ul>
 
-                        <div ref={this.movieRef} id='movie' className='genreContainer' onMouseLeave={() => this.hideGenres('movie')}>
+                        <div ref={this.movieRef} id='movie' className='genreContainer' onMouseOver={ () => this.showGenres('movie')} onMouseLeave={() => this.hideGenres('movie')}>
                             {this.createGenreList(movieGenres)}
                         </div>
-                        <div ref={this.tvRef} id='tv' className='genreContainer' onMouseLeave={() => this.hideGenres('tv')}>
+                        <div ref={this.tvRef} id='tv' className='genreContainer' onMouseOver={ () => this.showGenres('tv')} onMouseLeave={() => this.hideGenres('tv')}>
                             {this.createGenreList(tvGenres)}
                         </div>
                     </nav>
