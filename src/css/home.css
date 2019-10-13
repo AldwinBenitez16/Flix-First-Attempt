@@ -24,8 +24,11 @@
 .poster img {
     border-radius: 3px;
     max-height: 250px;
-    width: 75%;
     cursor: pointer;
+}
+
+#carousel-poster {
+    width: 80%;
 }
 
 .poster .voteAvg {
@@ -34,7 +37,7 @@
     background-color: rgb(212, 75, 45);
     width: 20%;
     text-align: center;
-    left: 11%;
+    left: 10%;
     top: 0;
 }
 

@@ -6,10 +6,6 @@
     outline: none;
 }
 
-.poster img{
-    max-height: 250px;
-}
-
 .slick-slider {
     height: 90%;
     display: flex;

@@ -14,10 +14,6 @@
     margin: 0 auto;
 }
 
-.poster img {
-    width: unset;
-}
-
 .page-container .poster {
     padding: 10px;
 }
