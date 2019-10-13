@@ -2,7 +2,7 @@
 
 .main-container {
     width: 100vw;
-    background-color: rgba(243, 204, 108, .7);
+    background-color: rgb(243, 204, 108);
 }
 
 .main-container .container {
@@ -28,16 +28,16 @@
 }
 
 #carousel-poster {
-    width: 80%;
+    width: 70%;
 }
 
 .poster .voteAvg {
     position: absolute;
     color: rgb(243, 204, 108);;
     background-color: rgb(212, 75, 45);
-    width: 20%;
+    width: 15%;
     text-align: center;
-    left: 10%;
+    left: 15%;
     top: 0;
 }
 

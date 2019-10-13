@@ -23,7 +23,7 @@ export function fetchProductsError(error) {
 }
 
 export function getSlideToShow(width) {
-    let extraShow = (width-250) / 230;
+    let extraShow = (width-200) / 300;
     let slides = 1 + Math.floor(extraShow);
 
     return {

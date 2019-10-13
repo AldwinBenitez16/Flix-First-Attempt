@@ -184,77 +184,82 @@ class Info extends Component {
         const watch = getData.list[this.getList('Watch Later')];
         return (
             <div ref={infoRef} className='info-container'>
-                <h2>{title}<span>({date})</span></h2>
-                <button onClick={() => {
-                        infoRef.current.style.display = 'none';
-                        containerRef.current.style.width = '100vw';
-                }} className='exit'>X</button>
-                <h3>Overview</h3>
-                <p className='overview'>{data.overview}</p>
-                <ul className='genres'>
-                    {cleanArray}
-                </ul>
-                { getData.user.isAuthenticated ?
-                (
-                    <div className='list-bar'> 
-                        <div className='rating-container'>
-                            <button onClick={() => this.deleteRating('Rated', type, id, authId, 'session_id')}>Delete Rating</button>
-                            <button onClick={() => this.updateValue(-(0.5))}>-</button>
-                            <p ref={this.inputRef}>0</p>
-                            <button onClick={() => this.updateValue(0.5)}>+</button>
-                            <button onClick={() => this.rateMovie(this.inputRef.current.textContent, 'Rated', type, title, id, authId, 'session_id')}>Rate</button>
-                        </div>
-                        <div className='addlist ls-container'>
-                            <img 
-                            onClick={() => {
-                                if(this.lsRef.current.style.display === '') {
-                                    this.lsRef.current.style.display = 'initial';
-                                } else {
-                                    this.lsRef.current.style.display = '';
-                                }
-                            }}
-                            src={list} 
-                            alt='list icon'
-                            />
-                            <div ref={this.lsRef} className='ls-overlay'>
-                                {this.createList(title, id, type)}
+                <div className='info-card'>
+                    <h2>{title}<span>({date})</span></h2>
+                    <button onClick={() => {
+                            infoRef.current.style.display = 'none';
+                            containerRef.current.style.width = '100vw';
+                            if(containerRef.current.style.display === 'none') {
+                                containerRef.current.style.display = 'initial';
+                            } 
+                    }} className='exit'>X</button>
+                    <h3>Overview</h3>
+                    <p className='overview'>{data.overview}</p>
+                    <ul className='genres'>
+                        {cleanArray}
+                    </ul>
+                    { getData.user.isAuthenticated ?
+                    (
+                        <div className='list-bar'> 
+                            <div className='rating-container'>
+                                <button onClick={() => this.deleteRating('Rated', type, id, authId, 'session_id')}>Delete Rating</button>
+                                <button onClick={() => this.updateValue(-(0.5))}>-</button>
+                                <p ref={this.inputRef}>0</p>
+                                <button onClick={() => this.updateValue(0.5)}>+</button>
+                                <button onClick={() => this.rateMovie(this.inputRef.current.textContent, 'Rated', type, title, id, authId, 'session_id')}>Rate</button>
+                            </div>
+                            <div className='addlist ls-container'>
+                                <img 
+                                onClick={() => {
+                                    if(this.lsRef.current.style.display === '') {
+                                        this.lsRef.current.style.display = 'initial';
+                                    } else {
+                                        this.lsRef.current.style.display = '';
+                                    }
+                                }}
+                                src={list} 
+                                alt='list icon'
+                                />
+                                <div ref={this.lsRef} className='ls-overlay'>
+                                    {this.createList(title, id, type)}
+                                </div>
+                            </div>
+                            <div className='addlist'>
+                                <img 
+                                src={!(favorites ? id in favorites.media : false) ? addfavorite : removefavorite} 
+                                alt='favorite icon' 
+                                onClick={() => !(favorites ? id in favorites.media : false) ? this.addMedia('Favorites', title, id, type) : this.deleteMedia('Favorites', id, type)}     
+                                />
+                            </div>
+                            <div className='addlist'>
+                                <img 
+                                src={!(favorites ? id in watch.media : false) ? addwatch : removewatch} 
+                                alt='watch later icon' 
+                                onClick={() => !(favorites ? id in watch.media : false) ? this.addMedia('Watch Later', title, id, type) : this.deleteMedia('Watch Later', id, type)}  
+                                />
                             </div>
                         </div>
-                        <div className='addlist'>
-                            <img 
-                            src={!(favorites ? id in favorites.media : false) ? addfavorite : removefavorite} 
-                            alt='favorite icon' 
-                            onClick={() => !(favorites ? id in favorites.media : false) ? this.addMedia('Favorites', title, id, type) : this.deleteMedia('Favorites', id, type)}     
-                            />
-                        </div>
-                        <div className='addlist'>
-                            <img 
-                            src={!(favorites ? id in watch.media : false) ? addwatch : removewatch} 
-                            alt='watch later icon' 
-                            onClick={() => !(favorites ? id in watch.media : false) ? this.addMedia('Watch Later', title, id, type) : this.deleteMedia('Watch Later', id, type)}  
-                            />
-                        </div>
-                    </div>
-                )
-                :
-                null
-                }
+                    )
+                    :
+                    null
+                    }
 
-                { getData.guest.isAuthenticated ?
-                (
-                    <div className='list-bar'> 
-                        <div className='rating-container'>
-                            <button onClick={() => this.deleteRating('Rated', type, id, guestId, 'guest_session_id')}>Delete Rating</button>
-                            <button onClick={() => this.updateValue(-(0.5))}>-</button>
-                            <p ref={this.inputRef}>0</p>
-                            <button onClick={() => this.updateValue(0.5)}>+</button>
-                            <button onClick={() => this.rateMovie(this.inputRef.current.textContent, 'Rated', type, title, id, guestId, 'guest_session_id')}>Rate</button>
+                    { getData.guest.isAuthenticated ?
+                    (
+                        <div className='list-bar'> 
+                            <div className='rating-container'>
+                                <button onClick={() => this.deleteRating('Rated', type, id, guestId, 'guest_session_id')}>Delete Rating</button>
+                                <button onClick={() => this.updateValue(-(0.5))}>-</button>
+                                <p ref={this.inputRef}>0</p>
+                                <button onClick={() => this.updateValue(0.5)}>+</button>
+                                <button onClick={() => this.rateMovie(this.inputRef.current.textContent, 'Rated', type, title, id, guestId, 'guest_session_id')}>Rate</button>
+                            </div>
                         </div>
-                    </div>
-                )
-                :
-                null
-                }
+                    )
+                    :
+                    null
+                    }
+                </div>
             </div>
         );
     }

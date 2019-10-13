@@ -11,14 +11,22 @@ class Shows extends Component {
 
     UNSAFE_componentWillMount() {
         const {getSlides} = this.props;
-        getSlides(window.innerWidth);
+        let infowidth = (this.infoRef.current) ? this.infoRef.current.scrollWidth : 0;
+        let width = window.innerWidth - infowidth;
+        let holder = this;
+        getSlides(width);
 
-        let prevWidth = window.innerWidth;
+        let prevWidth = width;
         function updateSlides() {
-            let widthDif = window.innerWidth - prevWidth;
+
+            infowidth = (holder.infoRef.current) ? holder.infoRef.current.scrollWidth : 0;
+            width = window.innerWidth - infowidth;
+            console.log(width);
+
+            let widthDif = width - prevWidth;
             if(Math.abs(widthDif) >= 230) {
-                prevWidth = window.innerWidth;
-                getSlides(window.innerWidth);
+                prevWidth = width;
+                getSlides(width);
             }
             let frameID = window.requestAnimationFrame(updateSlides);
         }
