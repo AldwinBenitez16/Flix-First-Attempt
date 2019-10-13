@@ -100,7 +100,7 @@ class Header extends Component {
                             <img className='logo' src={logo} alt='' height='40'/>
                         </NavLink>
                         <a href='https://www.themoviedb.org/?language=en-US' target='_blank'>
-                            <img className='logo-tmdb' src={tmdb} alt='' height='25'/>
+                            <img className='logo-tmdb' src={tmdb} alt='' height='30'/>
                         </a>
                     </div>
                     <nav>

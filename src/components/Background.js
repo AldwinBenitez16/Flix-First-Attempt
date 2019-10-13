@@ -46,7 +46,7 @@ class Background extends Component {
         let type = test.substring(0, indices[0]);
         let category = test.substring(indices[0]+1, indices[1]);
 
-        if(!(Object.getOwnPropertyNames(getData.data).length >= 8) && 
+        if(!(Object.getOwnPropertyNames(getData.data).length >= 11) && 
         !(window.location.href === 'http://localhost:3000/home') &&
         !(window.location.href === 'http://localhost:3000/movies') &&
         !(window.location.href === 'http://localhost:3000/tv') && 

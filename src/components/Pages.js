@@ -86,7 +86,6 @@ class Pages extends Component {
         const {getData, category, type, page, getPosterInfo, createGenres, addListMedia, removeListMedia, createList} = this.props;
 
         if(!getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`]) return <Loading />
-
         let data = getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`];
 
         return(
@@ -103,7 +102,7 @@ class Pages extends Component {
                 <div ref={this.containerRef} className='main-container'>
                     <div className='page-container'>
                         <div className='title'>
-                                <h3>{category}</h3>
+                                <h3>{(category != 'sci') ? category.substring(0,1).toUpperCase() + category.substring(1) : 'Sci-Fi & Adventure'}</h3>
                         </div>
                             {data.results.map((item,index) => {
                                 return(

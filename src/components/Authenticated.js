@@ -132,7 +132,13 @@ class Authenticated extends PureComponent {
                                 }
                             }}> 
                             </textarea>
-                            <button onClick={ () =>this.updateList(name.value, desc.value)}>Submit</button>
+                            <button onClick={ () => {
+                                if(!this.props.getData.guest.isAuthenticated) {
+                                    this.updateList(name.value, desc.value)
+                                } else {
+                                    console.log('Please log-in to create list');
+                                }
+                                }}>Submit</button>
                             <button onClick={() => this.listRef.current.style.display = ''}>Cancel</button>
                         </div>
                     </div>
