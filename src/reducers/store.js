@@ -29,6 +29,10 @@ const initialState = {
         session_id: ''
     },
     list: Cookies.getJSON('list') || {
+    },
+    search: {
+        data: [],
+        query: ''
     }
 };
 
@@ -118,6 +122,14 @@ export default function Store(state=initialState, action) {
                         ...state.list[action.lsid],
                         ...action.data
                     }
+                }
+            } 
+        case StoreActionTypes.UPDATE_SEARCH:
+            return {
+                ...state,
+                search: {
+                    ...state.search,
+                    ...action.data
                 }
             } 
         default:

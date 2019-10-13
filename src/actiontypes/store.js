@@ -9,3 +9,4 @@ export const GET_GUEST_INFO = 'GET_GUEST_INFO';
 export const UPDATE_USER_LIST = 'UPDATE_USER_LIST';
 export const ADD_LIST_MEDIA = 'ADD_LIST_MEDIA';
 export const REMOVE_LIST_MEDIA = 'REMOVE_LIST_MEDIA';
+export const UPDATE_SEARCH = 'UPDATE_SEARCH';

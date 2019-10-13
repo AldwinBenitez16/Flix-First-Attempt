@@ -189,6 +189,7 @@ nav ul a:hover,
 }
 
 .search-btn {
+    cursor: pointer;
     width: 25px;
     border-radius: 3px;
     border-top-left-radius: 0;

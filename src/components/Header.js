@@ -25,6 +25,7 @@ import '../css/header.css';
 
 // Cookie manager
 import Cookie from 'js-cookie';
+import axios from 'axios';
 
 class Header extends Component {
 
@@ -67,6 +68,34 @@ class Header extends Component {
             session_id: "",
         });
         await Cookie.remove('guest');
+    }
+
+    getSearch = (e) => {
+        e.preventDefault();
+        let query = this.searchRef.current.value;
+        if(query === '') {
+            console.log('Please enter search')
+            return;
+        };
+        this.search(query);
+    }
+
+    async search(query) {
+        const {updateSearch} = this.props;
+        await axios({
+            method: 'get',
+            url: `
+            https://api.themoviedb.org/3/search/multi?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&query=${query}&page=1&include_adult=false&region=en-US`
+        })
+        .then(res => {
+            if(res.data.results.length === 0) console.log('No Results Found');
+            console.log(res.data.results);
+            updateSearch({data: res.data.results, query: query});
+        })
+        .catch(err => {
+            console.log('Search Failed', err)
+        });
+        console.log(this.props.getData.search);
     }
 
     searchRef = React.createRef();
@@ -130,12 +159,12 @@ class Header extends Component {
                         </div>
                     </nav>
                     <div className='search'>
-                        <div className='search-container' >
+                        <form onSubmit={(e) => this.getSearch(e)} className='search-container' >
                             <input ref={this.searchRef} type='text' id='search' name='search' placeholder=' Search' />
                             <button className='search-btn' type='submit'>
                                 <img src={search} alt='search icon'/>
                             </button>
-                        </div>
+                        </form>
                         {(getData.user.isAuthenticated || getData.guest.isAuthenticated) ? null : (<div  className='login'><NavLink onClick={() => {
                             window.location.pathname = '/login'
                         }} className='login' to='/login'>Log In</NavLink></div>)}

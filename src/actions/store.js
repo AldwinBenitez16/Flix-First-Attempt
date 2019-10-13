@@ -76,5 +76,13 @@ export function removeListMedia(lsid, data) {
     }
 }
 
+export function updateSearch(data) {
+    return {
+        type: StoreActionTypes.UPDATE_SEARCH,
+        data
+    }
+}
+
+
 
 

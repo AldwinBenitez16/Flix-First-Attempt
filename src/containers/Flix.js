@@ -138,7 +138,8 @@ class Flix extends Component{
       getGuestInfo,
       updateList, 
       addListMedia, 
-      removeListMedia} = this.props;
+      removeListMedia,
+      updateSearch} = this.props;
 
     if(!(Object.getOwnPropertyNames(getData.data).length >= 10)) return <Loading />
       console.log(getData);
@@ -151,6 +152,8 @@ class Flix extends Component{
           containerRef={this.containerRef}
           getUserInfo={getUserInfo}
           getGuestInfo={getGuestInfo}
+          fetchProducts={fetchProducts}
+          updateSearch={updateSearch}
           />
 
           <Switch>
@@ -251,7 +254,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   getGuestInfo: StoreActionCreators.getGuestInfo,
   updateList: StoreActionCreators.updateList,
   addListMedia: StoreActionCreators.addListMedia,
-  removeListMedia: StoreActionCreators.removeListMedia
+  removeListMedia: StoreActionCreators.removeListMedia,
+  updateSearch: StoreActionCreators.updateSearch
 }, dispatch)
 
 const mapStateToProps = state => ({
