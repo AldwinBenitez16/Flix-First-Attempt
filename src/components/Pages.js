@@ -110,8 +110,9 @@ class Pages extends Component {
                                         <img
                                         onClick={() => {
                                             this.infoRef.current.style.display = 'flex';
-                                            this.containerRef.current.style.width = '80vw';
-                                            getPosterInfo(item);       
+                                            this.infoRef.current.className = 'info-container overlay';
+                                            this.infoRef.current.style.top = 'calc(' + window.pageYOffset + 'px + 25vh)';
+                                            getPosterInfo(item);  
                                         }}
                                         onError={(e) => {
                                             e.target.src='https://i.imgur.com/zwpr2vD.jpg'

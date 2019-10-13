@@ -49,19 +49,10 @@ class SliderContainer extends Component {
                                 <img
                                 id='carousel-poster'
                                 onClick={() => {
-                                    let width = window.innerWidth;
-                                    if(width > 768) {
-                                        infoRef.current.style.display = 'flex';
-                                        infoRef.current.style.width = '40vw';
-                                        containerRef.current.style.width = '60vw';  
-                                        getPosterInfo(item);
-                                    } else {
-                                        infoRef.current.style.display = 'flex';
-                                        containerRef.current.style.display = 'none';
-                                        infoRef.current.style.width = '100vw';
-                                        containerRef.current.style.width = '0vw';  
-                                        getPosterInfo(item);
-                                    }    
+                                    infoRef.current.style.display = 'flex';
+                                    infoRef.current.className = 'info-container overlay';
+                                    infoRef.current.style.top = 'calc(' + window.pageYOffset + 'px + 25vh)';
+                                    getPosterInfo(item);  
                                 }}
                                 onError={(e) => {
                                     e.target.src='https://i.imgur.com/zwpr2vD.jpg'

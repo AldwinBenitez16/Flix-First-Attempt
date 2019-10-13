@@ -188,6 +188,7 @@ class Info extends Component {
                     <h2>{title}<span>({date})</span></h2>
                     <button onClick={() => {
                             infoRef.current.style.display = 'none';
+                            infoRef.current.className = 'info-container';
                             containerRef.current.style.width = '100vw';
                             if(containerRef.current.style.display === 'none') {
                                 containerRef.current.style.display = 'initial';

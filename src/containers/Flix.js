@@ -86,7 +86,7 @@ class Flix extends Component{
 
   createGenres = (image, genre) => {
       let genreList = [];
-
+  genreList.push(<li key={'genre'} >{'Genres:'}</li>);
       for(let i = 0; i < image[0].genre_ids.length; i++) {
           let genres;
 
@@ -117,16 +117,16 @@ class Flix extends Component{
     });
 }
 
-updateMovie = (list_id) => {
-    this.getList(list_id);
-} 
+  updateMovie = (list_id) => {
+      this.getList(list_id);
+  } 
 
-createList = () => {
-    const {getData} = this.props;
-    for(let key in getData.list) {
-        this.updateMovie(key);
-    }
-}
+  createList = () => {
+      const {getData} = this.props;
+      for(let key in getData.list) {
+          this.updateMovie(key);
+      }
+  }
 
   containerRef = React.createRef();
   render() {

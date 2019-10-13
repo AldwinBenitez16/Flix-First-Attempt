@@ -12,18 +12,12 @@ class Home extends Component {
 
     UNSAFE_componentWillMount() {
         const {getSlides} = this.props;
-        let infowidth = (this.infoRef.current) ? this.infoRef.current.scrollWidth : 0;
-        let width = window.innerWidth - infowidth;
-        let holder = this;
+        let width = window.innerWidth;
         getSlides(width);
 
         let prevWidth = width;
         function updateSlides() {
-
-            infowidth = (holder.infoRef.current) ? holder.infoRef.current.scrollWidth : 0;
-            width = window.innerWidth - infowidth;
-            console.log(width);
-
+            width = window.innerWidth;
             let widthDif = width - prevWidth;
             if(Math.abs(widthDif) >= 230) {
                 prevWidth = width;
@@ -41,7 +35,7 @@ class Home extends Component {
         const {getData, getPosterInfo, createGenres, addListMedia, removeListMedia, createList} = this.props;
 
         return (
-            <div className='info-wrapper'>
+            <div ref={this.wrapperRef} className='info-wrapper'>
                 <Info 
                 createGenres={createGenres} 
                 getData={getData} 
@@ -49,7 +43,6 @@ class Home extends Component {
                 infoRef={this.infoRef}
                 addListMedia={addListMedia}
                 removeListMedia={removeListMedia}  
-                createList={createList}
                 />
                 <div ref={this.containerRef} className='main-container'>
                     <SliderContainer 
