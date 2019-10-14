@@ -6,7 +6,9 @@ import Cookies from 'js-cookie';
 
 const initialState = {
     pending: false,
-    data: {},
+    data: {
+        search: []
+    },
     error: null,    
     slideToShow: 1,
     posterInfo: {
@@ -30,10 +32,7 @@ const initialState = {
     },
     list: Cookies.getJSON('list') || {
     },
-    search: {
-        data: [],
-        query: ''
-    }
+    search: []
 };
 
 export default function Store(state=initialState, action) {
@@ -127,9 +126,12 @@ export default function Store(state=initialState, action) {
         case StoreActionTypes.UPDATE_SEARCH:
             return {
                 ...state,
-                search: {
-                    ...state.search,
-                    ...action.data
+                data: {
+                    ...state.data,
+                    search: [
+                        ...state.data.search,
+                        ...action.data
+                    ]
                 }
             } 
         default:

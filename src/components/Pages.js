@@ -15,21 +15,23 @@ class Pages extends Component {
 
         let genreid = this.getGenre(category, type);
 
-        if(genreid) {
-            fetchProducts(
-                `https://api.themoviedb.org/3/discover/${type}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genreid}`,
-                `${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`
-            );  
-        } else if(category === 'trending') {
-            fetchProducts(
-                `https://api.themoviedb.org/3/${category}/${type}/week?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&page=${page}`,
-                `${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`
-            );
-        } else {
-            fetchProducts(
-                `https://api.themoviedb.org/3/${type}/${category}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&page=${page}`,
-                `${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`
-            );
+        if(type !== 'searh') {
+            if(genreid) {
+                fetchProducts(
+                    `https://api.themoviedb.org/3/discover/${type}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genreid}`,
+                    `${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`
+                );  
+            } else if(category === 'trending') {
+                fetchProducts(
+                    `https://api.themoviedb.org/3/${category}/${type}/week?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&page=${page}`,
+                    `${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`
+                );
+            } else {
+                fetchProducts(
+                    `https://api.themoviedb.org/3/${type}/${category}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&page=${page}`,
+                    `${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`
+                );
+            }
         }
     }
 
@@ -84,7 +86,7 @@ class Pages extends Component {
 
     render() {
         const {getData, category, type, page, getPosterInfo, createGenres, addListMedia, removeListMedia, createList} = this.props;
-
+        console.log(getData.data);
         if(!getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`]) return <Loading />
         let data = getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`];
 

@@ -77,25 +77,31 @@ class Header extends Component {
             console.log('Please enter search')
             return;
         };
-        this.search(query);
+        this.getResults(query);
     }
 
-    async search(query) {
+    async getResults(query) {
+        await this.search(query, 'movie');
+        await this.search(query, 'tv');
+        console.log(this.props.getData.data);
+        window.location.href = `${window.location.origin}/pages/search-${query}-${1}`;
+    }
+
+    async search(query, type) {
         const {updateSearch} = this.props;
         await axios({
             method: 'get',
             url: `
-            https://api.themoviedb.org/3/search/multi?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&query=${query}&page=1&include_adult=false&region=en-US`
+            https://api.themoviedb.org/3/search/${type}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&query=${query}&page=1&include_adult=false&region=en-US`
         })
         .then(res => {
             if(res.data.results.length === 0) console.log('No Results Found');
             console.log(res.data.results);
-            updateSearch({data: res.data.results, query: query});
+            updateSearch(res.data.results);
         })
         .catch(err => {
             console.log('Search Failed', err)
         });
-        console.log(this.props.getData.search);
     }
 
     searchRef = React.createRef();
