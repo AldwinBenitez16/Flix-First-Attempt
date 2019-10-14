@@ -69,11 +69,27 @@ class Pages extends Component {
 
         let index = category.length;
         if(type === 'tv' && category.indexOf('&')-1 > -1) index = category.indexOf('&')-1; 
-        getData.data[`${type}Genres`].genres.forEach(genre => {
-            if(genre.name.substring(0, index).toLowerCase() === category.substring(0, index)) {
-                genreid = genre.id;
-            }
-        });
+        let datatype = `${type}Genres`;
+
+        if(type === 'search') {
+            getData.data[`${'tv'}Genres`].genres.forEach(genre => {
+                if(genre.name.substring(0, index).toLowerCase() === category.substring(0, index)) {
+                    genreid = genre.id;
+                }
+            });
+            getData.data[`${'movie'}Genres`].genres.forEach(genre => {
+                if(genre.name.substring(0, index).toLowerCase() === category.substring(0, index)) {
+                    genreid = genre.id;
+                }
+            });
+        } else {
+            getData.data[datatype].genres.forEach(genre => {
+                if(genre.name.substring(0, index).toLowerCase() === category.substring(0, index)) {
+                    genreid = genre.id;
+                }
+            });
+        }
+        
         return genreid;
     }
 

@@ -83,6 +83,12 @@ export function updateSearch(data) {
     }
 }
 
+export function removeSearch() {
+    return {
+        type: StoreActionTypes.REMOVE_SEARCH
+    }
+}
+
 
 
 

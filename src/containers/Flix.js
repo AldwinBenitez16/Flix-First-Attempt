@@ -30,6 +30,10 @@ import {
   Switch
 } from 'react-router-dom';
 
+import Store from '../reducers/store';
+
+import Cookies from 'js-cookie';
+
 class Flix extends Component{
 
   UNSAFE_componentWillMount() {
@@ -139,9 +143,12 @@ class Flix extends Component{
       updateList, 
       addListMedia, 
       removeListMedia,
-      updateSearch} = this.props;
+      updateSearch,
+      removeSearch} = this.props;
 
-    if(!(Object.getOwnPropertyNames(getData.data).length >= 10)) return <Loading />
+      // Cookies.remove('search');
+
+    if(!(Object.getOwnPropertyNames(getData.data).length >= 11)) return <Loading />
       console.log(getData);
     return(
       <Router>
@@ -154,6 +161,7 @@ class Flix extends Component{
           getGuestInfo={getGuestInfo}
           fetchProducts={fetchProducts}
           updateSearch={updateSearch}
+          removeSearch={removeSearch}
           />
 
           <Switch>
@@ -255,7 +263,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
   updateList: StoreActionCreators.updateList,
   addListMedia: StoreActionCreators.addListMedia,
   removeListMedia: StoreActionCreators.removeListMedia,
-  updateSearch: StoreActionCreators.updateSearch
+  updateSearch: StoreActionCreators.updateSearch,
+  removeSearch: StoreActionCreators.removeSearch
 }, dispatch)
 
 const mapStateToProps = state => ({

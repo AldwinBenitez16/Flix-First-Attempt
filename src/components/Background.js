@@ -9,6 +9,10 @@ class Background extends Component {
     getPath = (getData, genre,type, category) => {
 
         for(let i = 0; i < genre.length; i++) {
+            if(type === 'search') {
+                console.log(this.props.getData.data.search);
+                return getData.data.search;
+            }
             if(window.location.href === `${window.location.origin}/movies`) return  getData.data.now_playingMovie.results
             if(window.location.href === `${window.location.origin}/tv`) return  getData.data.trendingTv.results
 

@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 const initialState = {
     pending: false,
     data: {
-        search: []
+        search: Cookies.getJSON('search') || []
     },
     error: null,    
     slideToShow: 1,
@@ -31,8 +31,7 @@ const initialState = {
         session_id: ''
     },
     list: Cookies.getJSON('list') || {
-    },
-    search: []
+    }
 };
 
 export default function Store(state=initialState, action) {
@@ -132,6 +131,14 @@ export default function Store(state=initialState, action) {
                         ...state.data.search,
                         ...action.data
                     ]
+                }
+            } 
+        case StoreActionTypes.REMOVE_SEARCH:
+            return {
+                ...state,
+                data: {
+                    ...state.data,
+                    search: []
                 }
             } 
         default:

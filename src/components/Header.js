@@ -81,10 +81,11 @@ class Header extends Component {
     }
 
     async getResults(query) {
+        const {removeSearch} = this.props;
+        await removeSearch();
         await this.search(query, 'movie');
         await this.search(query, 'tv');
-        console.log(this.props.getData.data);
-        window.location.href = `${window.location.origin}/pages/search-${query}-${1}`;
+        // window.location.href = `${window.location.origin}/pages/search-${query}-${1}`;
     }
 
     async search(query, type) {
@@ -96,19 +97,19 @@ class Header extends Component {
         })
         .then(res => {
             if(res.data.results.length === 0) console.log('No Results Found');
-            console.log(res.data.results);
             updateSearch(res.data.results);
         })
         .catch(err => {
             console.log('Search Failed', err)
         });
+        Cookie.set('search', JSON.stringify(this.props.getData.data.search), {expires: 365});
     }
 
     searchRef = React.createRef();
     render() {
         const {getData, createGenres, containerRef} = this.props;
 
-        if(!(Object.getOwnPropertyNames(getData.data).length >= 5)) {
+        if(!(Object.getOwnPropertyNames(getData.data).length >= 6)) {
             return <LoadingSpinner />;
         }
 
