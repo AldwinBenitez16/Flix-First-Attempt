@@ -27,7 +27,7 @@ class SliderContainer extends Component {
         if(data[0].name) queryType = 'tv'
         
         let queryCategory = category;
-
+        console.log(data);
         return(
             <div className='container'>
                     <div className='title'>
@@ -49,10 +49,12 @@ class SliderContainer extends Component {
                                 <img
                                 id='carousel-poster'
                                 onClick={() => {
-                                    infoRef.current.style.display = 'flex';
-                                    infoRef.current.className = 'info-container overlay';
-                                    infoRef.current.style.top = 'calc(' + window.pageYOffset + 'px + 25vh)';
-                                    getPosterInfo(item);  
+                                    if(!item.isEmpty) {
+                                        infoRef.current.style.display = 'flex';
+                                        infoRef.current.className = 'info-container overlay';
+                                        infoRef.current.style.top = 'calc(' + window.pageYOffset + 'px + 25vh)';
+                                        getPosterInfo(item);
+                                    }  
                                 }}
                                 onError={(e) => {
                                     e.target.src='https://i.imgur.com/zwpr2vD.jpg'

@@ -1,7 +1,6 @@
 // React imports
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 
 // JQuery
 import 'jquery';
@@ -27,9 +26,7 @@ const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
             <Flix />
-        </BrowserRouter>
     </Provider>, 
     document.getElementById('root')
 );

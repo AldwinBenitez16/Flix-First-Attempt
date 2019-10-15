@@ -55,7 +55,7 @@ class List extends Component {
             }
             while(results.length < 7) {
                 results.push({
-                    
+                    isEmpty: true
                 });
             }
             lists.push(results);
