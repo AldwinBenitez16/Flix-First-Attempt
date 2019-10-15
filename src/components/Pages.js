@@ -35,22 +35,22 @@ class Pages extends Component {
                 );
             }
         } else {
-            this.getSearch(category);
+            this.getSearch(category, page);
         }
     }
 
-    async getResults(query) {
-        await this.search(query, 'movie');
-        await this.search(query, 'tv');
+    async getResults(query, page) {
+        await this.search(query, 'movie', page);
+        await this.search(query, 'tv', page);
         console.log(this.props.getData.data.search);
     }
 
-    async search(query, type) {
-        const {updateSearch} = this.props;
+    async search(query, type, page) {
+        const {updateSearch} = this.props; 
         await axios({
             method: 'get',
             url: `
-            https://api.themoviedb.org/3/search/${type}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&query=${query}&page=1&include_adult=false&region=en-US`
+            https://api.themoviedb.org/3/search/${type}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&query=${query}&page=${page}&include_adult=false&region=en-US`
         })
         .then(res => {
             if(res.data.results.length === 0) console.log('No Results Found');
@@ -61,12 +61,13 @@ class Pages extends Component {
         });
     }
 
-    getSearch = (query) => {
-        this.getResults(query);
+    getSearch = (query, page) => {
+        this.getResults(query, page);
     }
 
     newPage = (page) => {
         const {type, category} = this.props;
+        console.log(`/pages/${type}-${category}-${page}`);
         window.location = window.location.origin + `/pages/${type}-${category}-${page}`;
     }
 
@@ -74,6 +75,14 @@ class Pages extends Component {
         let pages =[];
         let btnNum = 7; 
 
+        let greaterPages;
+        if(this.props.getData.data.search) {
+            let movieMax = this.props.getData.data.search.moviePages;
+            let tvMax = this.props.getData.data.search.tvPages;
+            greaterPages = (movieMax > tvMax) ? movieMax : tvMax;
+        }
+
+        if(type === 'search') maxpages = greaterPages ? greaterPages : 0;
         if(maxpages < 7) btnNum = maxpages;
 
         for(let i = 0; i < btnNum; i++) {
@@ -139,7 +148,9 @@ class Pages extends Component {
         let data = getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`];
         if(data) data = getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`];
         if(type === 'search') data = [...getData.data.search.tvData, ...getData.data.search.movieData];
+        let maxPage = (getData.data.search.moviePages > getData.data.search.tvPages) ? getData.data.search.moviePages : getData.data.search.tvPages; 
         console.log(data);
+
         return(
             <div className='info-wrapper'>
                 <Info 
@@ -181,9 +192,9 @@ class Pages extends Component {
                                     this.newPage((parseInt(page) -1)) 
                                 }
                             }>&lt;</button>
-                            {this.createPages(type ,category, page, data.total_pages)}
+                            {this.createPages(type, category, page, (type === 'search') ? maxPage : data.total_pages)}
                             <button onClick={() => { 
-                                if(parseInt(page) < data.total_pages){ 
+                                if(parseInt(page) < ((type === 'search') ? maxPage : data.total_pages)){ 
                                     this.newPage((parseInt(page) + 1));
                                 }
                             }}>&gt;</button>

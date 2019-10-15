@@ -10,8 +10,8 @@ const initialState = {
         search: {
             tvData: [],
             movieData: [],
-            tvPages: 0,
-            moviePages: 0
+            tvPages: 1,
+            moviePages: 1
         }
     },
     error: null,    

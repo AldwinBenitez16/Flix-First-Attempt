@@ -99,7 +99,6 @@ class Authenticated extends PureComponent {
         return (
             <div>
                 <div className='authlist-container'>
-                <button onClick={() => console.log(this.props.getData.search)}>SEARCH</button>
                     <div className='boxes'>
                         <div className='quantity'>{getData.list[this.getId('Favorites')].items || 0}</div>
                         <h3>Favourites</h3>
