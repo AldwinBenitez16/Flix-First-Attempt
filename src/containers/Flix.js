@@ -146,10 +146,7 @@ class Flix extends Component{
       updateSearch,
       removeSearch} = this.props;
 
-      // Cookies.remove('search');
-
     if(!(Object.getOwnPropertyNames(getData.data).length >= 11)) return <Loading />
-      console.log(getData);
     return(
       <Router>
         <div className="App">
@@ -160,8 +157,6 @@ class Flix extends Component{
           getUserInfo={getUserInfo}
           getGuestInfo={getGuestInfo}
           fetchProducts={fetchProducts}
-          updateSearch={updateSearch}
-          removeSearch={removeSearch}
           />
 
           <Switch>
@@ -190,6 +185,7 @@ class Flix extends Component{
               addListMedia={addListMedia}
               removeListMedia={removeListMedia}  
               createList={this.createList}
+              updateSearch={updateSearch}
               />
             } />
             <Route 

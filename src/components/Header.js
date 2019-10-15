@@ -70,39 +70,14 @@ class Header extends Component {
         await Cookie.remove('guest');
     }
 
-    getSearch = (e) => {
+    searchURL = (e) => {
         e.preventDefault();
         let query = this.searchRef.current.value;
         if(query === '') {
             console.log('Please enter search')
             return;
         };
-        this.getResults(query);
-    }
-
-    async getResults(query) {
-        const {removeSearch} = this.props;
-        await removeSearch();
-        await this.search(query, 'movie');
-        await this.search(query, 'tv');
-        // window.location.href = `${window.location.origin}/pages/search-${query}-${1}`;
-    }
-
-    async search(query, type) {
-        const {updateSearch} = this.props;
-        await axios({
-            method: 'get',
-            url: `
-            https://api.themoviedb.org/3/search/${type}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&query=${query}&page=1&include_adult=false&region=en-US`
-        })
-        .then(res => {
-            if(res.data.results.length === 0) console.log('No Results Found');
-            updateSearch(res.data.results);
-        })
-        .catch(err => {
-            console.log('Search Failed', err)
-        });
-        Cookie.set('search', JSON.stringify(this.props.getData.data.search), {expires: 365});
+        window.location = `${window.location.origin}/pages/search-${query}-${1}`;
     }
 
     searchRef = React.createRef();
@@ -166,7 +141,7 @@ class Header extends Component {
                         </div>
                     </nav>
                     <div className='search'>
-                        <form onSubmit={(e) => this.getSearch(e)} className='search-container' >
+                        <form onSubmit={(e) => this.searchURL(e)} className='search-container' >
                             <input ref={this.searchRef} type='text' id='search' name='search' placeholder=' Search' />
                             <button className='search-btn' type='submit'>
                                 <img src={search} alt='search icon'/>

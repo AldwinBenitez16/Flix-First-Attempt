@@ -7,7 +7,7 @@ import Cookies from 'js-cookie';
 const initialState = {
     pending: false,
     data: {
-        search: Cookies.getJSON('search') || []
+        search: []
     },
     error: null,    
     slideToShow: 1,
