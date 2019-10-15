@@ -7,7 +7,12 @@ import Cookies from 'js-cookie';
 const initialState = {
     pending: false,
     data: {
-        search: []
+        search: {
+            tvData: [],
+            movieData: [],
+            tvPages: 0,
+            moviePages: 0
+        }
     },
     error: null,    
     slideToShow: 1,
@@ -127,10 +132,10 @@ export default function Store(state=initialState, action) {
                 ...state,
                 data: {
                     ...state.data,
-                    search: [
+                    search: {
                         ...state.data.search,
                         ...action.data
-                    ]
+                    }
                 }
             } 
         case StoreActionTypes.REMOVE_SEARCH:

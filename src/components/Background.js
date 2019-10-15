@@ -8,7 +8,7 @@ class Background extends Component {
 
     getPath = (getData, genre,type, category) => {
 
-        if(type === 'search')   return  getData.data.search
+        if(type === 'search')   return  [...getData.data.search.tvData, ...getData.data.search.movieData];
         if(window.location.href === `${window.location.origin}/movies`) return  getData.data.now_playingMovie.results
         if(window.location.href === `${window.location.origin}/tv`) return  getData.data.trendingTv.results
 
@@ -46,18 +46,18 @@ class Background extends Component {
         let indices = this.getIndices('-', test);
         let type = test.substring(0, indices[0]);
         let category = test.substring(indices[0]+1, indices[1]);
+        // console.log([...getData.data.search.tvData, ...getData.data.search.movieData].length);
 
         if(!(Object.getOwnPropertyNames(getData.data).length >= 12) && 
         !(window.location.href === `${window.location.origin}/home`) &&
         !(window.location.href === `${window.location.origin}/movies`) &&
         !(window.location.href === `${window.location.origin}/tv`) && 
         !(getData.data[`${category.replace(/%20/g,'')}${this.capitalize(type)}`]) &&
-        !(getData.data.search.length > 0)) {
+        !([...getData.data.search.tvData, ...getData.data.search.movieData].length > 0)) {
             return <LoadingSpinner />
         }
 
         let image = this.getPath(getData, genre, type, category);
-        
         let counter = 0;
         let backdrop = image[0].backdrop_path;
         while(backdrop === null) {
@@ -66,7 +66,7 @@ class Background extends Component {
         }
     
         let title = image[counter].title;
-        console.log(image[counter]);
+
         if(!title) {
             title = image[counter].original_name;
             genre = tvGenres;

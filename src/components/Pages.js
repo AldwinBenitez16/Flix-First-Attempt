@@ -42,6 +42,7 @@ class Pages extends Component {
     async getResults(query) {
         await this.search(query, 'movie');
         await this.search(query, 'tv');
+        console.log(this.props.getData.data.search);
     }
 
     async search(query, type) {
@@ -53,7 +54,7 @@ class Pages extends Component {
         })
         .then(res => {
             if(res.data.results.length === 0) console.log('No Results Found');
-            updateSearch(res.data.results);
+            updateSearch({[type + 'Data']: res.data.results, [type + 'Pages']: res.data.total_pages});
         })
         .catch(err => {
             console.log('Search Failed', err)
@@ -69,7 +70,7 @@ class Pages extends Component {
         window.location = window.location.origin + `/pages/${type}-${category}-${page}`;
     }
 
-    createPages = (category, page, maxpages) => {
+    createPages = (type, category, page, maxpages) => {
         let pages =[];
         let btnNum = 7; 
 
@@ -131,14 +132,14 @@ class Pages extends Component {
 
     render() {
         const {getData, category, type, page, getPosterInfo, createGenres, addListMedia, removeListMedia, createList} = this.props;
-        
+        console.log(!getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`]);
         if(!getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`] && 
-        !(getData.data.search.length > 0)) return <Loading />
+        !([...getData.data.search.tvData, ...getData.data.search.movieData].length > 0)) return <Loading />
 
         let data = getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`];
-        if(data) data = getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`].results
-        if(type === 'search') data = getData.data.search;
-        
+        if(data) data = getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`];
+        if(type === 'search') data = [...getData.data.search.tvData, ...getData.data.search.movieData];
+        console.log(data);
         return(
             <div className='info-wrapper'>
                 <Info 
@@ -155,7 +156,7 @@ class Pages extends Component {
                         <div className='title'>
                                 <h3>{(category != 'sci') ? category.substring(0,1).toUpperCase() + category.substring(1) : 'Sci-Fi & Adventure'}</h3>
                         </div>
-                            {data.map((item,index) => {
+                            {(type === 'search' ? data : data.results).map((item,index) => {
                                 return(
                                     <div key={index} className='poster'>
                                         <img
@@ -180,7 +181,7 @@ class Pages extends Component {
                                     this.newPage((parseInt(page) -1)) 
                                 }
                             }>&lt;</button>
-                            {this.createPages(category, page, data.total_pages)}
+                            {this.createPages(type ,category, page, data.total_pages)}
                             <button onClick={() => { 
                                 if(parseInt(page) < data.total_pages){ 
                                     this.newPage((parseInt(page) + 1));
