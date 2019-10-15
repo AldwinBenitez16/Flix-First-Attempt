@@ -63,12 +63,17 @@
     justify-content: center;
     height: 50px;
     width: 40%;
+    color: rgb(212, 75, 45);
     background-color: #94949c;
-    border: 1px solid #404042;
+    border-right: 1px solid rgb(212, 75, 45);
+    border-left: 1px solid rgb(212, 75, 45);
+    background-color: rgb(243, 204, 108);
 }
 
 .rating-container button {
-    background-color: #404042;
+    color: rgb(212, 75, 45);
+    border: 1px solid rgb(212, 75, 45);
+    background-color: rgb(243, 204, 108);
     height: 50px;
     width: 30%;
     cursor: pointer;
@@ -81,18 +86,19 @@
     flex-wrap: wrap;
     width: 80%;
     margin: 0 auto;
+    padding-top: 10px;
 }
 
 .addlist {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #94949c;
+    background-color: rgb(243, 204, 108);
     width: 50px;
     height: 50px;
     margin: 2px;
     margin: 0 auto;
-    border: 1px solid #040408;
+    border: 1px solid rgb(212, 75, 45);
     padding: 10px;
     border-radius: 50%;
     cursor: pointer;
@@ -110,8 +116,9 @@
     display: none;
     position: absolute;
     width: 150px;
-    background-color: #94949c;
-    border: 1px solid #404042;
+    color: rgb(212, 75, 45);
+    background-color: rgb(243, 204, 108);
+    border: 1px solid rgb(212, 75, 45);
     top: 50px;
     left: -50px;
 }
@@ -126,7 +133,7 @@
 
 .ls-overlay li:hover {
     width: 100%;
-    background-color: #d4d4dc;
+    background-color: rgba(212, 75, 45,.4);
 }
 
 .ls-overlay li .icon {

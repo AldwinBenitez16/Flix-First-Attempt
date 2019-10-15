@@ -119,6 +119,7 @@ class Flix extends Component{
     .catch(err => {
         console.log(list_id + ' was not retrieved', err);
     });
+
 }
 
   updateMovie = (list_id) => {
@@ -145,7 +146,6 @@ class Flix extends Component{
       removeListMedia,
       updateSearch,
       removeSearch} = this.props;
-
     if(!(Object.getOwnPropertyNames(getData.data).length >= 11)) return <Loading />
     return(
       <Router>
