@@ -8,14 +8,16 @@ import Info from '../components/Info';
 // CSS
 import '../css/pages.css';
 
+import axios from 'axios';
+
 class Pages extends Component {
+    
 
     UNSAFE_componentWillMount() {
         let {fetchProducts, type, category, page} = this.props;
 
         let genreid = this.getGenre(category, type);
-
-        if(type !== 'searh') {
+        if(type !== 'search') {
             if(genreid) {
                 fetchProducts(
                     `https://api.themoviedb.org/3/discover/${type}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genreid}`,
@@ -32,7 +34,34 @@ class Pages extends Component {
                     `${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`
                 );
             }
+        } else {
+            this.getSearch(category);
         }
+    }
+
+    async getResults(query) {
+        await this.search(query, 'movie');
+        await this.search(query, 'tv');
+    }
+
+    async search(query, type) {
+        const {updateSearch} = this.props;
+        await axios({
+            method: 'get',
+            url: `
+            https://api.themoviedb.org/3/search/${type}?api_key=a34097a10fd6daf67cb09e71f3d7a0ea&language=en-US&query=${query}&page=1&include_adult=false&region=en-US`
+        })
+        .then(res => {
+            if(res.data.results.length === 0) console.log('No Results Found');
+            updateSearch(res.data.results);
+        })
+        .catch(err => {
+            console.log('Search Failed', err)
+        });
+    }
+
+    getSearch = (query) => {
+        this.getResults(query);
     }
 
     newPage = (page) => {
@@ -102,10 +131,14 @@ class Pages extends Component {
 
     render() {
         const {getData, category, type, page, getPosterInfo, createGenres, addListMedia, removeListMedia, createList} = this.props;
-        console.log(getData.data);
-        if(!getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`]) return <Loading />
-        let data = getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`];
+        
+        if(!getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`] && 
+        !(getData.data.search.length > 0)) return <Loading />
 
+        let data = getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`];
+        if(data) data = getData.data[`${category.replace(/\s/g,'')}${this.capitalizeFirstLetter(type)}`].results
+        if(type === 'search') data = getData.data.search;
+        
         return(
             <div className='info-wrapper'>
                 <Info 
@@ -122,7 +155,7 @@ class Pages extends Component {
                         <div className='title'>
                                 <h3>{(category != 'sci') ? category.substring(0,1).toUpperCase() + category.substring(1) : 'Sci-Fi & Adventure'}</h3>
                         </div>
-                            {data.results.map((item,index) => {
+                            {data.map((item,index) => {
                                 return(
                                     <div key={index} className='poster'>
                                         <img

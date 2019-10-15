@@ -33,7 +33,6 @@ class Home extends Component {
 
     render() {      
         const {getData, getPosterInfo, createGenres, addListMedia, removeListMedia, createList} = this.props;
-
         return (
             <div ref={this.wrapperRef} className='info-wrapper'>
                 <Info 

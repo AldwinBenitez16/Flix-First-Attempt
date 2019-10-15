@@ -8,14 +8,11 @@ class Background extends Component {
 
     getPath = (getData, genre,type, category) => {
 
-        for(let i = 0; i < genre.length; i++) {
-            if(type === 'search') {
-                console.log(this.props.getData.data.search);
-                return getData.data.search;
-            }
-            if(window.location.href === `${window.location.origin}/movies`) return  getData.data.now_playingMovie.results
-            if(window.location.href === `${window.location.origin}/tv`) return  getData.data.trendingTv.results
+        if(type === 'search')   return  getData.data.search
+        if(window.location.href === `${window.location.origin}/movies`) return  getData.data.now_playingMovie.results
+        if(window.location.href === `${window.location.origin}/tv`) return  getData.data.trendingTv.results
 
+        for(let i = 0; i < genre.length; i++) {
             if(genre[i].name.toLowerCase().replace(/\s/g,'') === category.replace(/%20/g,'')) {
                 return  getData.data[`${category.replace(/%20/g,'')}${this.capitalize(type)}`].results;
             } else if(getData.data[`${category.replace(/%20/g,'')}${this.capitalize(type)}`]) {
@@ -50,26 +47,37 @@ class Background extends Component {
         let type = test.substring(0, indices[0]);
         let category = test.substring(indices[0]+1, indices[1]);
 
-        if(!(Object.getOwnPropertyNames(getData.data).length >= 11) && 
+        if(!(Object.getOwnPropertyNames(getData.data).length >= 12) && 
         !(window.location.href === `${window.location.origin}/home`) &&
         !(window.location.href === `${window.location.origin}/movies`) &&
         !(window.location.href === `${window.location.origin}/tv`) && 
-        !(getData.data[`${category.replace(/%20/g,'')}${this.capitalize(type)}`])) {
+        !(getData.data[`${category.replace(/%20/g,'')}${this.capitalize(type)}`]) &&
+        !(getData.data.search.length > 0)) {
             return <LoadingSpinner />
         }
 
-        if(type === 'tv') genre = tvGenres
-
         let image = this.getPath(getData, genre, type, category);
-        let title = image[0].original_title;
-        if(type === 'tv') title = image[0].original_name;
-  
-        return (
+        
+        let counter = 0;
+        let backdrop = image[0].backdrop_path;
+        while(backdrop === null) {
+            counter++;
+            backdrop = image[counter].backdrop_path;
+        }
+    
+        let title = image[counter].title;
+        console.log(image[counter]);
+        if(!title) {
+            title = image[counter].original_name;
+            genre = tvGenres;
+        }
+
+        return (    
             <div className='background-image' key='background-image'>
-                <img src={`https://image.tmdb.org/t/p/w1280/${image[0].backdrop_path}`}/>
+                <img src={`https://image.tmdb.org/t/p/w1280/${backdrop}`}/>
                 <div className='info-overlay'>
                     <h2>{title}</h2>
-                    <p>{image[0].overview}</p>
+                    <p>{image[counter].overview}</p>
                     <ul className='genres'>
                         {createGenres(image, genre)}
                     </ul>
