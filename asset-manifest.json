@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/Flix/static/css/main.e097a6f4.chunk.css",
+    "main.js": "/Flix/static/js/main.c3b12462.chunk.js",
+    "main.js.map": "/Flix/static/js/main.c3b12462.chunk.js.map",
+    "runtime~main.js": "/Flix/static/js/runtime~main.cc984cc0.js",
+    "runtime~main.js.map": "/Flix/static/js/runtime~main.cc984cc0.js.map",
+    "static/css/2.2825a612.chunk.css": "/Flix/static/css/2.2825a612.chunk.css",
+    "static/js/2.f124478e.chunk.js": "/Flix/static/js/2.f124478e.chunk.js",
+    "static/js/2.f124478e.chunk.js.map": "/Flix/static/js/2.f124478e.chunk.js.map",
+    "index.html": "/Flix/index.html",
+    "precache-manifest.b223162c2fde2f85fe1136fed607f22a.js": "/Flix/precache-manifest.b223162c2fde2f85fe1136fed607f22a.js",
+    "service-worker.js": "/Flix/service-worker.js",
+    "static/css/2.2825a612.chunk.css.map": "/Flix/static/css/2.2825a612.chunk.css.map",
+    "static/css/main.e097a6f4.chunk.css.map": "/Flix/static/css/main.e097a6f4.chunk.css.map",
+    "static/media/add-favorite.svg": "/Flix/static/media/add-favorite.b86d93d8.svg",
+    "static/media/add-watch.svg": "/Flix/static/media/add-watch.37f140af.svg",
+    "static/media/addlist.svg": "/Flix/static/media/addlist.058c0cd2.svg",
+    "static/media/github.svg": "/Flix/static/media/github.4f3b8db7.svg",
+    "static/media/home.svg": "/Flix/static/media/home.62ff70ea.svg",
+    "static/media/linkedin.svg": "/Flix/static/media/linkedin.3bc48510.svg",
+    "static/media/list.svg": "/Flix/static/media/list.d8d02db3.svg",
+    "static/media/logo.svg": "/Flix/static/media/logo.266b3eae.svg",
+    "static/media/mail.svg": "/Flix/static/media/mail.6583d48c.svg",
+    "static/media/remove-favorite.svg": "/Flix/static/media/remove-favorite.29f2a97f.svg",
+    "static/media/remove-watch.svg": "/Flix/static/media/remove-watch.2391d00f.svg",
+    "static/media/removelist.svg": "/Flix/static/media/removelist.cd059951.svg",
+    "static/media/slick-theme.css": "/Flix/static/media/slick.f97e3bbf.svg"
+  }
+}
