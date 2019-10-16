@@ -2,8 +2,10 @@
   "name": "Flix",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://aldwinbenitez16.github.io/Flix/",
   "dependencies": {
     "axios": "^0.19.0",
+    "gh-pages": "^2.1.1",
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",
     "prop-types": "^15.7.2",
@@ -22,6 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
